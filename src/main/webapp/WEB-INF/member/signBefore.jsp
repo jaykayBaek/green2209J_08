@@ -7,29 +7,27 @@
 	<meta charset="UTF-8">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
-	  <link rel="preconnect" href="https://fonts.googleapis.com">
-	  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Roboto', 'Noto Sans KR', serif !important;
-      background-color: #eeef20;
-    }
-
-    .btn-primary {
-      border: 0px;
-      background-color: #80b918;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .btn-primary:hover,
-    .btn-primary:active {
-      border: 0px;
-      background-color: #2b9348;
-      color: #fff;
-    }
-  </style>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0.3/css/all.min.css">
+	<style>
+	  body, h1, h2, span, div, strong  {
+	    font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+	    background-color: #eeef20;
+	  }
+	
+	  .btn-primary {
+	    border: 0px;
+	    background-color: #80b918;
+	    color: #fff;
+	    font-weight: bold;
+	  }
+	
+	  .btn-primary:hover,
+	  .btn-primary:active {
+	    border: 0px;
+	    background-color: #2b9348;
+	    color: #fff;
+	  }
+	</style>
 </head>
 <body>
   <div class="container d-flex flex-column justify-content-around align-items-center mt-1" style="height: 100vh;">

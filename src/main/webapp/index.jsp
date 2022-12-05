@@ -1,34 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-		<c:set var="ctp" value="${pageContext.request.contextPath}" />
-		<!DOCTYPE html>
-		<html lang="ko">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}" />
+<jsp:include page="include/bs4.jsp"></jsp:include>
 
-		<head>
-			<title>리딩북스</title>
-			<meta charset="utf-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<jsp:include page="include/bs4.jsp" />
-			<link rel="preconnect" href="https://fonts.googleapis.com">
-			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  			<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
-			<style>
-			    body {
-     		 		font-family: 'Roboto', 'Noto Sans KR', serif;
-  		 		    text-decoration: none !important;
-    			}
-    			a:hover, a:active{
-    				text-decoration: none;
-    				color:inherit;
-    			}
-			</style>
-		</head>
+<!DOCTYPE html>
+<html lang="ko">
+<script>
+	'use strict';
+	$(function(){
+		let width = 400;
+		let height = 400;
+		//pc화면기준 가운데 정렬
+		let left = 0;
+		let top = 0;
+		left += window.screenLeft;
 
-		<body>
-			<jsp:include page="include/nav.jsp" />
-			<jsp:include page="include/slide.jsp" />
-			<jsp:include page="include/article.jsp" />
-			<jsp:include page="include/footer.jsp" />
-		</body>
+    	//윈도우 속성 지정
+//		const windowStatus = 'width='+width+', height='+height+', left='+left+', top='+top+', scrollbars=yes, status=yes, resizable=yes, titlebar=yes';
+		const windowStatus = 'width='+width+', height='+height+', left='+left+', top='+top;
+    	const url = "include/popup.jsp";
+		window.open(url, "리딩북스 연말이벤트", windowStatus);
+	});
+</script>
+<head>
+	<title>리딩북스</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<jsp:include page="include/bs4.jsp" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0.3/css/all.min.css">
+	<style>
+	    body, h1, h2, span, div, strong  {
+			font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+		 		    text-decoration: none !important;
+ 		}
+  		a:hover, a:active{
+  			text-decoration: none;
+  			color:inherit;
+  		}
+	</style>
+</head>
 
-		</html>
+<body>
+	<jsp:include page="include/nav.jsp" />
+	<jsp:include page="include/slide.jsp" />
+	<jsp:include page="include/article.jsp" />
+	<jsp:include page="include/footer.jsp" />
+</body>
+
+</html>

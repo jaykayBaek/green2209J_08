@@ -2,10 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 	<style>
-	  body>section,
-	  h1,
-	  h2 {
-	    font-family: 'Roboto', 'Noto Sans KR', 'sans-serif' !important;
+	  body>section {
 	    text-decoration: none !important;
 	  }
 	

@@ -5,71 +5,77 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0.3/css/all.min.css">
-  <style>
-    body {
-      background-color: #eeef20;
-      font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
-    }
-    label {
-      display: inline-block;
-      margin-bottom: 0px; 
-    }
-
-    .btn-primary {
-      border: 0px;
-      background-color: #80b918;
-      color: #fff;
-      font-weight: bold;
-    }
-    .btn-secondary{
-      border: 0px;
-      background-color: #31572c;
-      color: #fff;
-      font-weight: bold;
-    }
-      
-    .btn-primary:hover,
-    .btn-primary:active {
-      border: 0px;
-      background-color: #2b9348;
-      color: #fff;
-    }
-
-    .btn-secondary:hover,
-    .btn-secondary:active {
-      border: 0px;
-      background-color: #143601;
-      color: #fff;
-    }
-
-    .login_input{
-      background-color: #fff;
-      border-radius: 0px;
-      height: 50px;
-    }
-
-    .login_input>input::placeholder, .login_input>input:focus {
-      color: #c0c0c0;
-    }
-
-    .login_group_checkbox, .login_group_top{
-      background-color: #fff;
-    }
-    .form-group {
-    margin-bottom: 0px;
-    }
-
-    .id_form{
-      border: 1px solid #ced4da;
-    }
-
-    input{
-      accent-color: #80b918;
-    }
-  </style>
+	<style>
+	  body {
+	    background-color: #eeef20;
+	    font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+	  }
+	  label {
+	    display: inline-block;
+	    margin-bottom: 0px; 
+	  }
+	  a:hover{
+	    text-decoration: none;
+	    color:#80b918;
+	    transition: color, 0.2s;
+	  }
+	
+	  .btn-primary {
+	    border: 0px;
+	    background-color: #80b918;
+	    color: #fff;
+	    font-weight: bold;
+	  }
+	  .btn-secondary{
+	    border: 0px;
+	    background-color: #31572c;
+	    color: #fff;
+	    font-weight: bold;
+	  }
+	    
+	  .btn-primary:hover,
+	  .btn-primary:active {
+	    border: 0px;
+	    background-color: #2b9348;
+	    color: #fff;
+	  }
+	
+	  .btn-secondary:hover,
+	  .btn-secondary:active {
+	    border: 0px;
+	    background-color: #143601;
+	    color: #fff;
+	  }
+	
+	  .login_input{
+	    background-color: #fff;
+	    border-radius: 0px;
+	    height: 50px;
+	  }
+	
+	  .login_input>input::placeholder, .login_input>input:focus {
+	    color: #c0c0c0;
+	  }
+	
+	  .login_group_checkbox, .login_group_top{
+	    background-color: #fff;
+	  }
+	  .form-group {
+	    margin-bottom: 0px;
+	  }
+	
+	  .id_form{
+	    border: 1px solid #ced4da;
+	  }
+	
+	  input{
+	    accent-color: #80b918;
+	  }
+	</style>
 </head>
 
 <body>
@@ -81,7 +87,8 @@
       </picture>
     </nav>
     <div class="sign_in d-flex flex-column justify-content-center align-items-center mt-5" stlye="width:100%;" >
-      <form action="#" method="post">
+    
+      <form action="#" method="post" name="loginform">
         <div class="d-flex flex-column flex-wrap align-items-start">
           <div class="form-group login_group_top" style="width:50vh; height:100%">
             <input type="email" class="form-control login_input" placeholder="이메일을 입력하세요" id="email">
@@ -93,8 +100,8 @@
               <label for="login_remember_me">로그인 상태 유지</label>
             </div>
             <div class="m-2 p-2">
-              <a href="#">아이디 찾기</a>
-              <a href="#">비밀번호 찾기</a>
+              <a href="${ctp}/findEmail.member">아이디 찾기</a>
+              <a href="${ctp}/findPwd.member">비밀번호 찾기</a>
             </div>
           </div>
           <button class="btn btn-primary btn-lg pl-5 pr-5 mb-2" style="width:100%">

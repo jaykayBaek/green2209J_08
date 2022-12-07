@@ -350,7 +350,6 @@
 						회원가입
 					</button>
 				</div>
-				
 			</form>
 		</div>
 	</div>

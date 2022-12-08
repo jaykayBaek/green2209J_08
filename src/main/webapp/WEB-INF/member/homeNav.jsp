@@ -67,7 +67,7 @@
            </div>
            <ul>
                <li>
-                   <a href="">장바구니</a>
+                   <a href="${ctp}/wishlist.member">장바구니</a>
                </li>
                <li>
                    <a href="">최근 조회한 작품</a>

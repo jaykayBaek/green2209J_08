@@ -114,7 +114,7 @@
 		                                <span class="h5 font-weight-bold">장바구니</span>
 		                                <p class="h2 amount_item">7건</p>
 		                                <p class="h6">
-		                                    <a href="">
+		                                    <a href="${ctp}/wishlist.member">
 		                                        장바구니로
 		                                        <i class="fas fa-hand-point-right"></i>
 		                                    </a>

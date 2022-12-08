@@ -43,7 +43,7 @@ public class MemberController extends HttpServlet{
 		
 		/* - - - 유효성 검사, dao 작업 등 command 호출 처리 - - -*/
 		else if(com.equals("/joinValidChk")) {
-			command = new JoinValidChkCommand();
+			command = new ChkAndJoinCommand();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}

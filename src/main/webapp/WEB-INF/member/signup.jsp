@@ -12,14 +12,14 @@
 	<script src="${ctp}/js/woo.js"></script>
 	<script>
 		'use strict';
-			/* 유효성 검사가 모두 true가 될 시 DB 테이블에 값이 저장되도록 설계 */
-			let isValidEmail = false;
-			let isValidPwd = false;
-			let isValidName = false;
-			let isValidBirthday = false;
-			let isValidSex = false;
-			let isValidPhoneNo = false;
-	
+		/* 유효성 검사가 모두 true가 될 시 DB 테이블에 값이 저장되도록 설계 */
+		let isValidEmail = false;
+		let isValidPwd = false;
+		let isValidName = false;
+		let isValidBirthday = false;
+		let isValidSex = false;
+		let isValidPhoneNo = false;
+
 		$(function () {
 			$(".alert_email").hide();
 			$(".alert_pwd").hide();
@@ -30,22 +30,25 @@
 	
 			/* 이메일 체크 */
 			$("#email").blur(function () {
-				const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+				const regEmail = /^[\w-\.]{1,25}@([\w-]+\.)+[\w-]{2,4}$/i;
 				let emailVal = $('#email').val();
 				if (emailVal.trim() == '') {
 					$(".alert_email").show(200);
 					$('#demo_email').html('이메일을 입력해주세요.');
+					isValidEmail = false;
 					return;
 				}
 				else if (!emailVal.match(regEmail)) {
 					$(".alert_email").show(200);
 					$('#demo_email').html('이메일 양식을 다시 한번 확인해주세요.');
+					isValidEmail = false;
 					return;
 				}
 	
 				$(".alert_email").hide(200);
 				isValidEmail = true;
 			});
+
 	
 			/* 비밀번호 체크 */
 			let pwdFirst = "";
@@ -55,13 +58,15 @@
 				if (pwdFirst.trim() == '') {
 					$(".alert_pwd").show(200);
 					$('#demo_pwd').html('비밀번호를 입력해주세요.');
+					isValidPwd = false;
 					return;
 				}
 				else if (!pwdFirst.match(regPwd)) {
 					$(".alert_pwd").show(200);
-					$('#demo_pwd').html('비밀번호는 8자 이상, 16자 이하, 하나 이상의 문자/숫자/특수문자로 이루어져야 합니다.');
+					$('#demo_pwd').html('비밀번호는 8자 이상, 하나 이상의 문자/숫자/특수문자로 이루어져야 합니다.');
 					return;
 				}
+				isValidPwd = true;
 				$(".alert_pwd").hide(200);
 			});
 			let pwdSecond = "";
@@ -70,16 +75,19 @@
 				if (pwdSecond.trim() == '' || pwdFirst.trim() == '') {
 					$(".alert_pwd").show(200);
 					$('#demo_pwd').html('비밀번호를 입력해주세요.');
+					isValidPwd = false;
 					return;
 				}
 				else if (!pwdSecond.match(regPwd)) {
 					$(".alert_pwd").show(200);
 					$('#demo_pwd').html('비밀번호는 8자 이상, 하나 이상의 문자/숫자/특수문자로 이루어져야 합니다.');
+					isValidPwd = false;
 					return;
 				}
 				else if(pwdFirst!=pwdSecond){
 					$(".alert_pwd").show(200);
 					$('#demo_pwd').html('비밀번호가 일치하지 않습니다.');
+					isValidPwd = false;
 					return;
 				}
 				$(".alert_pwd").hide(200);
@@ -93,6 +101,7 @@
 				if(!name.match(regName)){
 					$(".alert_name").show(200);
 					$('#demo_name').html('이름은 2~30글자 사이의 한글 또는 영문으로 입력해주세요.');
+					isValidName = false;
 					return;
 				}
 				$('.alert_name').hide(200);
@@ -106,11 +115,13 @@
 				if(birthyear.trim()==""){
 					$(".alert_birthyear").show(200);
 					$('#demo_birthyear').html('생년월일을 입력해주세요.');
+					isValidBirthday = false;
 					return;
 				}
 				else if (!birthyear.match(regBirth)){
 					$(".alert_birthyear").show(200);
 					$('#demo_birthyear').html('정확히 입력해주세요.');
+					isValidBirthday = false;
 					return;
 				}
 				$('.alert_birthyear').hide(200);
@@ -125,6 +136,7 @@
 				if(!phoneNo.match(regPhoneNo)){
 					$(".alert_phone").show(200);
 					$('#demo_phone').html('정확히 입력해주세요.');
+					isValidPhoneNo = false;
 					return;
 				}
 				$(".alert_phone").hide(200);
@@ -138,6 +150,7 @@
 				$(".alert_gender").hide(200);
 				$(".alert_gender").show(200);
 				$('#demo_gender').html('성별을 선택해주세요.');
+				isValidSex = false;
 				return;
 			}
 			isValidSex = true;

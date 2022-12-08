@@ -7,7 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class JoinValidChkCommand implements MemberInterface {
+import conn.SecurityUtil;
+
+public class ChkAndJoinCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,35 +32,53 @@ public class JoinValidChkCommand implements MemberInterface {
 		String extraAddress = request.getParameter("extraAddress");
 		String job = request.getParameter("job");
 		
-		String regEmail = "^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$";
-		boolean isValidEmail = Pattern.matches(email, regEmail);
 		
+		MemberDAO dao = new MemberDAO();
+		
+		/* --- 이메일 유효성 검사 ---*/
+		String regEmail = "^[\\w-\\.]{1,25}@([\\w-]+\\.)+[\\w-]{2,4}$";
+		boolean isValidEmail = Pattern.matches(regEmail, email);
+		
+		int checkIdRes = dao.checkValidEmail(email);
+		
+		if(checkIdRes == 0) {
+			request.setAttribute("msg", "memberEmailNo");
+			request.setAttribute("url", request.getContextPath()+"/login.member");
+			return;
+		}
+		
+		/* --- 패스워드 유효성 검사 ---*/
 		if(!pwdFirst.equals(pwdLast)) {
-			request.setAttribute("msg", "memJoinNo");
+			request.setAttribute("msg", "memberJoinNo");
 			request.setAttribute("url", request.getContextPath()+"/login.member");
 			return;
 		}
 		
 		String regPwd = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$";
-		boolean isValidPwd = Pattern.matches(regEmail, regPwd);
+		boolean isValidPwd = Pattern.matches(regPwd, pwdFirst);
 		
 		String regName = "^[가-힣a-zA-Z]{2,30}$";
-		boolean isValidName = Pattern.matches(name, regName);
+		boolean isValidName = Pattern.matches(regName, name);
 		
 		String regBirthYear = "^(?:19|20)\\d\\d";
-		boolean isValidBirthYear = Pattern.matches(birthyear, regBirthYear);
+		boolean isValidBirthYear = Pattern.matches(regBirthYear, birthyear);
 		
 		String regPhoneNo = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$";
-		boolean isValidPhoneNo = Pattern.matches(phoneNo, regPhoneNo);
+		boolean isValidPhoneNo = Pattern.matches(regPhoneNo, phoneNo);
 		
-//		detailAddress 상세 주소 유효성 검사 해줘야 함.20글자 넘으면 false
 		String regDetailAddress = "^.{0,20}$";
-		boolean isValidAddress = Pattern.matches(detailAddress, regDetailAddress);
+		boolean isValidAddress = Pattern.matches(regDetailAddress, detailAddress);
 		
-		if(!(isValidPwd&&isValidName&&isValidBirthYear&&isValidPhoneNo&&isValidAddress)) {
+		/* -- 정규식 체크 실패 시 --*/
+		if(!(isValidEmail&&isValidPwd&&isValidName&&isValidBirthYear&&isValidPhoneNo&&isValidAddress)) {
 			request.setAttribute("msg", "joinNo");
 			request.setAttribute("url", request.getContextPath()+"/memLogin.mem");
+			return;
 		}
+		
+		/* --- 패스워드 암호화 ---*/
+		SecurityUtil securityUtil = new SecurityUtil();
+		String parsePwd = securityUtil.encryptSHA256(pwdFirst);
 		
 	}
 }

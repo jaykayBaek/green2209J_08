@@ -9,18 +9,15 @@ import java.sql.SQLException;
 public class GetConn {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
-	//테이블연결하기 위한 객체
 	private ResultSet rs = null;
-	//레코드단위 작업하기 위한 객체
 	
 	private String driver = "com.mysql.jdbc.Driver";
-	private String url = "jdbc:mysql://localhost:3306/javaworks";
+	private String url = "jdbc:mysql://localhost:3306/green2209_08";
 	private String user = "root";
 	private String password = "1234";
 	
 	private static GetConn instance = new GetConn();
 	
-	// 객체 생성시에 DB연결
 	private GetConn() {
 		try {
 			Class.forName(driver);
@@ -36,7 +33,6 @@ public class GetConn {
 		return conn;
 	}
 	
-	// 객체 소멸처리
 	public void pstmtClose() {
 		if(pstmt != null) {
 			try {

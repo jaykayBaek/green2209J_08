@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import conn.SecurityUtil;
 
-public class ChkAndJoinCommand implements MemberInterface {
+public class CheckAndJoinCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,24 +32,36 @@ public class ChkAndJoinCommand implements MemberInterface {
 		String extraAddress = request.getParameter("extraAddress");
 		String job = request.getParameter("job");
 		
-		
 		MemberDAO dao = new MemberDAO();
+		MemberVO vo = null;
 		
 		/* --- 이메일 유효성 검사 ---*/
 		String regEmail = "^[\\w-\\.]{1,25}@([\\w-]+\\.)+[\\w-]{2,4}$";
 		boolean isValidEmail = Pattern.matches(regEmail, email);
 		
-		int checkIdRes = dao.checkValidEmail(email);
+		vo = dao.checkValidEmail(email, vo);
 		
-		if(checkIdRes == 0) {
-			request.setAttribute("msg", "memberEmailNo");
-			request.setAttribute("url", request.getContextPath()+"/login.member");
-			return;
+		if(vo!=null) {
+			int date = vo.getDateDeletedDiff();
+			String bringedEmail = vo.getEmail();
+			if(bringedEmail.equals(email)) {
+				request.setAttribute("msg", "memEmailNo");
+				request.setAttribute("url", request.getContextPath()+"/login.member");
+				return;
+			}
+			
+			/* -- 탈퇴한 이력이 있는지 확인함. 있다면 TIMESTAMPDIFF(DAY, date_deleted, now()) date_deleted_diff 가 30이상이 되어야 함--*/
+			if(date < 30) {
+				request.setAttribute("msg", "memDateNo");
+				request.setAttribute("url", request.getContextPath()+"/login.member");
+				return;
+			}
+			
 		}
 		
 		/* --- 패스워드 유효성 검사 ---*/
 		if(!pwdFirst.equals(pwdLast)) {
-			request.setAttribute("msg", "memberJoinNo");
+			request.setAttribute("msg", "memJoinNo");
 			request.setAttribute("url", request.getContextPath()+"/login.member");
 			return;
 		}
@@ -60,7 +72,7 @@ public class ChkAndJoinCommand implements MemberInterface {
 		String regName = "^[가-힣a-zA-Z]{2,30}$";
 		boolean isValidName = Pattern.matches(regName, name);
 		
-		String regBirthYear = "^(?:19|20)\\d\\d";
+		String regBirthYear = "^(19|20)\\d{2}$";
 		boolean isValidBirthYear = Pattern.matches(regBirthYear, birthyear);
 		
 		String regPhoneNo = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$";
@@ -76,9 +88,50 @@ public class ChkAndJoinCommand implements MemberInterface {
 			return;
 		}
 		
+		String address = postcode + roadAddress + detailAddress + extraAddress;
+		
 		/* --- 패스워드 암호화 ---*/
 		SecurityUtil securityUtil = new SecurityUtil();
 		String parsePwd = securityUtil.encryptSHA256(pwdFirst);
+//		email = reque
+//				pwdFirst = re
+//				pwdLast = req
+//				name = reques
+//				birthyear = r
+//				gender = requ
+//				phoneNo = req
+//				             
+//				postcode = re
+//				roadAddress =
+//				detailAddress
+//				extraAddress 
+//				job = request
+		String ip = request.getRemoteAddr();
 		
+		vo = new MemberVO();
+		vo.setEmail(email);
+		vo.setPassword(parsePwd);
+		vo.setNameUser(name);
+		vo.setBirthYear(birthyear);
+		vo.setGender(gender);
+		vo.setPhoneNo(phoneNo);
+		vo.setAddress(address);
+		vo.setJob(job);
+		vo.setLastUpdatedIp(ip);
+		
+		/* --- 회원가입 실행 ---*/
+		boolean resFromUser = dao.register(vo);
+		int userIdx = dao.bringUserIdx(vo.getEmail());
+		
+		boolean resFromUserInfo = dao.inputUserInfo(userIdx);
+		
+		if(resFromUser && resFromUserInfo) {
+				request.setAttribute("msg", "memJoinOk");
+				request.setAttribute("url", request.getContextPath()+"/memLogin.member");
+		}
+		else {
+			request.setAttribute("msg", "memJoinNo");
+			request.setAttribute("url", request.getContextPath()+"/memJoin.member");
+		}
 	}
 }

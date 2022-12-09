@@ -52,9 +52,11 @@
 	
 			/* 비밀번호 체크 */
 			let pwdFirst = "";
+			let pwdSecond = "";
 			const regPwd = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
 			$("#pwd_first").blur(function () {
 				pwdFirst = $('#pwd_first').val();
+				pwdSecond = $('#pwd_second').val();
 				if (pwdFirst.trim() == '') {
 					$(".alert_pwd").show(200);
 					$('#demo_pwd').html('비밀번호를 입력해주세요.');
@@ -66,10 +68,15 @@
 					$('#demo_pwd').html('비밀번호는 8자 이상, 하나 이상의 문자/숫자/특수문자로 이루어져야 합니다.');
 					return;
 				}
+				else if (pwdFirst != pwdSecond){
+					$(".alert_pwd").show(200);
+					$('#demo_pwd').html('비밀번호가 일치하지 않습니다.');
+					isValidPwd = false;
+					return;
+				}
 				isValidPwd = true;
 				$(".alert_pwd").hide(200);
 			});
-			let pwdSecond = "";
 			$("#pwd_second").blur(function () {
 				pwdSecond = $('#pwd_second').val();
 				if (pwdSecond.trim() == '' || pwdFirst.trim() == '') {
@@ -110,7 +117,7 @@
 	
 			// 생년월일 체크
 			$('#birthyear').blur(function(){
-				const regBirth = /^(?:19|20)\d\d/
+				const regBirth = /^(19|20)\d{2}$/
 				let birthyear = $('#birthyear').val();
 				if(birthyear.trim()==""){
 					$(".alert_birthyear").show(200);

@@ -57,8 +57,13 @@
         </div>
       </a>
       <a href="${ctp}/signBefore.member" class="text-decoration-none">
-        <div class="mt-2 font-weight-bold sign_text">
+        <div class="mr-2 mt-2 font-weight-bold sign_text">
           회원가입
+        </div>
+      </a>
+      <a href="${ctp}/adminView.member" class="text-decoration-none">
+        <div class="mt-2 font-weight-bold sign_text">
+          관리자모드
         </div>
       </a>
     </div>

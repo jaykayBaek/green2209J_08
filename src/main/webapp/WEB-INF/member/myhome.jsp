@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -40,8 +42,10 @@
         .title_home{
             color: #80B918;
         }
-                .myinfo{
+        .myinfo{
+        	margin-top: 1rem;
             border: 2px solid #495057;
+            height: 50vh;
         }
         ul, li{
             list-style: none;
@@ -61,6 +65,11 @@
         	width:100%;
             background-color: #ffff3f;
         }
+        .user_info_tab{
+        	margin: 0px;
+        	padding: 0px;
+       	    width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -73,33 +82,40 @@
             <div class="col-10">
 		        <div class="row myinfo d-flex flex-row flex-nowrap">
 		            <div class="col-2 myinfo_content_left d-flex flex-column justify-content-around">
-		                <div class="d-flex flex-column flex-wrap" style="width:100%">
-		                    <h2 class="font-weight-bold">백정광 님</h2>
-		                    <div class="email" style="width:100%;">
-		                    	jaykaybaek
+		                <div class="d-flex flex-column flex-wrap">
+		                    <h2 class="h5 font-weight-bold">
+		                    	${vo.nameUser} 님
+		                    </h2>
+		                    <div class="email text-secondary" style="font-size:0.5em">
+		                    	${vo.email}
 		                    </div>
 		                </div>
-		                <div>
-		                    <button class="btn btn-success">로그아웃</button>
-		                </div>
+						<button type="button" onclick="location.href='${ctp}/logout.member'" class="btn btn-success" class="text-decoration-none">
+							<div class="font-weight-bold sign_text">
+							  로그아웃
+							</div>
+						</button>
 		            </div>
-		            <div class="col-10 myinfo_content_right">
-		                <div class="container">
-		                    <div class="d-flex flex-column">
-		                        <ul class="d-flex justify-content-around align-content-center mt-2">
-		                            <li class="h1 d-flex flex-column align-items-center">
+		            <div class="col-10 myinfo_content_right d-flex">
+		                <div class="container d-flex align-items-center">
+		                    <div class="user_info_tab ">
+		                    	<div class="row text-center">
+		                    		<div class="col">
 		                                <i class="fas fa-coins"></i>
 		                                <span class="h5 font-weight-bold">리딩 포인트</span>
-		                                <p class="h2 amount_item">0원</p>
+		                                <p class="h2 amount_item">
+		                                	<fmt:formatNumber type="number" maxFractionDigits="3" value="${vo.point}"/>
+		                                	원
+		                                </p>
 		                                <p class="h6">
 		                                    <a href="">
 		                                        잔여 포인트
 		                                        <i class="fas fa-hand-point-right"></i>
 		                                    </a>
 		                                </p>
-		                            </li>
-		                            <li class="h1 d-flex flex-column align-items-center">
-		                                <i class="fas fa-book"></i>
+		                    		</div>
+		                    		<div class="col">
+   				                    	<i class="fas fa-book"></i>
 		                                <span class="h5 font-weight-bold">내 서고</span>
 		                                <p class="h2 amount_item">255권</p>
 		                                <p class="h6">
@@ -108,9 +124,9 @@
 		                                        <i class="fas fa-hand-point-right"></i>
 		                                    </a>
 		                                </p>
-		                            </li>
-		                            <li class="h1 d-flex flex-column align-items-center">
-		                                <i class="fas fa-shopping-cart"></i>
+		                    		</div>
+		                    		<div class="col">
+                				    	<i class="fas fa-shopping-cart"></i>
 		                                <span class="h5 font-weight-bold">장바구니</span>
 		                                <p class="h2 amount_item">7건</p>
 		                                <p class="h6">
@@ -119,23 +135,23 @@
 		                                        <i class="fas fa-hand-point-right"></i>
 		                                    </a>
 		                                </p>
-		                            </li>
-		                        </ul>
+		                    		</div>
+		                    	</div>
 		                        <hr/>
-		                        <ul class="d-flex justify-content-around align-content-center mt-2">
-		                            <li class="h1 d-flex flex-column align-items-center">
-		                                <i class="fas fa-question-circle"></i>
+		                        <div class="row text-center">
+		                        	<div class="col">
+		                            	<i class="fas fa-question-circle"></i>
 		                                <span class="h5 font-weight-bold">내 문의</span>
-		                            </li>
-		                            <li class="h1 d-flex flex-column align-items-center">
+		                        	</div>
+		                        	<div class="col">
 		                                <i class="fas fa-trophy"></i>
 		                                <span class="h5 font-weight-bold">내 등급</span>
-		                            </li>
-		                            <li class="h1 d-flex flex-column align-items-center">
+		                        	</div>
+		                        	<div class="col">
 		                                <i class="fas fa-heart"></i>
 		                                <span class="h5 font-weight-bold">내 리뷰</span>
-		                            </li>
-		                        </ul>
+		                        	</div>
+		                        </div>
 		                    </div>
 		                </div>
 		            </div>

@@ -44,6 +44,22 @@
 					isValidEmail = false;
 					return;
 				}
+				let query = {email : emailVal};
+				$.ajax({
+		    		url  : "${ctp}/validEmail.member",
+		    		type : "post",
+		    		data : query,
+		    		success: function(res) {
+		    			if (res == 'exist'){
+							$(".alert_email").show(200);
+							$('#demo_email').html('이미 존재하는 이메일입니다. 다시 확인해주세요.');
+							return;
+		    			}
+		    		},
+		    		error: function() {
+		    			alert("전송 실패");
+		    		}
+				});
 	
 				$(".alert_email").hide(200);
 				isValidEmail = true;
@@ -304,8 +320,8 @@
 						<div class="" style="width:100%">
 							<select name="gender" id="gender" style="width:100%">
 								<option value="none">성별을 선택해주세요.</option>
-								<option value="men">남성</option>
-								<option value="women">여성</option>
+								<option value="남성">남성</option>
+								<option value="여성">여성</option>
 							</select>
 							<div class="alert alert-warning mt-2 alert_gender">
 								<svg xmlns="http://www.w3.org/2000/svg" width="0.8em" height="0.8em" fill="currentColor"

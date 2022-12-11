@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
-<script>
-
-</script>
+<%
+  int grade = session.getAttribute("sGrade")==null? 99 : (int) session.getAttribute("sGrade");
+  pageContext.setAttribute("grade", grade);
+%>
 <style>
     nav {
       background-color: #fff;
@@ -50,23 +52,32 @@
     
 </style>
 <header>
-  <div class="container d-flex justify-content-end align-items-center">
-      <a href="${ctp}/login.member" class="text-decoration-none">
-        <div class="mr-2 mt-2 font-weight-bold sign_text">
-          로그인
-        </div>
-      </a>
-      <a href="${ctp}/signBefore.member" class="text-decoration-none">
-        <div class="mr-2 mt-2 font-weight-bold sign_text">
-          회원가입
-        </div>
-      </a>
-      <a href="${ctp}/adminView.member" class="text-decoration-none">
-        <div class="mt-2 font-weight-bold sign_text">
-          관리자모드
-        </div>
-      </a>
-    </div>
+	 <div class="container d-flex justify-content-end align-items-center">
+	 <c:if test="${grade == 99}">
+		<a href="${ctp}/loginBefore.member" class="text-decoration-none">
+			<div class="mr-2 mt-2 font-weight-bold sign_text">
+			  로그인
+			</div>
+		</a>
+		<a href="${ctp}/signBefore.member" class="text-decoration-none">
+			<div class="mr-2 mt-2 font-weight-bold sign_text">
+			  회원가입
+			</div>
+		</a>
+	 </c:if>
+ 	 <c:if test="${grade == 0}">
+		<a href="${ctp}/adMain.ad" class="text-decoration-none">
+			<div class="mt-2 font-weight-bold sign_text">
+			  관리자모드
+			</div>
+		</a>
+	 </c:if>
+ 	 <c:if test="${grade <= 1 || grade<5}">
+		<div class="mt-2 sign_text">
+		  안녕하세요, ${fn:substring(sEmail,0,fn:indexOf(sEmail,"@"))}님?
+		</div>
+	 </c:if>
+	</div>
 </header>
 
 <nav class="navbar navbar-expand-lg sticky-top shadow-sm">

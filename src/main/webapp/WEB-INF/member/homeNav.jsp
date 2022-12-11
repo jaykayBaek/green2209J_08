@@ -97,7 +97,7 @@
            <ul>
                <li><a href="">1:1 문의</a></li>
                <li><a href="">내 리뷰 관리</a></li>
-               <li><a href="">정보 변경</a></li>
+               <li><a href="${ctp}/accountModify.member">정보 변경</a></li>
            </ul>
        </div>
 </body>

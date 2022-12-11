@@ -96,27 +96,28 @@
 				</nav>
 				<div class="sign_in d-flex flex-column justify-content-center align-items-center mt-5"
 					stlye="width:100%;">
-
-					<form action="#" method="post" name="loginform">
+					<form name="loginform" method="post" action="${ctp}/loginCheck.member">
 						<div class="d-flex flex-column flex-wrap align-items-start">
 							<div class="form-group login_group_top" style="width:50vh; height:100%">
-								<input type="email" class="form-control login_input" placeholder="이메일을 입력하세요"
-									id="email">
+								<input type="text" class="form-control login_input" placeholder="이메일을 입력하세요"
+									id="email" name="email" value="${email}">
 								<input type="password" class="form-control login_input" placeholder="비밀번호"
-									id="password">
+									id="password" name="password">
 							</div>
 							<div class="form-group login_group_checkbox d-flex justify-content-between align-items-center id_form"
 								style="width:50vh">
 								<div class="m-2 p-2">
-									<input type="checkbox" name="login_remember_me" id="login_remember_me" />
-									<label for="login_remember_me">로그인 상태 유지</label>
+									<input type="checkbox" name="rememberMe" id="login_remember_me" value="true"
+									<c:if test="${!empty email}">'checked'</c:if>/>
+
+									<label for="login_remember_me">이메일 기억하기</label>
 								</div>
 								<div class="m-2 p-2">
 									<a href="${ctp}/findEmail.member">아이디 찾기</a>
 									<a href="${ctp}/findPwd.member">비밀번호 찾기</a>
 								</div>
 							</div>
-							<button class="btn btn-primary btn-lg pl-5 pr-5 mb-2" style="width:100%">
+							<button class="btn btn-primary btn-lg pl-5 pr-5 mb-2" type="submit" style="width:100%">
 								로그인
 							</button>
 							<button class="btn btn-secondary btn-lg pl-5 pr-5 mb-2" type="button"

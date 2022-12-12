@@ -144,7 +144,7 @@
 </head>
 <body>
   <div class="container d-flex flex-column justify-content-center align-items-center">
-    <nav class="mt-3" stlye="width:100vh">
+    <nav class="mt-3" style="width:100vh">
       <picture>
         <img src="images/READING.png" alt="리딩" class="img-fluid" height="10vh">
         <img src="images/BOOKS.png" alt="북스" class="img-fluid" height="10vh">

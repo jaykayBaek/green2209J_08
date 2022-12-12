@@ -10,6 +10,7 @@
 	<style>
 		th{
             background-color: #ffff3f;
+            font-size:1rem;
 		}
 	</style>
 </head>
@@ -34,18 +35,29 @@
 		                <tr>
 		                    <th>비밀번호 변경</th>
 		                    <td>
-		                        <div>
-		                            <input type="password" id="pwd_now" name="pwdNow"/>
-		                        </div>
-		                        <div>
-		                            <input type="password" id="pwd_new" name="pwdNow"/>
-		                        </div>
-		                        <div>
-		                            <input type="password" id="pwd_re" name="pwdNow"/>
-		                        </div>
-		                        <div>
-		                            <button typle="button" class="btn btn-success">비밀번호 변경</button>
-		                        </div>
+		                    	<form>
+	                			    <div class="row mb-2">
+	                			    	<div class="col">
+	                			    		<p>현재 비밀번호</p>
+				                            <input type="password" class="form-control" id="pwd_now" name="pwdNow"/>
+	                			    	</div>
+			                            <div class="col pwd_now_demo"></div>
+			                        </div>
+			                        <div class="row mb-2">
+			                        	<div class="col">
+			                        	
+				                            <input type="password" class="form-control" id="pwd_new" name="pwdNow"/>
+			                        	</div>
+			                        	<div class="col pwd_new_demo"></div>
+			                        </div>
+			                        <div class="row mb-2">
+			                        	<div class="col">
+				                            <input type="password" class="form-control" id="pwd_re" name="pwdNow"/>
+			                        	</div>
+			                        	<div class="col pwd_re_demo"></div>
+			                        </div>
+		                            <button typle="button" class="btn btn-success form-control">비밀번호 변경</button>
+		                    	</form>
 		                    </td>
 		                </tr>
 		                <tr>

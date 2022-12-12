@@ -85,7 +85,7 @@ public class RegisterCommand implements MemberInterface {
 		/* -- 정규식 체크 실패 시 --*/
 		if(!(isValidEmail&&isValidPwd&&isValidName&&isValidBirthYear&&isValidPhoneNo&&isValidAddress)) {
 			request.setAttribute("msg", "failJoin");
-			request.setAttribute("url", request.getContextPath()+"/login.member");
+			request.setAttribute("url", request.getContextPath()+"/loginBefore.member");
 			return;
 		}
 		
@@ -112,11 +112,11 @@ public class RegisterCommand implements MemberInterface {
 		
 		if(resRegister) {
 				request.setAttribute("msg", "successJoin");
-				request.setAttribute("url", request.getContextPath()+"/login.member");
+				request.setAttribute("url", request.getContextPath()+"/loginBefore.member");
 		}
 		else {
 			request.setAttribute("msg", "failJoin");
-			request.setAttribute("url", request.getContextPath()+"/loin.member");
+			request.setAttribute("url", request.getContextPath()+"/loginBefore.member");
 		}
 	}
 }

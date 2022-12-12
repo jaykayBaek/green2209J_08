@@ -7,6 +7,35 @@
 	<meta charset="UTF-8">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
+	<script>
+		let addAward = () => {
+			let awardDemoVal = $(".award_demo").html();
+			$(".award_demo").html(awardDemoVal+`<div class="row"><div class="col"><input type="number"name="awardYear"class="award_year"placeholder="수상년도(예:2007)"/></div><div class="col"><input type="text"name="award"class="award"placeholder="상 이름(예:안데르센 문학상)"/></div><div class="col"><button class="btn btn-warning"type="button"onclick="addAward()"style="width:100%"><svg xmlns="http://www.w3.org/2000/svg"width="16"height="16"fill="currentColor"class="bi bi-plus-circle-fill"viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>수상이력추가하기</button></div>`);
+		}
+		let addEducation = () => {
+			let educationDemoVal = $(".education_demo").html();
+			$(".education_demo").html(educationDemoVal+`<div class="row"><div class="col"><input type="text"name="education"class="education"placeholder="워싱턴 대학교 or 하버드 대학교 명예박사"/></div><div class="col"><button class="btn btn-warning"type="button"onclick="addEducation()"style="width:100%"><svg xmlns="http://www.w3.org/2000/svg"width="16"height="16"fill="currentColor"class="bi bi-plus-circle-fill"viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg>학력추가</button></div></div>`)
+		}
+		let registerAuthor = () => {
+			let authorForm = $("form[name=authorForm]").serialize()
+			$.ajax({
+				type : "post",
+				url : "${ctp}/inputAuthorInfo.ad",
+				data : authorForm,
+				success : function (res){
+					if(res == '0'){
+						alert('등록을 실패했습니다.');
+					}
+					else{
+						alert('등록을 성공했습니다.')
+					}
+				},
+				error: function () {
+					alert('연결 실패');
+				}
+			});
+		}
+	</script>
 	<style>
         <style>
             body,h1,h2,h3,h4,h5,h6,span,div,strong {
@@ -175,58 +204,90 @@
 			              <div class="h2 font-weight-bold">작가/번역가/삽화가 등록</div>
 			              <div class="row d-flex flex-column">
 			                  <div class="col">
-			                      <div class="card shadow">
-			                          <div class="card-body">
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">이름</div>
-			                                  <div class="col"><input typle="text" name="bookname" id="bookname" /></div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">역할</div>
-			                                  <div class="col">
-			                                      <select>
-			                                          <option value="author">작가</option>
-			                                          <option value="translator">번역가</option>
-			                                          <option value="illustrator">삽화가</option>
-			                                          <option value="etc">기타</option>
-			                                      </select>
-			                                  </div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">국적</div>
-			                                  <div class="col"><input typle="text" name="bookname" id="bookname" /></div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">생년월일</div>
-			                                  <div class="col"><input typle="text" name="bookname" id="bookname" placeholder="예시 : 19990115 무조건 해당 예시의 양식으로 입력해주세요."/></div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">수상 이력</div>
-			                                  <div class="col"><input typle="text" name="bookname" id="bookname" /></div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">수상이력</div>
-			                                  <div class="col"><input typle="text" name="bookname" id="bookname"/></div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">학력</div>
-			                                  <div class="col"><input typle="text" name="bookname" id="bookname"/></div>
-			                              </div>
-			                              <div class="book_input row mb-2">
-			                                  <div class="col-3 input_label">소개글</div>
-			                                  <div class="col"><textarea rows="5" style="width:100%"></textarea></div>
-			                              </div>
-			                          </div>
-			                          <div class="book_input row mb-2">
-			                              <div class="col-3"></div>
-			                              <div class="col">
-			                              </div>
-			                          </div>
-			                          <div class="col btn-group">
-			                              <button class="btn btn-success btn-lg">등록하기</button>
-			                              <button class="btn btn-warning btn-lg">리셋하기</button>
-			                          </div>
-			                      </div>
+			                  	  <form name="authorForm">
+				                      <div class="card shadow">
+				                          <div class="card-body">
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">이름</div>
+				                                  <div class="col"><input type="text" name="nameAuthor" id="name_author" /></div>
+				                              </div>
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">역할</div>
+				                                  <div class="col">
+				                                      <select name="role">
+				                                          <option value="작가">작가</option>
+				                                          <option value="번역가">번역가</option>
+				                                          <option value="삽화가">삽화가</option>
+				                                          <option value="etc">기타</option>
+				                                      </select>
+				                                  </div>
+				                              </div>
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">국적</div>
+				                                  <div class="col"><input type="text" name="nationality" id="nationality" /></div>
+				                              </div>
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">생년월일</div>
+				                                  <div class="col"><input type="text" name="birthday" id="birthday" placeholder="예시 : 1999년 7월 31일 &lt-무조건 해당 양식으로 입력해주세요."/></div>
+				                              </div>
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">수상 이력</div>
+				                                  <div class="col">
+				                                  	<div class="row">
+				                                  		<div class="col">
+						                                  	<input type="number" name="awardYear" class="award_year" placeholder="수상년도(예:2007)"/>
+				                                  		</div>
+				                                  		<div class="col">
+						                                  	<input type="text" name="award" class="award" placeholder="상 이름(예:안데르센 문학상)"/>
+				                                  		</div>
+				                                  		<div class="col">
+						                                  	<button class="btn btn-warning" type="button" onclick="addAward()" style="width:100%">
+						                                  		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+																  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+																</svg>
+																수상 이력 추가하기
+						                                  	</button>
+				                                  		</div>
+				                                  	</div>
+				                                  	
+					                                <div class="award_demo"></div>
+				                                  </div>
+				                              </div>
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">학력</div>
+				                                  <div class="col">
+				                                  	<div class="row">
+				                                  		<div class="col">
+						                                  	<input type="text" name="education" class="education" placeholder="워싱턴 대학교 or 하버드 대학교 명예박사"/>
+				                                  		</div>
+				                                  		<div class="col">
+	                            						    <button class="btn btn-warning" type="button" onclick="addEducation()" style="width:100%">
+						                                  		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+																  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+																</svg>
+																학력 추가
+						                                  	</button>
+				                                  		</div>
+				                                  	</div>
+				                                  	<div class="education_demo"></div>
+			                                  	  </div>
+				                              </div>
+				                              <div class="book_input row mb-2">
+				                                  <div class="col-3 input_label">소개글</div>
+				                                  <div class="col"><textarea name="introduceTxt" rows="5" style="width:100%"></textarea></div>
+				                              </div>
+				                          </div>
+				                          <div class="book_input row mb-2">
+				                              <div class="col-3"></div>
+				                              <div class="col">
+				                              </div>
+				                          </div>
+				                          <div class="col btn-group">
+				                              <button type="button" onclick="registerAuthor()" class="btn btn-success btn-lg">등록하기</button>
+				                              <button type="reset" class="btn btn-warning btn-lg">리셋하기</button>
+				                          </div>
+				                      </div>
+			                  	  </form>
 			                  </div>
 			              </div>
 			          </div>
@@ -237,46 +298,19 @@
                               유의 사항
                           </div>
                       </div>
-                      <div class="row d-flex">
-                          <div class="card shadow">
-                              <div class="card-body">
-                                  <div class="h4 font-weight-bold">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                          fill="currentColor" class="bi bi-exclamation-diamond-fill"
-                                          viewBox="0 0 16 16">
-                                          <path
-                                              d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                                      </svg>
-                                      작가등록은 하셨나요?
-                                  </div>
-                                  <p>
-                                      도서를 등록하시기 전, 해당 도서를 집필하신 <strong>작가님의 프로필이 등록되어 있는지 확인</strong>하셔야 합니다.
-                                      만약 등록되어 있지 않다면, 먼저 등록을 해주신 다음 도서를 등록해주세요.
-                                  </p>
-                                  <p>
-                                      또 외국 서적이라 번역가도 있다면, 작가 등록란에 번역가님도 등록하실 수 있습니다.
-                                      그외에, 일러스트레이터(삽화가) 등등 정보도 있으시다면 도서를 등록하시기 전에 작가 등록란에서 도서를 등록해주시고 등록해주세요.
-                                      여러 명의 작가, 번역가, 삽화가를 등록할 수 있습니다.
-                                  </p>
-                              </div>
-                          </div>
-                      </div>
                       <div class="row d-flex mt-2">
                           <div class="card shadow">
                               <div class="card-body">
-                                  <div class="h4 font-weight-bold">
+                                  <div class="h4 font-weight-bold text-danger">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                           fill="currentColor" class="bi bi-exclamation-diamond-fill"
                                           viewBox="0 0 16 16">
                                           <path
                                               d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                                       </svg>
-                                      도서 등록은 상품 등록이 아닙니다!
+                                      작가 검색 결과
                                   </div>
-                                  <p>
-                                      도서 등록은 도서의 정보를 기입한 것일 뿐입니다! 도서 등록 이후에 해당 도서를 판매하고 싶으시다면, 상품 등록에서 처리해주세요.
-                                  </p>
-
+                                  <div class="author_search_res"></div>
                               </div>
                           </div>
                       </div>

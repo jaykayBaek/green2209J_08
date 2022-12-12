@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import member.ValidEmailCommand;
 
 @SuppressWarnings("serial")
 @WebServlet("*.ad")
@@ -20,7 +23,15 @@ public class AdminController extends HttpServlet {
 		String uri = request.getRequestURI();
 		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
 		
-		if(com.equals("/adMain")) {
+		HttpSession session = request.getSession();
+		int grade = session.getAttribute("sGrade")==null ? 99 : (int) session.getAttribute("sGrade");
+		
+		if(grade >= 99) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+			dispatcher.forward(request, response);
+		}
+		/*--- 사이트 접속 ---*/
+		else if(com.equals("/adMain")) {
 			viewPage += "/adMain.jsp";
 		}
 		else if(com.equals("/adRegisterBook")) {
@@ -33,6 +44,17 @@ public class AdminController extends HttpServlet {
 			viewPage += "/adRegisterAuthor.jsp";
 		}
 		
+		/* --- 커맨드 호출 등 작업 ---*/
+		else if(com.equals("/inputAuthorInfo")) {
+			command = new InputAuthorInfo();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/getAuthorInfo")) {
+			command = new GetAuthorInfo();
+			command.execute(request, response);
+			return;
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 	}

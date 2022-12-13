@@ -8,16 +8,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-public class GetAuthorInfo implements AdminInterface {
+public class GetAuthorInfoByIdx implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String author = request.getParameter("author") == null?"":request.getParameter("author");
+		int idx = request.getParameter("idx") == null ? 0 : Integer.parseInt(request.getParameter("idx"));
+		
 		AdminDAO dao = new AdminDAO();
-		JSONObject bringData = dao.getAuthorInfo(author);
+		JSONObject bringData = dao.getAuthorInfoByIdx(idx);
 		
 		String bringDataParsed = bringData.toJSONString();
 		
 		response.getWriter().write(bringDataParsed);
 	}
+
 }

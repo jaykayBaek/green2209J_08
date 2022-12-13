@@ -26,10 +26,6 @@
 		        $("#category_familly").hide();
 		        $("#category_original").hide();
 		        
-		        $(".author_res_wrap").hide();
-		        $(".author_input_wrap").hide();
-		        
-		        
 		        let choiceResTmp = "";
 		        let choiceRes = "";
 		
@@ -117,76 +113,36 @@
     		}
  	    	$.ajax({
 	    		type   : "post",
-	    		url    : "${ctp}/getAuthorInfoByName.ad",
-	    		data : {author:author,
-	    		},
+	    		url    : "${ctp}/getAuthorInfo.ad",
+	    		data : {author:author},
 	    		success:function(data) {
  	    			let dataParsed = JSON.parse(data);
- 	    			console.log("1"+dataParsed);
+ 	    			console.log(dataParsed);
  	    			
   	    			if(dataParsed.author.length==0){
 	     				$('.author_search_res').load(location.href+' .author_search_res');
  	    			}
  	    			else{
-						let divRes="";
+						let tableHtml="";
 	    				for(let i in dataParsed.author) {
 	    					let idx = dataParsed.author[i].idx;
 	    					let nameAuthor = dataParsed.author[i].nameAuthor;
 	    					let role = dataParsed.author[i].role;
 	    					let nationality = dataParsed.author[i].nationality;
 	    					let birthday = dataParsed.author[i].birthday;
-	    					divRes += '<div class="row border-bottom border-success"><div class="col">'+idx+'</div><div class="col">'+nameAuthor+'</div><div class="col">'+role+'</div><div class="col">'+nationality+'</div><div class="col">'+birthday+'</div></div>';
+	    					tableHtml += "<tr><td>"+idx+"</td><td>"+nameAuthor+"</td><td>"+role+"</td><td>"+nationality+"</td><td>"+birthday+"</td></tr>";
 		    			 }
-	    				$(".author_res_wrap").show(200);
-	    				$(".author_search_res").html(`<div class="row border-bottom border-success"><div class="col">고유번호</div><div class="col">이름</div><div class="col">분류</div><div class="col">국적</div><div class="col">생년월일</div></div>`+divRes);
+	    				$(".author_search_res").html(`<table class="table-bordered"><tr class="bg-danger text-white"><th>고유번호</th><th>이름</th><th>역할</th><th>국적</th><th>생년월일</th></tr>`+tableHtml+`</table>`);
  	    			}
 	    		},
 	    		error : function() {
 	    			alert("전송 오류!");
 	    		}
 	    	});
- 	    	let enrollBook = () => {
- 	    		let bookName = $("")
- 	    	}
 	    }
-	    let author_idx_demo = "";
 	    let enrollAuthorInBook = () => {
-    		let authorInputed = $("#input_author").val();
-    		if(authorInputed.trim()==""){
-    			$('.author_input_wrap').load(location.href+' .author_search_res');
-    			return;
-    		}
- 	    	$.ajax({
-	    		type   : "post",
-	    		url    : "${ctp}/getAuthorInfoByIdx.ad",
-	    		data : {idx:authorInputed},
-	    		success:function(data) {
- 	    			let dataParsed = JSON.parse(data);
- 	    			
-  	    			if(dataParsed.author.length==0){
-	     				$('.author_input_wrap').load(location.href+' .author_input_wrap');
-	     				return;
- 	    			}
- 	    			else{
-	    				for(let i in dataParsed.author) {
-	    					let idx = dataParsed.author[i].idx;
-	    					let nameAuthor = dataParsed.author[i].nameAuthor;
-	    					let role = dataParsed.author[i].role;
-	    					let nationality = dataParsed.author[i].nationality;
-	    					let birthday = dataParsed.author[i].birthday;
-	    					author_idx_demo += '<div class="row border-bottom border-success author_idx"><div class="col">'+idx+'</div><div class="col">'+nameAuthor+'</div><div class="col">'+role+'</div><div class="col">'+nationality+'</div><div class="col">'+birthday+'</div><input type="hidden" name ="idxAuthor" value="'+idx+'"></div>';
-		    			 }
-	    				$(".author_input_wrap").show(200);
-	    				$(".author_input_res").html(`<div class="row border-bottom border-success"><div class="col">고유번호</div><div class="col">이름</div><div class="col">분류</div><div class="col">국적</div><div class="col">생년월일</div></div>`+author_idx_demo);
- 	    				
- 	    			}
-	    		},
-	    		error : function() {
-	    			alert("전송 오류!");
-	    		}
-	    	});
+	    	
 	    }
-	    
 	</script>
 	<style>
            body,h1,h2,h3,h4,h5,h6,span,div,strong {
@@ -302,8 +258,6 @@
 </head>
 
 <body>
-
-
 	<div class="container-fluid d-flex">
 		<jsp:include page="/include/adNav.jsp" />
 		<!-- 관리자 메인뷰 -->
@@ -370,7 +324,7 @@
 										</div>
 										<div class="book_input row mb-2">
 											<div class="col-3 input_label">출판사</div>
-											<div class="col"><input type="text" name="publisher" id="publisher" /></div>
+											<div class="col"><input type="text" name="bookname" id="bookname" /></div>
 										</div>
 										<div class="book_input row mb-2">
 											<div class="col-3 input_label">출간 정보(일자)</div>
@@ -502,7 +456,7 @@
 													</div>
 													<form name="">
 														<div class="input-group">
-															<input type="text" class="form-control"
+															<input type="text" class="form-control" name=""
 																id="search_author" placeholder="검색할 작가 이름 입력창" />
 															<div class="input-group-append">
 																<button class="btn btn-success" type="button" id="search_btn"
@@ -511,44 +465,27 @@
 														</div>
 													</form>
 												</div>
-												<div class="row mt-2">
-													<div class="col">
-														<div class="alert alert-success author_res_wrap" role="alert">
-															<h4 class="alert-heading">작가 검색 결과</h4>
-															<hr/>
-															<div class="author_search_res"></div>
-														</div>
-													</div>
-												</div>
 												<div class="row">
 													<div class="font-weight-bold ml-3 mr-3">
 														작가/번역가/삽화가 등 입력
 													</div>
 													<form name="inputAuthorIdx">
 														<div class="input-group">
-															<input type="number" class="form-control"
-																id="input_author" placeholder="작가 고유번호 입력창" />
+															<input type="text" class="form-control" name="searchAuthor"
+																id="search_author" placeholder="작가 고유번호 입력창" />
 															<div class="input-group-append">
 																<button class="btn btn-success" type="button" id="search_btn" onclick="enrollAuthorInBook()">등록하기</button>
 															</div>
 														</div>
 													</form>
 												</div>
-												<div class="row mt-2 author_input">
-													<div class="col">
-														<div class="alert alert-success author_input_wrap" role="alert">
-															<h4 class="alert-heading">작가 입력 결과</h4>
-															<hr/>
-															<div class="author_input_res"></div>
-														</div>
-													</div>
-												</div>
+												<div class="author_res"></div>
 											</div>
 										</div>
 										<div class="book_input row mb-2">
 											<div class="col-3 input_label">도서 표지 등록</div>
 											<div class="col mb-1">
-												<input type="file" name="bookImg" id="book_img" />
+												<input type="file" name="" bookImg id="book_img" />
 											</div>
 										</div>
 									</div>
@@ -558,8 +495,8 @@
 										</div>
 									</div>
 									<div class="col btn-group">
-										<button class="btn btn-success btn-lg" type="button" onclick="enrollBook()">등록하기</button>
-										<button class="btn btn-warning btn-lg" type="reset">리셋하기</button>
+										<button class="btn btn-success btn-lg">등록하기</button>
+										<button class="btn btn-warning btn-lg">리셋하기</button>
 									</div>
 								</div>
 							</div>
@@ -610,8 +547,22 @@
 								</div>
 							</div>
 						</div>
-						<div class="row d-flex mt-2">
-
+						<div class="row d-flex mt-2" style="width:100%">
+							<div class="card shadow" style="width:100%">
+								<div class="card-body">
+									<div class="h4 font-weight-bold text-danger">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+											class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
+											<path
+												d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+										</svg>
+										작가 검색 결과
+									</div>
+									<div class="author_search_res">
+										
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

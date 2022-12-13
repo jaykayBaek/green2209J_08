@@ -50,8 +50,13 @@ public class AdminController extends HttpServlet {
 			command.execute(request, response);
 			return;
 		}
-		else if(com.equals("/getAuthorInfo")) {
-			command = new GetAuthorInfo();
+		else if(com.equals("/getAuthorInfoByName")) {
+			command = new GetAuthorInfoByName();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/getAuthorInfoByIdx")) {
+			command = new GetAuthorInfoByIdx();
 			command.execute(request, response);
 			return;
 		}

@@ -26,6 +26,10 @@
 		        $("#category_familly").hide();
 		        $("#category_original").hide();
 		        
+		        $(".author_res_wrap").hide();
+		        $(".author_input_wrap").hide();
+		        
+		        
 		        let choiceResTmp = "";
 		        let choiceRes = "";
 		
@@ -113,26 +117,28 @@
     		}
  	    	$.ajax({
 	    		type   : "post",
-	    		url    : "${ctp}/getAuthorInfo.ad",
-	    		data : {author:author},
+	    		url    : "${ctp}/getAuthorInfoByName.ad",
+	    		data : {author:author,
+	    		},
 	    		success:function(data) {
  	    			let dataParsed = JSON.parse(data);
- 	    			console.log(dataParsed);
+ 	    			console.log("1"+dataParsed);
  	    			
   	    			if(dataParsed.author.length==0){
 	     				$('.author_search_res').load(location.href+' .author_search_res');
  	    			}
  	    			else{
-						let tableHtml="";
+						let divRes="";
 	    				for(let i in dataParsed.author) {
 	    					let idx = dataParsed.author[i].idx;
 	    					let nameAuthor = dataParsed.author[i].nameAuthor;
 	    					let role = dataParsed.author[i].role;
 	    					let nationality = dataParsed.author[i].nationality;
 	    					let birthday = dataParsed.author[i].birthday;
-	    					tableHtml += "<tr><td>"+idx+"</td><td>"+nameAuthor+"</td><td>"+role+"</td><td>"+nationality+"</td><td>"+birthday+"</td></tr>";
+	    					divRes += '<div class="row border-bottom border-success"><div class="col">'+idx+'</div><div class="col">'+nameAuthor+'</div><div class="col">'+role+'</div><div class="col">'+nationality+'</div><div class="col">'+birthday+'</div></div>';
 		    			 }
-	    				$(".author_search_res").html(`<table class="table-bordered"><tr class="bg-danger text-white"><th>고유번호</th><th>이름</th><th>역할</th><th>국적</th><th>생년월일</th></tr>`+tableHtml+`</table>`);
+	    				$(".author_res_wrap").show(200);
+	    				$(".author_search_res").html(`<div class="row border-bottom border-success"><div class="col">고유번호</div><div class="col">이름</div><div class="col">분류</div><div class="col">국적</div><div class="col">생년월일</div></div>`+divRes);
  	    			}
 	    		},
 	    		error : function() {
@@ -140,9 +146,47 @@
 	    		}
 	    	});
 	    }
+    	let enrollBook = () => {
+    		enrollBookForm.submit();
+    	}
+	    let author_idx_demo = "";
 	    let enrollAuthorInBook = () => {
-	    	
+    		let authorInputed = $("#input_author").val();
+    		if(authorInputed.trim()==""){
+    			$('.author_input_wrap').load(location.href+' .author_search_res');
+    			return;
+    		}
+ 	    	$.ajax({
+	    		type   : "post",
+	    		url    : "${ctp}/getAuthorInfoByIdx.ad",
+	    		data : {idx:authorInputed},
+	    		success:function(data) {
+ 	    			let dataParsed = JSON.parse(data);
+ 	    			
+  	    			if(dataParsed.author.length==0){
+	     				$('.author_input_wrap').load(location.href+' .author_input_wrap');
+	     				return;
+ 	    			}
+ 	    			else{
+	    				for(let i in dataParsed.author) {
+	    					let idx = dataParsed.author[i].idx;
+	    					let nameAuthor = dataParsed.author[i].nameAuthor;
+	    					let role = dataParsed.author[i].role;
+	    					let nationality = dataParsed.author[i].nationality;
+	    					let birthday = dataParsed.author[i].birthday;
+	    					author_idx_demo += '<div class="row border-bottom border-success author_idx"><div class="col">'+idx+'</div><div class="col">'+nameAuthor+'</div><div class="col">'+role+'</div><div class="col">'+nationality+'</div><div class="col">'+birthday+'</div><input type="hidden" name="idxAuthor" value="'+idx+'"></div>';
+		    			 }
+	    				$(".author_input_wrap").show(200);
+	    				$(".author_input_res").html(`<div class="row border-bottom border-success"><div class="col">고유번호</div><div class="col">이름</div><div class="col">분류</div><div class="col">국적</div><div class="col">생년월일</div></div>`+author_idx_demo);
+ 	    				
+ 	    			}
+	    		},
+	    		error : function() {
+	    			alert("전송 오류!");
+	    		}
+	    	});
 	    }
+	    
 	</script>
 	<style>
            body,h1,h2,h3,h4,h5,h6,span,div,strong {
@@ -258,6 +302,7 @@
 </head>
 
 <body>
+
 	<div class="container-fluid d-flex">
 		<jsp:include page="/include/adNav.jsp" />
 		<!-- 관리자 메인뷰 -->
@@ -317,187 +362,204 @@
 						<div class="row d-flex flex-column">
 							<div class="col">
 								<div class="card shadow">
-									<div class="card-body">
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">도서 제목</div>
-											<div class="col"><input type="text" name="bookname" id="bookname" /></div>
-										</div>
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">출판사</div>
-											<div class="col"><input type="text" name="bookname" id="bookname" /></div>
-										</div>
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">출간 정보(일자)</div>
-											<div class="col"><input type="text" name="bookname" id="bookname" /></div>
-										</div>
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">ISBN</div>
-											<div class="col"><input type="text" name="bookname" id="bookname" /></div>
-										</div>
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">도서 내용 등록</div>
-											<div class="col"><textarea rows="15" style="width:100%"></textarea></div>
-										</div>
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">카테고리</div>
-											<div class="col">
-												<select name="category_main" id="category_main" class="category">
-													<option value="none">선택해주세요</option>
-													<option value="소설">소설</option>
-													<option value="경영/경제">경영/경제</option>
-													<option value="인문/사회/역사">인문/사회/역사</option>
-													<option value="자기계발">자기계발</option>
-													<option value="에세이/시">에세이/시</option>
-													<option value="여행">여행</option>
-													<option value="종교">종교</option>
-													<option value="외국어">외국어</option>
-													<option value="과학">과학</option>
-													<option value="컴퓨터/IT">컴퓨터/IT</option>
-													<option value="건강/다이어트">건강/다이어트</option>
-													<option value="가정/생활">가정/생활</option>
-													<option value="해외원서">해외원서</option>
-												</select>
-												<select name="category_country" id="category_country" class="category">
-													<option value="">한국소설</option>
-													<option value="">영미소설</option>
-													<option value="">동양소설</option>
-													<option value="">유럽소설</option>
-													<option value="">기타국가소설</option>
-												</select>
-												<select name="category_novel" id="category_novel" class="category">
-													<option value="">국내 판타지소설</option>
-													<option value="">해외 판타지소설</option>
-													<option value="">추리/미스터리/스릴러</option>
-													<option value="">SF소설</option>
-													<option value="">국내 역사소설</option>
-													<option value="">해외 역사소설</option>
-													<option value="">대체 역사소설</option>
-													<option value="">동양 고전문학</option>
-													<option value="">서양 고전문학</option>
-												</select>
-												<select name="category_economy" id="category_economy" class="category">
-													<option value="">경영일반</option>
-													<option value="">경제일반</option>
-													<option value="">마케팅/세일즈</option>
-													<option value="">재테크/금융/부동산</option>
-													<option value="">CEO/리더십</option>
-												</select>
-												<select name="category_human" id="category_human" class="category">
-													<option value="">인문</option>
-													<option value="">정치/사회</option>
-													<option value="">예술/문화</option>
-													<option value="">역사</option>
-												</select>
-												<select name="category_improvement" id="category_improvement" class="category">
-													<option value="">성공/삶의자세</option>
-													<option value="">기획/창의/리더십</option>
-													<option value="">기획/창의/리더십</option>
-													<option value="">취업/창업</option>
-													<option value="">여성</option>
-													<option value="">인간관계</option>
-												</select>
-												<select name="category_essayAndPoem" id="category_essayAndPoem"
-													class="category">
-													<option value="">에세이</option>
-													<option value="">시</option>
-												</select>
-												<select name="category_trip" id="category_trip">
-													<option value="">국내여행</option>
-													<option value="">해외여행</option>
-												</select>
-												<select name="category_religion" id="category_religion" class="category">
-													<option value="">종교일반</option>
-													<option value="">가톨릭</option>
-													<option value="">기독교(개신교)</option>
-													<option value="">불교</option>
-													<option value="">기타</option>
-												</select>
-												<select name="category_foreign_lan" id="category_foreign_lan" class="category">
-													<option value="">비즈니스영어</option>
-													<option value="">일반영어</option>
-													<option value="">제2외국어</option>
-													<option value="">어학시험</option>
-												</select>
-												<select name="category_mathAndSci" id="category_mathAndSci" class="category">
-													<option value="">과학일반</option>
-													<option value="">수학</option>
-													<option value="">자연과학</option>
-													<option value="">응용과학</option>
-												</select>
-												<select name="category_it" id="category_it" class="category">
-													<option value="">IT 비즈니스</option>
-													<option value="">개발/프로그래밍</option>
-													<option value="">컴퓨터/앱 활용</option>
-													<option value="">IT자격증</option>
-													<option value="">IT 해외원서</option>
-												</select>
-												<select name="category_wellbeing" id="category_wellbeing" class="category">
-													<option value="">다이어트/운동/스포츠</option>
-													<option value="">스타일/뷰티</option>
-													<option value="">건강</option>
-												</select>
-												<select name="category_familly" id="category_familly" class="category">
-													<option value="">결혼/임신/출산</option>
-													<option value="">육아/자녀교육</option>
-													<option value="">취미/요리/기타</option>
-													<option value="">어린이/청소년</option>
-												</select>
-												<select name="category_original" id="category_original" class="category">
-													<option value="">해외원서</option>
-												</select>
+									<form name="enrollBookForm" method="post" action="${ctp}/setBookInfo.ad" enctype="multipart/form-data">
+										<div class="card-body">
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">도서 제목</div>
+												<div class="col"><input type="text" name="bookname" id="bookname" /></div>
 											</div>
-										</div>
-										<div class="book_input row mb-2">
-											<div class="col-3 input_label">작가 입력</div>
-											<div class="col mb-1">
-												<div class="row">
-													<div class="font-weight-bold ml-3 mr-3">
-														작가/번역가/삽화가 등 검색
-													</div>
-													<form name="">
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">출판사</div>
+												<div class="col"><input type="text" name="publisher" id="publisher" /></div>
+											</div>
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">출간 정보(일자)</div>
+												<div class="col"><input type="text" name="datePublishing" id="date_publishing" /></div>
+											</div>
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">ISBN</div>
+												<div class="col"><input type="text" name="isbn" id="isbn"/></div>
+											</div>
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">도서 내용 등록</div>
+												<div class="col"><textarea rows="15" style="width:100%" name="textContent"></textarea></div>
+											</div>
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">카테고리</div>
+												<div class="col">
+													<select name="categoryMain" id="category_main" class="category">
+														<option value="none">선택해주세요</option>
+														<option value="소설">소설</option>
+														<option value="경영/경제">경영/경제</option>
+														<option value="인문/사회/역사">인문/사회/역사</option>
+														<option value="자기계발">자기계발</option>
+														<option value="에세이/시">에세이/시</option>
+														<option value="여행">여행</option>
+														<option value="종교">종교</option>
+														<option value="외국어">외국어</option>
+														<option value="과학">과학</option>
+														<option value="컴퓨터/IT">컴퓨터/IT</option>
+														<option value="건강/다이어트">건강/다이어트</option>
+														<option value="가정/생활">가정/생활</option>
+														<option value="해외원서">해외원서</option>
+													</select>
+													<select name="categoryCountry" id="category_country" class="category">
+														<option value="">한국소설</option>
+														<option value="">영미소설</option>
+														<option value="">동양소설</option>
+														<option value="">유럽소설</option>
+														<option value="">기타국가소설</option>
+													</select>
+													<select name="categorySub" id="category_novel" class="category">
+														<option value="">국내 판타지소설</option>
+														<option value="">해외 판타지소설</option>
+														<option value="">추리/미스터리/스릴러</option>
+														<option value="">SF소설</option>
+														<option value="">국내 역사소설</option>
+														<option value="">해외 역사소설</option>
+														<option value="">대체 역사소설</option>
+														<option value="">동양 고전문학</option>
+														<option value="">서양 고전문학</option>
+													</select>
+													<select name="categorySub" id="category_economy" class="category">
+														<option value="">경영일반</option>
+														<option value="">경제일반</option>
+														<option value="">마케팅/세일즈</option>
+														<option value="">재테크/금융/부동산</option>
+														<option value="">CEO/리더십</option>
+													</select>
+													<select name="categorySub" id="category_human" class="category">
+														<option value="">인문</option>
+														<option value="">정치/사회</option>
+														<option value="">예술/문화</option>
+														<option value="">역사</option>
+													</select>
+													<select name="categorySub" id="category_improvement" class="category">
+														<option value="">성공/삶의자세</option>
+														<option value="">기획/창의/리더십</option>
+														<option value="">기획/창의/리더십</option>
+														<option value="">취업/창업</option>
+														<option value="">여성</option>
+														<option value="">인간관계</option>
+													</select>
+													<select name="categorySub" id="category_essayAndPoem"
+														class="category">
+														<option value="">에세이</option>
+														<option value="">시</option>
+													</select>
+													<select name="categorySub" id="category_trip">
+														<option value="">국내여행</option>
+														<option value="">해외여행</option>
+													</select>
+													<select name="categorySub" id="category_religion" class="category">
+														<option value="">종교일반</option>
+														<option value="">가톨릭</option>
+														<option value="">기독교(개신교)</option>
+														<option value="">불교</option>
+														<option value="">기타</option>
+													</select>
+													<select name="categorySub" id="category_foreign_lan" class="category">
+														<option value="">비즈니스영어</option>
+														<option value="">일반영어</option>
+														<option value="">제2외국어</option>
+														<option value="">어학시험</option>
+													</select>
+													<select name="categorySub" id="category_mathAndSci" class="category">
+														<option value="">과학일반</option>
+														<option value="">수학</option>
+														<option value="">자연과학</option>
+														<option value="">응용과학</option>
+													</select>
+													<select name="categorySub" id="category_it" class="category">
+														<option value="">IT 비즈니스</option>
+														<option value="">개발/프로그래밍</option>
+														<option value="">컴퓨터/앱 활용</option>
+														<option value="">IT자격증</option>
+														<option value="">IT 해외원서</option>
+													</select>
+													<select name="categoryWellbeing" id="category_wellbeing" class="category">
+														<option value="">다이어트/운동/스포츠</option>
+														<option value="">스타일/뷰티</option>
+														<option value="">건강</option>
+													</select>
+													<select name="categoryFamilly" id="category_familly" class="category">
+														<option value="">결혼/임신/출산</option>
+														<option value="">육아/자녀교육</option>
+														<option value="">취미/요리/기타</option>
+														<option value="">어린이/청소년</option>
+													</select>
+													<select name="categoryOriginal" id="category_original" class="category">
+														<option value="">해외원서</option>
+													</select>
+												</div>
+											</div>
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">작가 입력</div>
+												<div class="col mb-1">
+													<div class="row">
+														<div class="font-weight-bold ml-3 mr-3">
+															작가/번역가/삽화가 등 검색
+														</div>
 														<div class="input-group">
-															<input type="text" class="form-control" name=""
+															<input type="text" class="form-control"
 																id="search_author" placeholder="검색할 작가 이름 입력창" />
 															<div class="input-group-append">
 																<button class="btn btn-success" type="button" id="search_btn"
 																	onclick="searchAuthorName()">검색하기</button>
 															</div>
 														</div>
-													</form>
-												</div>
-												<div class="row">
-													<div class="font-weight-bold ml-3 mr-3">
-														작가/번역가/삽화가 등 입력
 													</div>
-													<form name="inputAuthorIdx">
-														<div class="input-group">
-															<input type="text" class="form-control" name="searchAuthor"
-																id="search_author" placeholder="작가 고유번호 입력창" />
-															<div class="input-group-append">
-																<button class="btn btn-success" type="button" id="search_btn" onclick="enrollAuthorInBook()">등록하기</button>
+													<div class="row mt-2">
+														<div class="col">
+															<div class="alert alert-success author_res_wrap" role="alert">
+																<h4 class="alert-heading">작가 검색 결과</h4>
+																<hr/>
+																<div class="author_search_res"></div>
 															</div>
 														</div>
-													</form>
+													</div>
+													<div class="row">
+														<div class="font-weight-bold ml-3 mr-3">
+															작가/번역가/삽화가 등 입력
+														</div>
+														<form name="inputAuthorIdx">
+															<div class="input-group">
+																<input type="number" class="form-control"
+																	id="input_author" placeholder="작가 고유번호 입력창" />
+																<div class="input-group-append">
+																	<button class="btn btn-success" type="button" id="search_btn" onclick="enrollAuthorInBook()">등록하기</button>
+																</div>
+															</div>
+														</form>
+													</div>
+													<div class="row mt-2 author_input">
+														<div class="col">
+															<div class="alert alert-success author_input_wrap" role="alert">
+																<h4 class="alert-heading">작가 입력 결과</h4>
+																<hr/>
+																<div class="author_input_res"></div>
+															</div>
+														</div>
+													</div>
 												</div>
-												<div class="author_res"></div>
+											</div>
+											<div class="book_input row mb-2">
+												<div class="col-3 input_label">도서 표지 등록</div>
+												<div class="col mb-1">
+													<input type="file" name="bookImg" id="book_img" />
+												</div>
 											</div>
 										</div>
 										<div class="book_input row mb-2">
-											<div class="col-3 input_label">도서 표지 등록</div>
-											<div class="col mb-1">
-												<input type="file" name="" bookImg id="book_img" />
+											<div class="col-3"></div>
+											<div class="col">
 											</div>
 										</div>
-									</div>
-									<div class="book_input row mb-2">
-										<div class="col-3"></div>
-										<div class="col">
+										<div class="col btn-group">
+											<button class="btn btn-success btn-lg" type="button" onclick="enrollBook()">등록하기</button>
+											<button class="btn btn-warning btn-lg" type="reset">리셋하기</button>
 										</div>
-									</div>
-									<div class="col btn-group">
-										<button class="btn btn-success btn-lg">등록하기</button>
-										<button class="btn btn-warning btn-lg">리셋하기</button>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -525,7 +587,6 @@
 										해당하는 작가의 고유번호로
 										입력해주세요.
 									</p>
-									<p>
 									<table class="table-bordered">
 										<tr class="bg-danger text-white">
 											<th>고유번호</th>
@@ -543,26 +604,11 @@
 										</tr>
 									</table>
 									<strong>(홍길동을 입력하는 것이 아닌 4를 입력)</strong>
-									</p>
 								</div>
 							</div>
 						</div>
-						<div class="row d-flex mt-2" style="width:100%">
-							<div class="card shadow" style="width:100%">
-								<div class="card-body">
-									<div class="h4 font-weight-bold text-danger">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-											class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16">
-											<path
-												d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098L9.05.435zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-										</svg>
-										작가 검색 결과
-									</div>
-									<div class="author_search_res">
-										
-									</div>
-								</div>
-							</div>
+						<div class="row d-flex mt-2">
+
 						</div>
 					</div>
 				</div>

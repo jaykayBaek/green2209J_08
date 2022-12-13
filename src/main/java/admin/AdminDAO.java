@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import book.AuthorProfileVO;
+import book.BookVO;
 import conn.GetConn;
 
 public class AdminDAO {
@@ -139,5 +140,74 @@ public class AdminDAO {
 			getConn.rsClose();
 		}
 		return finalObject;
+	}
+
+	public String setBookInfo(BookVO bookVo) {
+		String res = "0";
+		try {
+			sql="INSERT INTO j_book "
+					+ "VALUES(DEFAULT, ?,?,?,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bookVo.getTitle());
+			pstmt.setString(2, bookVo.getPublisher());
+			pstmt.setString(3, bookVo.getDatePublishing());
+			pstmt.setString(4, bookVo.getIsbn());
+			pstmt.setString(5, bookVo.getTextContent());
+			pstmt.setString(6, bookVo.getCategorySub());
+			pstmt.setString(7, bookVo.getImgSaved());
+			pstmt.setString(8, bookVo.getCategoryMain());
+			pstmt.setString(9, bookVo.getCategoryNation());
+			pstmt.executeUpdate();
+			res="1";
+		} catch (SQLException e) {
+			System.out.println("setBookInfo"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+
+	public String getIdxBook(String isbn) {
+		String idx = "";
+		try {
+			sql = "SELECT idx "
+					+ "FROM j_book "
+					+ "WHERE isbn = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, isbn);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				idx = rs.getString("idx");
+			}
+		} catch (SQLException e) {
+			System.out.println("getIdxBook"+sql);
+			System.out.println(e.getMessage());
+		}
+		return idx;
+	}
+
+	public String setBookAuthorInfo(String idxBook, String[] idxAuthorArr) {
+		String res = "0";
+		try {
+			sql="INSERT INTO j_book_author "
+					+ "VALUES(?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			for(int i=0; i<idxAuthorArr.length; i++) {
+				pstmt.setString(1, (""+i));
+				pstmt.setString(2, idxAuthorArr[i]);
+				pstmt.setString(3, idxBook);
+				pstmt.executeUpdate();
+			}
+			res="1";
+		} catch (SQLException e) {
+			System.out.println("setBookInfo"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		return res;
 	}
 }

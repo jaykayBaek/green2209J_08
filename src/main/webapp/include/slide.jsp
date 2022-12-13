@@ -55,7 +55,7 @@
       background-color: #000;
     }
 </style>
-<div class="container-fluid">
+<div class="container">
    <div id="carouselMain" class="carousel slide p-0" data-ride="carousel">
      <div class="carousel-inner">
        <div class="carousel-item ad-1 active" data-interval="5000">

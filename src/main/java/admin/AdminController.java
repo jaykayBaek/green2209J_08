@@ -60,6 +60,11 @@ public class AdminController extends HttpServlet {
 			command.execute(request, response);
 			return;
 		}
+		else if(com.equals("/setBookInfo")) {
+			command = new SetBookInfoCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 	}

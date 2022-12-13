@@ -48,7 +48,7 @@
     }
   </style>
 </head>
-<body>
+<!-- <body>
   <div class="top">
     <img src="../images/popup.png" alt="크리스마스 이벤트 홍보지" width="400px"/>
   </div>
@@ -68,4 +68,4 @@
   	</div>
   </div>
 </body>
-</html>
+</html> -->

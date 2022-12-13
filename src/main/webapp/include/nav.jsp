@@ -51,35 +51,32 @@
     }
     
 </style>
-<header>
-	 <div class="container d-flex justify-content-end align-items-center">
-	 <c:if test="${grade == 99}">
-		<a href="${ctp}/loginBefore.member" class="text-decoration-none">
-			<div class="mr-2 mt-2 font-weight-bold sign_text">
-			  로그인
-			</div>
-		</a>
-		<a href="${ctp}/signBefore.member" class="text-decoration-none">
-			<div class="mr-2 mt-2 font-weight-bold sign_text">
-			  회원가입
-			</div>
-		</a>
-	 </c:if>
- 	 <c:if test="${grade == 0}">
-		<a href="${ctp}/adMain.ad" class="text-decoration-none">
-			<div class="mt-2 font-weight-bold sign_text">
-			  관리자모드
-			</div>
-		</a>
-	 </c:if>
- 	 <c:if test="${grade <= 1 || grade<5}">
-		<div class="mt-2 sign_text">
-		  안녕하세요, ${fn:substring(sEmail,0,fn:indexOf(sEmail,"@"))}님?
+<div class="container d-flex justify-content-end align-items-center">
+<c:if test="${grade == 99}">
+	<a href="${ctp}/loginBefore.member" class="text-decoration-none">
+		<div class="mr-2 mt-2 font-weight-bold sign_text">
+		  로그인
 		</div>
-	 </c:if>
+	</a>
+	<a href="${ctp}/signBefore.member" class="text-decoration-none">
+		<div class="mr-2 mt-2 font-weight-bold sign_text">
+		  회원가입
+		</div>
+	</a>
+ </c:if>
+	 <c:if test="${grade == 0}">
+	<a href="${ctp}/adMain.ad" class="text-decoration-none">
+		<div class="mt-2 font-weight-bold sign_text">
+		  관리자모드
+		</div>
+	</a>
+ </c:if>
+	 <c:if test="${grade <= 1 || grade<5}">
+	<div class="mt-2 sign_text">
+	  안녕하세요, ${fn:substring(sEmail,0,fn:indexOf(sEmail,"@"))}님?
 	</div>
-</header>
-
+ </c:if>
+</div>
 <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
   <div class="container justify-content-center">
     <!-- 로고 -->

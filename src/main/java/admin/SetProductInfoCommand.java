@@ -17,6 +17,7 @@ public class SetProductInfoCommand implements AdminInterface {
 		String priceEbook = request.getParameter("priceEbook")==null?"":request.getParameter("priceEbook");
 		String rateDiscount = request.getParameter("rateDiscount")==null?"":request.getParameter("rateDiscount");
 		int canReader = Integer.parseInt(request.getParameter("canReader"));
+		int idxSeries = request.getParameter("idxSeries")==null?0:Integer.parseInt(request.getParameter("idxSeries"));
 		
 		ProductVO vo = new ProductVO();
 		vo.setIdx(idx);
@@ -24,6 +25,7 @@ public class SetProductInfoCommand implements AdminInterface {
 		vo.setPriceEbook(priceEbook);
 		vo.setRateDiscount(rateDiscount);
 		vo.setCanReader(canReader);
+		vo.setIdxSeries(idxSeries);
 		
 		AdminDAO dao = new AdminDAO();
 		String res = dao.setProductInfo(vo);

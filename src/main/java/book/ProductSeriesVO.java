@@ -4,10 +4,9 @@ public class ProductSeriesVO {
 	private int idx;
 	private String titleSeries;
 	private String priceSeries;
-	private String rateDiscout;
+	private String rateDiscount;
 	private String isbnSeries;
 	private String imgSaved;
-	
 	public int getIdx() {
 		return idx;
 	}
@@ -26,11 +25,11 @@ public class ProductSeriesVO {
 	public void setPriceSeries(String priceSeries) {
 		this.priceSeries = priceSeries;
 	}
-	public String getRateDiscout() {
-		return rateDiscout;
+	public String getRateDiscount() {
+		return rateDiscount;
 	}
-	public void setRateDiscout(String rateDiscout) {
-		this.rateDiscout = rateDiscout;
+	public void setRateDiscount(String rateDiscount) {
+		this.rateDiscount = rateDiscount;
 	}
 	public String getIsbnSeries() {
 		return isbnSeries;
@@ -47,8 +46,8 @@ public class ProductSeriesVO {
 	@Override
 	public String toString() {
 		return "ProductSeriesVO [idx=" + idx + ", titleSeries=" + titleSeries + ", priceSeries=" + priceSeries
-				+ ", rateDiscout=" + rateDiscout + ", isbnSeries=" + isbnSeries + ", imgSaved=" + imgSaved + "]";
+				+ ", rateDiscount=" + rateDiscount + ", isbnSeries=" + isbnSeries + ", imgSaved=" + imgSaved + "]";
 	}
-	
+
 	
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.simple.JSONArray;
@@ -308,7 +309,7 @@ public class AdminDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitleSeries());
 			pstmt.setString(2, vo.getPriceSeries());
-			pstmt.setString(3, vo.getRateDiscout());
+			pstmt.setString(3, vo.getRateDiscount());
 			pstmt.setString(4, vo.getIsbnSeries());
 			pstmt.setString(5, vo.getImgSaved());
 			pstmt.executeUpdate();
@@ -320,5 +321,31 @@ public class AdminDAO {
 			getConn.pstmtClose();
 		}
 		return res;
+	}
+
+	public ArrayList<ProductSeriesVO>  getSeriesIdxByTitle(String seriesTitle) {
+		ArrayList<ProductSeriesVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT * "
+					+ "FROM j_product_series "
+					+ "WHERE title_series like ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+seriesTitle+"%");
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				ProductSeriesVO vo = new ProductSeriesVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setTitleSeries(rs.getString("title_series"));
+				vo.setPriceSeries(rs.getString("price_series"));
+				vo.setRateDiscount(rs.getString("rate_discount"));
+				vo.setIsbnSeries(rs.getString("isbn_series"));
+				vo.setImgSaved(rs.getString("img_saved"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getIdxBook"+sql);
+			System.out.println(e.getMessage());
+		}
+		return vos;
 	}
 }

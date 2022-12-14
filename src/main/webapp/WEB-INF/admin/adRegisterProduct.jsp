@@ -83,23 +83,45 @@
 		}
 		let series_input = () => {
 			$(".input_series").html(`
-				<div class="alert alert-success author_res_wrap" role="alert" style="">
+				<div class="alert alert-success series_input_wrap" role="alert" style="">
 					<h4 class="alert-heading">등록을 원하는 시리즈의 제목을 입력하세요.</h4>
 					<hr>
-					<div><input type="text" name="inputSeries" id="input_series"/><buttorn type="button" onclick="returnIdxBySeriesTitle()"></button></div>
+					<div><input type="text" id="input_series"/><button type="button" onclick="returnIdxBySeriesTitle()">검색하기</button></div>
+					<div class="series_search_res"></div>
+					<div>
+						<h4 class="alert-heading">등록을 원하는 시리즈의 고유번호를 입력하세요.</h4>
+						<input type="text" name="idxSeries" id="idx_series"/>
+						<hr>
+					</div>
 				</div>
 			`);
 		}
 		let returnIdxBySeriesTitle = () =>{
 			let seriesTitle = $("#input_series").val();
 			$.ajax({
-				type:"post",
-				url :"${ctp}/getSeriesIdxByTitle.ad",
-				data:{seriesTitle:seriesTitle},
-				success:function(data) {
-					
-				},
-				type:"post"
+	    		type   : "post",
+	    		url    : "${ctp}/getSeriesIdxByTitle.ad",
+	    		data : {seriesTitle:seriesTitle},
+	    		success:function(data) {
+		    			let dataParsed = JSON.parse(data);
+			    		console.log(dataParsed);
+			    		
+	  	    			if(dataParsed.series==0){
+	  	    				alert("입력한 자료가 없습니다!");
+	 	    			}
+						let divRes="";
+		    			for(let i in dataParsed.series){
+	    					let idx = dataParsed.series[i].idx;
+	    					let title = dataParsed.series[i].titleSeries;
+	    					let price = dataParsed.series[i].priceSeries;
+	    					let rateDiscount = dataParsed.series[i].rateDiscount;
+	    					let isbn = dataParsed.series[i].isbnSeries;
+	    					let imgSaved = dataParsed.series[i].imgSaved;
+	    					divRes += '<div class="row border-bottom border-success"><div class="col-2">'+idx+'</div><div class="col-2">'+title+'</div><div class="col-2">'+price+'</div><div classcol-2">'+rateDiscount+'</div><div classcol-2">'+isbn+'</div></div><div class="row text-center" style="width:200px"><img src="${ctp}/data/books/'+imgSaved+'" class="img-fluid img-thumbnail" alt="도서표지"><input type="hidden" value="'+idx+' name="idxBookHiden""/><input type="hidden" value="'+isbn+' name="isbn"/></div>';
+		    			}
+    					
+	     				$('.series_search_res').html('<div class="row border-bottom border-success"><div class="col-2">고유번호</div><div class="col-2">ISBN</div><div class="col-2">시리즈제목</div><div class="col-2">시리즈가격</div><div class="col-2">시리즈할인%</div><div class="col-2">isbn</div></div>'+divRes);
+	    		},
 			});
 		}
 	</script>
@@ -213,9 +235,8 @@
 
 </head>
 <body>
-	<div class = "container-fluid d-flex">
-	
-	    <jsp:include page="/include/adNav.jsp"/>
+    <div class="container-fluid d-flex">
+        <jsp:include page="/include/adNav.jsp" />
         <!-- 관리자 메인뷰 -->
         <div class="col-10 d-flex flex-column mt-2">
             <!-- 관리자 메인뷰의 메뉴판(검색창, 메시지, 알림) -->
@@ -273,72 +294,83 @@
                         <div class="row d-flex flex-column">
                             <div class="col">
                                 <div class="card shadow">
-	                                <form name="enrollProductForm" method="post" action="${ctp}/setProductInfo.ad">
-	                                    <div class="card-body">
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">상품 등록할 도서 검색(ISBN)</div>
-	                                            <div class="col">
-	                                            	<input type="text" name="isbn" id="input_serach_isbn" placeholder="도서의 isbn으로 검색해주세요"/>
-			                                        <div class="mt-2 search_isbn">
-														<div class="alert alert-success product_search_wrap" role="alert">
-															<h4 class="alert-heading">도서검색 결과</h4>
-															<hr/>
-															<div class="book_search_res">
-															</div>
-														</div>
-			                                        </div>
-	                                            </div>
-	                                        </div>
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">상품 등록할 도서 고유번호로 입력</div>
-	                                            <div class="col">
-	                                            	<input type="text" name="idxBook" id="input_idx_book" placeholder="도서의 고유번호로 입력해주세요"/>
-			                                        <div class="mt-2 search_idx">
-														<div class="alert alert-success product_search_wrap" role="alert">
-															<h4 class="alert-heading">도서입력 결과</h4>
-															<hr/>
-															<div class="product_input_res">
-															</div>
-														</div>
-			                                        </div>
-	                                            </div>
-	                                        </div>
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">판매할 도서의 종이책 정가</div>
-	                                            <div class="col"><input type="number" name="pricePaper" id="price_paper" placeholder="선택 입력사항"/></div>
-	                                        </div>
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">판매할 도서의 전자책 가격</div>
-	                                            <div class="col"><input type="number" name="priceEbook" id="price_ebook" placeholder="필수 입력사항"/></div>
-	                                        </div>
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">할인율</div>
-	                                            <div class="col"><input type="number" name="rateDiscount" id="rate_discount" placeholder="5 입력 시 할인율 5% 적용" /></div>
-	                                        </div>
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">시리즈 등록</div>
-	                                            <div class="col">
-	                                            	<button type="button" class="form-control" onclick="series_input()">시리즈 등록하기</button>
-		                                        	<div class="input_series mt-3"></div>
-	                                            </div>
-	                                        </div>
-	                                        <div class="book_input row mb-2">
-	                                            <div class="col-3 input_label">듣기 가능 여부</div>
-	                                            <div class="col mb-1 d-flex align-items-center">
-		                                            <i class="fa-solid fa-headphones h3 mr-2"></i>
-		                                            <span class="mr-2">가능</span>
-		                                            <input type="radio" name="canReader" id="canReaderY" class="reader mr-2" value="1">
-		                                            <i class="fa-solid fa-headphones h3 mr-2"></i>
-		                                            <span class="mr-2">불가능</span>
-		                                            <input type="radio" name="canReader" id="canReaderN" class="reader" value="0">
-	                                            </div>
-	                                        </div>
-	                                    </div>
-	                                    <div class="col btn-group">
-	                                        <button type="button" onclick="enrollProduct()" class="btn btn-success btn-lg">등록하기</button>
-	                                        <button type="reset" class="btn btn-warning btn-lg">다시입력</button>
-	                                    </div>
-	                                </form>
+                                    <form name="enrollProductForm" method="post" action="${ctp}/setProductInfo.ad">
+                                        <div class="card-body">
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">상품 등록할 도서 검색(ISBN)</div>
+                                                <div class="col">
+                                                    <input type="text" name="isbn" id="input_serach_isbn"
+                                                        placeholder="도서의 isbn으로 검색해주세요" />
+                                                    <div class="mt-2 search_isbn">
+                                                        <div class="alert alert-success product_search_wrap"
+                                                            role="alert">
+                                                            <h4 class="alert-heading">도서검색 결과</h4>
+                                                            <hr />
+                                                            <div class="book_search_res">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">상품 등록할 도서 고유번호로 입력</div>
+                                                <div class="col">
+                                                    <input type="text" name="idxBook" id="input_idx_book"
+                                                        placeholder="도서의 고유번호로 입력해주세요" />
+                                                    <div class="mt-2 search_idx">
+                                                        <div class="alert alert-success product_search_wrap"
+                                                            role="alert">
+                                                            <h4 class="alert-heading">도서입력 결과</h4>
+                                                            <hr />
+                                                            <div class="product_input_res">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">판매할 도서의 종이책 정가</div>
+                                                <div class="col"><input type="number" name="pricePaper" id="price_paper"
+                                                        placeholder="선택 입력사항" /></div>
+                                            </div>
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">판매할 도서의 전자책 가격</div>
+                                                <div class="col"><input type="number" name="priceEbook" id="price_ebook"
+                                                        placeholder="필수 입력사항" /></div>
+                                            </div>
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">할인율</div>
+                                                <div class="col"><input type="number" name="rateDiscount"
+                                                        id="rate_discount" placeholder="5 입력 시 할인율 5% 적용" /></div>
+                                            </div>
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">시리즈 등록</div>
+                                                <div class="col">
+                                                    <button type="button" class="form-control"
+                                                        onclick="series_input()">시리즈 등록하기</button>
+                                                    <div class="input_series mt-3"></div>
+                                                </div>
+                                            </div>
+                                            <div class="book_input row mb-2">
+                                                <div class="col-3 input_label">듣기 가능 여부</div>
+                                                <div class="col mb-1 d-flex align-items-center">
+                                                    <i class="fa-solid fa-headphones h3 mr-2"></i>
+                                                    <span class="mr-2">가능</span>
+                                                    <input type="radio" name="canReader" id="canReaderY"
+                                                        class="reader mr-2" value="1">
+                                                    <i class="fa-solid fa-headphones h3 mr-2"></i>
+                                                    <span class="mr-2">불가능</span>
+                                                    <input type="radio" name="canReader" id="canReaderN" class="reader"
+                                                        value="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col btn-group">
+                                            <button type="button" onclick="enrollProduct()"
+                                                class="btn btn-success btn-lg">등록하기</button>
+                                            <button type="reset" class="btn btn-warning btn-lg">다시입력</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -389,7 +421,6 @@
                                     <p>
                                         도서 등록은 도서의 정보를 기입한 것일 뿐입니다! 도서 등록 이후에 해당 도서를 판매하고 싶으시다면, 상품 등록에서 처리해주세요.
                                     </p>
-
                                 </div>
                             </div>
                         </div>
@@ -397,5 +428,6 @@
                 </div>
             </div>
         </div>
+    </div>
 </body>
 </html>

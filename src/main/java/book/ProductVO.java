@@ -7,6 +7,7 @@ public class ProductVO {
 	private String priceEbook;
 	private String rateDiscount;
 	private int canReader;
+	private int idxSeries;
 	public int getIdx() {
 		return idx;
 	}
@@ -43,10 +44,17 @@ public class ProductVO {
 	public void setCanReader(int canReader) {
 		this.canReader = canReader;
 	}
+	public int getIdxSeries() {
+		return idxSeries;
+	}
+	public void setIdxSeries(int idxSeries) {
+		this.idxSeries = idxSeries;
+	}
 	@Override
 	public String toString() {
 		return "ProductVO [idx=" + idx + ", idxBook=" + idxBook + ", pricePaper=" + pricePaper + ", priceEbook="
-				+ priceEbook + ", rateDiscount=" + rateDiscount + ", canReader=" + canReader + "]";
+				+ priceEbook + ", rateDiscount=" + rateDiscount + ", canReader=" + canReader + ", idxSeries="
+				+ idxSeries + "]";
 	}
 	
 }

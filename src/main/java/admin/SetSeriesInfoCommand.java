@@ -30,7 +30,7 @@ public class SetSeriesInfoCommand implements AdminInterface {
 		ProductSeriesVO vo = new ProductSeriesVO();
 		vo.setTitleSeries(title);
 		vo.setPriceSeries(price);
-		vo.setRateDiscout(rateDiscount);
+		vo.setRateDiscount(rateDiscount);
 		vo.setIsbnSeries(isbnSeries);
 		vo.setImgSaved(imgSaved);
 		

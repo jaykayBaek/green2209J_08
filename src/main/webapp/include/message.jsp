@@ -29,6 +29,10 @@
     /*--- 어드민 ---*/
     else if(msg == "failEnrollBook") msg = "도서를 등록하지 못했습니다. 서버의 상태나, 양식을 다시 확인해주세요.";
     else if(msg == "successEnrollBook") msg = "도서 등록을 성공했습니다. 판매를 원한다면 상품등록을 해주세요.";
+    else if(msg == "failEnrollProduct") msg = "상품 등록하지 못했습니다. 서버의 상태나, 양식을 다시 확인해주세요.";
+    else if(msg == "successEnrollProduct") msg = "상품 등록을 성공했습니다.";
+    else if(msg == "successEnrollSeries") msg = "시리즈 등록을 성공했습니다.";
+    else if(msg == "failEnrollSeries") msg = "시리즈 등록에 실패했습니다. 서버의 상태나, 양식을 다시 확인해주세요.";
     
     alert(msg);
     if(url != "") location.href = url;

@@ -21,7 +21,7 @@
     }
 
     .carousel-item {
-      height: 50vh;
+      height: 25vh;
     }
 
     .btn:active,

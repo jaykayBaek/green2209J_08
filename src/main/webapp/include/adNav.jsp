@@ -118,13 +118,16 @@
             <div class="collapse_sales_wrap bg-white rounded">
                 <ul class="collapse collapse_book" id="collapse_book">
                     <li class="nav_cont">
+                    	<a href="${ctp}/adRegisterAuthor.ad">작가등록</a>
+                    </li>
+                    <li class="nav_cont">
                     	<a href="${ctp}/adRegisterBook.ad">도서등록</a>
                     </li>
                     <li class="nav_cont">
                     	<a href="${ctp}/adRegisterProduct.ad">상품등록</a>
                     </li>
                     <li class="nav_cont">
-                    	<a href="${ctp}/adRegisterAuthor.ad">작가등록</a>
+                    	<a href="${ctp}/adRegisterSeries.ad">시리즈 등록</a>
                     </li>
                     <li class="nav_cont">도서수정/삭제</li>
                     <li class="nav_cont">상품수정/삭제</li>

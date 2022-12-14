@@ -43,6 +43,9 @@ public class AdminController extends HttpServlet {
 		else if(com.equals("/adRegisterAuthor")) {
 			viewPage += "/adRegisterAuthor.jsp";
 		}
+		else if(com.equals("/adRegisterSeries")) {
+			viewPage += "/adRegisterSeries.jsp";
+		}
 		
 		/* --- 커맨드 호출 등 작업 ---*/
 		else if(com.equals("/inputAuthorInfo")) {
@@ -64,6 +67,31 @@ public class AdminController extends HttpServlet {
 			command = new SetBookInfoCommand();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/setProductInfo")) {
+			command = new SetProductInfoCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/getBookInfoByIsbn")) {
+			command = new GetBookInfoByIsbnCommand();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/getBookInfoByIdx")) {
+			command = new GetBookInfoByIdxCommand();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/setSeriesInfo")) {
+			command = new SetSeriesInfoCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/getSeriesIdxByTitle")) {
+			command = new GetSeriesIdxByTitleCommand();
+			command.execute(request, response);
+			return;
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

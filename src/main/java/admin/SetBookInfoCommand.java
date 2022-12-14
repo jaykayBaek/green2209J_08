@@ -15,11 +15,11 @@ public class SetBookInfoCommand implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//서버에 저장될 파일의 경로
 		String realPath = request.getServletContext().getRealPath("/data/books");
 		int maxSize = 1024 * 1024 * 10; //파일업로드 시 최대 용량= 10MB
 		String encoding = "UTF-8";
 		MultipartRequest multipartRequest = new MultipartRequest(request, realPath, maxSize, encoding, new DefaultFileRenamePolicy());
+		
 		String imgSaved = multipartRequest.getFilesystemName("bookImg"); //서버에 저장된 파일명
 		
 		String title = multipartRequest.getParameter("title")==null? "" : multipartRequest.getParameter("title");

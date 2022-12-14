@@ -38,7 +38,6 @@
 	    		},
 	    		success:function(data) {
  	    			let dataParsed = JSON.parse(data);
- 	    			console.log("1"+dataParsed);
  	    			
   	    			if(dataParsed.author.length==0){
 	     				$('.author_search_res').load(location.href+' .author_search_res');

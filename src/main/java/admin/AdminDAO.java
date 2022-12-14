@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 
 import book.AuthorProfileVO;
 import book.BookVO;
+import book.ProductSeriesVO;
+import book.ProductVO;
 import conn.GetConn;
 
 public class AdminDAO {
@@ -206,6 +208,115 @@ public class AdminDAO {
 			System.out.println(e.getMessage());
 		}
 		finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+
+	public BookVO getBookInfoByIsbn(String isbn) {
+		BookVO vo = new BookVO();
+		try {
+			sql = "SELECT * FROM j_book "
+					+ "WHERE isbn = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, isbn);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setTitle(rs.getString("title"));
+				vo.setPublisher(rs.getString("publisher"));
+				vo.setDatePublishing(rs.getString("date_publishing"));
+				vo.setIsbn(rs.getString("isbn"));
+				vo.setTextContent(rs.getString("text_content"));
+				vo.setCategorySub(rs.getString("category_sub"));
+				vo.setImgSaved(rs.getString("img_saved"));
+				vo.setCategoryMain(rs.getString("category_main"));
+				vo.setCategoryNation(rs.getString("category_nation"));
+			}
+		} catch (SQLException e) {
+			System.out.println("getBookInfoByIsbn"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return vo;
+	}
+
+	public BookVO getBookInfoByIdx(String idxBook) {
+		BookVO vo = new BookVO();
+		try {
+			sql = "SELECT * FROM j_book "
+					+ "WHERE idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, idxBook);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setTitle(rs.getString("title"));
+				vo.setPublisher(rs.getString("publisher"));
+				vo.setDatePublishing(rs.getString("date_publishing"));
+				vo.setIsbn(rs.getString("isbn"));
+				vo.setTextContent(rs.getString("text_content"));
+				vo.setCategorySub(rs.getString("category_sub"));
+				vo.setImgSaved(rs.getString("img_saved"));
+				vo.setCategoryMain(rs.getString("category_main"));
+				vo.setCategoryNation(rs.getString("category_nation"));
+			}
+		} catch (SQLException e) {
+			System.out.println("getBookInfoByIsbn"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return vo;
+	}
+
+	public String setProductInfo(ProductVO vo) {
+		String res = "0";
+		try {
+			sql="INSERT INTO j_product "
+					+ "VALUES(DEFAULT,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getIdxBook());
+			pstmt.setString(2, vo.getPricePaper());
+			pstmt.setString(3, vo.getPriceEbook());
+			pstmt.setString(4, vo.getRateDiscount());
+			pstmt.setInt(5, vo.getCanReader());
+			pstmt.executeUpdate();
+			res="1";
+		} catch (SQLException e) {
+			System.out.println("setProductInfo"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+
+	public String setSeriesInfo(ProductSeriesVO vo) {
+		String res = "0";
+		try {
+			sql = "INSERT INTO j_product_series "
+					+ "VALUES(DEFAULT, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getTitleSeries());
+			pstmt.setString(2, vo.getPriceSeries());
+			pstmt.setString(3, vo.getRateDiscout());
+			pstmt.setString(4, vo.getIsbnSeries());
+			pstmt.setString(5, vo.getImgSaved());
+			pstmt.executeUpdate();
+			res = "1";
+		} catch (SQLException e) {
+			System.out.println("setSeriesInfo"+sql);
+			System.out.println(e.getMessage());
+		} finally {
 			getConn.pstmtClose();
 		}
 		return res;

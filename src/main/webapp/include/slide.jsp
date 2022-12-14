@@ -21,7 +21,7 @@
     }
 
     .carousel-item {
-      height: 25vh;
+      height: 50vh;
     }
 
     .btn:active,
@@ -55,7 +55,7 @@
       background-color: #000;
     }
 </style>
-<div class="container">
+<div class="container-fluid">
    <div id="carouselMain" class="carousel slide p-0" data-ride="carousel">
      <div class="carousel-inner">
        <div class="carousel-item ad-1 active" data-interval="5000">
@@ -71,9 +71,10 @@
                <strong>리딩북스의 특별한 연말 선물을 지금 확인하세요</strong>
              </div>
              <picture>
-               <a href="https://www.animatedimages.org/cat-presents-and-gifts-505.htm"><img
-                   src="https://www.animatedimages.org/data/media/505/animated-present-and-gift-image-0048.gif"
-                   border="0" alt="animated-present-and-gift-image-0048" /></a>
+	             <a href="https://www.animatedimages.org/cat-presents-and-gifts-505.htm"><img
+	                 src="https://www.animatedimages.org/data/media/505/animated-present-and-gift-image-0048.gif"
+	                 border="0" alt="animated-present-and-gift-image-0048" />
+	             </a>
              </picture>
            </div>
          </a>

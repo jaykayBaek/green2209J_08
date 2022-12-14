@@ -1,55 +1,194 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
-	<style>
-	  body>section {
-	    text-decoration: none !important;
-	  }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+<style>
+	section {
+		text-decoration: none !important;
+	}
 	
-	  article {
-	    height: 50vh;
-	  }
-	</style>
+/* 	.swiper-hotbook{
+    	height: 60%;
+	} */
+	.swiper-wrapper{
+    	height: 60%;
+	}
+    .swiper-slide {
+		text-align: center;
+		background: #fff;
+		/* Center slide text vertically */
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		-webkit-align-items: center;
+		align-items: center;
+	}
+	.swiper-slide img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	
+	.swiper-button-next::after,
+	.swiper-button-prev::after {
+		display: none;
+	}
+	.swiper-button{
+		color:#fff;
+		width: 36px;
+		height: 36px;
+		background-color: #000;
+		border-radius: 50%;
+	}
+</style>
 </head>
 
-<body>
   <section>
-    <article class="bestseller">
-      <div class="container">
-        <h2 class="h4 font-weight-bold">베스트셀러 🔥</h2>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores, necessitatibus modi numquam nemo aspernatur
-        corrupti, a soluta nobis explicabo ratione, blanditiis nisi voluptates. Fuga explicabo dolorem placeat corrupti
-        quisquam molestias.
-        Sequi eos corporis quod culpa, quam quibusdam mollitia accusamus cupiditate labore soluta hic ab voluptatum
-        suscipit vel accusantium eligendi minus aliquid consequuntur repudiandae. Provident porro optio ea tempora iure
-        impedit.
-        Incidunt id accusamus dolorem voluptatum facere facilis praesentium esse asperiores numquam. Nesciunt aliquid,
-        eum quasi enim assumenda ea neque doloremque itaque, illo optio corrupti, provident hic eius error impedit id.
-        Ea voluptas nam quaerat repellat officiis recusandae optio dolor nostrum sunt perferendis vel quidem, ullam
-        facilis odio reiciendis mollitia debitis tenetur! Sunt aliquid ducimus itaque quibusdam quidem alias ipsum id?
-      </div>
-    </article>
-    <article class="newbooks">
-
-    </article>
     <article class="hotbooks">
-      <div class="container">
-        <h2 class="h4 font-weight-bold">지금 많이 보는 책 🙄</h2>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores, necessitatibus modi numquam nemo aspernatur
-        corrupti, a soluta nobis explicabo ratione, blanditiis nisi voluptates. Fuga explicabo dolorem placeat corrupti
-        quisquam molestias.
-        Sequi eos corporis quod culpa, quam quibusdam mollitia accusamus cupiditate labore soluta hic ab voluptatum
-        suscipit vel accusantium eligendi minus aliquid consequuntur repudiandae. Provident porro optio ea tempora iure
-        impedit.
-        Incidunt id accusamus dolorem voluptatum facere facilis praesentium esse asperiores numquam. Nesciunt aliquid,
-        eum quasi enim assumenda ea neque doloremque itaque, illo optio corrupti, provident hic eius error impedit id.
-        Ea voluptas nam quaerat repellat officiis recusandae optio dolor nostrum sunt perferendis vel quidem, ullam
-        facilis odio reiciendis mollitia debitis tenetur! Sunt aliquid ducimus itaque quibusdam quidem alias ipsum id?
-      </div>
+		<div class="container-fluid">
+		  <h2 class="h4 font-weight-bold">지금 핫한 도서 🔥</h2>
+		  <div class="swiper hotSwiper">
+		      <div class="swiper-wrapper swiper-hotbook">
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781104996.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781105009.jpg" alt="">
+		          </div>
+		          <div>
+		            <span >개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781105016.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781106303.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781106341.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781106389.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781106426.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781104996.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781104996.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781104996.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781104996.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		        <div class="swiper-slide d-flex flex-column text-left">
+		          <div>
+		            <img src="images/9781781104996.jpg" alt="">
+		          </div>
+		          <div>
+		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
+		          </div>
+		        </div>
+		      </div>
+		    <div class="swiper-button-next swiper-button shadow-lg">
+		      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+		        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+		      </svg>
+		    </div>
+		    <div class="swiper-button-prev swiper-button shadow-lg">
+		      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+		        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+		      </svg>
+		    </div>
+		</div>
+	</div>
+    <script>
+      var swiper = new Swiper(".hotSwiper", {
+        slidesPerView: 5.5,
+        spaceBetween: 15,
+        slidesPerGroup: 6,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
     </article>
     <article class="age">
-      <div class="container">
-        <h2 class="h4 font-weight-bold">내 나이대에 많이 읽는 책 ✨</h2>
+      <div class="container-fluid">
+        <h2 class="h4 font-weight-bold">내 나이대에 많이 읽는 도서는? ✨</h2>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores, necessitatibus modi numquam nemo aspernatur
         corrupti, a soluta nobis explicabo ratione, blanditiis nisi voluptates. Fuga explicabo dolorem placeat corrupti
         quisquam molestias.
@@ -62,4 +201,3 @@
         facilis odio reiciendis mollitia debitis tenetur! Sunt aliquid ducimus itaque quibusdam quidem alias ipsum id?
       </div>
     </article>
-  </section>

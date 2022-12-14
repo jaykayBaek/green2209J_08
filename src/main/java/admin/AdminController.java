@@ -27,7 +27,7 @@ public class AdminController extends HttpServlet {
 		int grade = session.getAttribute("sGrade")==null ? 99 : (int) session.getAttribute("sGrade");
 		
 		if(grade >= 99) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
 			dispatcher.forward(request, response);
 		}
 		/*--- 사이트 접속 ---*/

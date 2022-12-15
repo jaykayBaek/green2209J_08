@@ -10,7 +10,7 @@
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
 	
     <style>
-    body,h1,h2,h3,h4,h5,h6,span,div,strong {
+    body,h1,h2,h3,h4,h5,h6,span,div,strong, a {
         font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
         text-decoration: none !important;
     }
@@ -115,6 +115,15 @@
     	font-size:1rem;
     	background-color:#007f5f;
     }
+    .author-category-wrap{
+    	font-size:1rem;
+    }
+    .book-info{
+    	border-bottom: 1px solid #ced4da;
+    }
+    .author-profile-box{
+    	border-right: 1px solid #ced4da;
+    }
     </style>
 </head>
 <body>
@@ -140,9 +149,15 @@
                             ⭐4.5점 (862명)
                         </p>
                         <p>
-                            <span><b>조앤.K.롤링 저</b></span>
-                            <span>강동혁 역</span><br/>
-                            <span>${bookInfoVo.publisher} 출판</span>
+                        	<c:forEach var="vo" items="${authorVos}">
+                        		<c:if test="${vo.role == '작가'}">
+		                            <span><b>${vo.nameAuthor}</b> 저</span>
+                        		</c:if>
+                        		<c:if test="${vo.role == '번역가'}">
+		                            <span><b>${vo.nameAuthor}</b> 역</span>
+                        		</c:if>
+                        	</c:forEach>
+	                        <div>${bookInfoVo.publisher} 출판</div>
                         </p>
                     </div>
                     <table width="100%" class="info-table border-top border-bottom">
@@ -208,7 +223,7 @@
             <c:if test="${bookInfoVo.idxProductSeries!=1}">
 				<div class="row mt-3">
 	                <div class="title-info">
-	                    <span class="h4 font-weight-bold">이 책의 시리즈</span>
+	                    <h4 class="h4 font-weight-bold">이 책의 시리즈</h4>
 	                </div>
 		                <div class="book-info float-left">
 		                	<div class="img-series" style="width:150px">
@@ -230,7 +245,7 @@
 	            	</div>
 	            <div class="row mt-3">
 	                <div class="title-info">
-	                    <span class="h4 font-weight-bold">시리즈에 포함된 상품</span>
+	                    <h4 class="h4 font-weight-bold">시리즈에 포함된 상품</h4>
 	                </div>
 	                <div class="book-info-series d-flex flex-row">
 	                	<c:forEach var="vo" items="${seriesVos}" varStatus="st">
@@ -249,7 +264,7 @@
             
             <div class="row mt-3">
                 <div class="title-info">
-                    <span class="h4 font-weight-bold">작품 소개</span>
+                    <h4 class="h4 font-weight-bold">작품 소개</h4>
                 </div>
                 <div class="book-info">
                 	${bookInfoVo.textIntroduce}
@@ -257,13 +272,56 @@
             </div>
             <div class="row">
                 <div class="title-info">
-                    <span class="h4 font-weight-bold">저자 프로필</span>
+                    <h4 class="h4 font-weight-bold">저자 프로필&nbsp</h4>
                 </div>
                 <div class="book-info">
-                    
+                	<div>
+	                    <ul class="d-flex author-category-wrap p-2">
+		                   	<li class="author-profile-box">
+		                   		<ul class="d-flex align-items-center">
+			                    	<span class="font-weight-bold">저자&nbsp</span>
+			                    	<c:forEach var="vo" items="${authorVos}" varStatus="st">
+			                    		<c:if test="${vo.role == '작가'}">
+			    	               			<li>
+				    	                		<span>${vo.nameAuthor}&nbsp</span>
+				    	                		<input type="hidden" value="${vo.idx}" id="a${st.count}"/>
+			        	           			</li>
+			                    		</c:if>
+			                    	</c:forEach>
+		                   		</ul>
+		                   	</li>
+		                   	<li>
+		                   		<ul class="d-flex align-items-center">
+			                    	<span class="font-weight-bold">번역가&nbsp</span>
+			                    	<c:forEach var="vo" items="${authorVos}">
+			                    		<c:if test="${vo.role == '번역가'}">
+			    	               			<li>
+			    	               				<a href="${vo.idx}">
+				    	                			<span>${vo.nameAuthor}&nbsp</span>
+				    	                			<input type="hidden" value="${vo.idx}"/>
+				    	                		</a>
+			        	           			</li>
+			                    		</c:if>
+			                    	</c:forEach>
+		                   		</ul>
+	                  		</li>
+	                    </ul>
+					</div>
                 </div>
             </div>
-            
+            <div class="row">
+                <div class="title-info">
+                    <h4 class="h4 font-weight-bold">저자 소개</h4>
+                </div>
+				<div>
+					<c:forEach var="vo" items="${authorVos}">
+						<p>
+							<h5 class="h5 font-weight-bold">${vo.nameAuthor}</h5>
+							${vo.introduceText}
+						</p>
+					</c:forEach>
+				</div>
+			</div>
 
             <div class="row">
                 <div class="title-info">
@@ -349,7 +407,7 @@
         </div>
 
     </div>
-   	<jsp:include page="../../include/footer.jsp"/>
     
+   	<jsp:include page="../../include/footer.jsp"/>
 </body>
 </html>

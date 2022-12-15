@@ -13,13 +13,17 @@ public class InputAuthorInfo implements AdminInterface {
 		String nameAuthor = request.getParameter("nameAuthor") == null?"":request.getParameter("nameAuthor");
 		String role = request.getParameter("role");
 		String nationality = request.getParameter("nationality")==null?"":request.getParameter("nationality");
-		String birthday = request.getParameter("birthday")==null?"":request.getParameter("birthday");
+		String birthday = request.getParameter("birthday")==null?"없음":request.getParameter("birthday");
 		
 		String awardYear[] = request.getParameterValues("awardYear");
 		String award[] = request.getParameterValues("award");
 		String awardHistory = "";
-		for(int i=0; i<award.length; i++) {
-			awardHistory += awardYear[i] +"년"+ award[i]+"/";
+		if(!(awardYear==null||award==null)) {
+			for(int i=0; i<award.length; i++) {
+				awardHistory += awardYear[i] +"년"+ award[i]+"/";
+			}
+		} else {
+			awardHistory = "없음";
 		}
 		
 		String education[] = request.getParameterValues("education");

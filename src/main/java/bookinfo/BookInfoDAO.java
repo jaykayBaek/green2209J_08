@@ -120,5 +120,40 @@ GetConn getConn = GetConn.getInstance();
 		return vos;
 		
 	}
+
+	public ArrayList<AuthorProfileVO> getAuthorInfo(int idxBook) {
+		ArrayList<AuthorProfileVO> vos = new ArrayList<>();
+		try {
+			sql = "select ap.idx, ap.name_author, ap.role, ap.nationality, ap.birthday, "
+					+ "ap.awards, ap.education, ap.introduce_text "
+					+ "from j_author_profile ap "
+					+ "join j_book_author ba on ba.idx_author=ap.idx "
+					+ "where ba.idx_book = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxBook);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				AuthorProfileVO vo = new AuthorProfileVO();
+				vo.setIdx(rs.getInt("ap.idx"));
+				vo.setNameAuthor(rs.getString("ap.name_author"));
+				vo.setRole(rs.getString("ap.role"));
+				vo.setNationality(rs.getString("ap.nationality"));
+				vo.setBirthday(rs.getString("ap.birthday"));
+				vo.setAwards(rs.getString("ap.awards"));
+				vo.setEducation(rs.getString("ap.education"));
+				vo.setIntroduceText(rs.getString("ap.introduce_text"));
+				vos.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("getSeriesInfo"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		return vos;
+	}
 	
 }

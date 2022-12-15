@@ -1,9 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<style>
-	ul, li {
-		list-style: none;
-	}
-</style>
 <footer class="row">
   <div class="col">
   	<ul class="h5 d-flex flex-column">

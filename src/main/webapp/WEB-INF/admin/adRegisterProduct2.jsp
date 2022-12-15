@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
@@ -68,7 +67,7 @@
 	    					let datePublishing = dataParsed.book.datePublishing;
 	    					let imgSaved = dataParsed.book.imgSaved;
 	    					
-	    					let htmlInputedGetData = '<div class="row border-bottom border-success author_idx"><div class="col">'+idx+'</div><div class="col">'+isbn+'</div><div class="col">'+title+'</div><div class="col">'+publisher+'</div><div class="col">'+datePublishing+'</div></div><div class="row text-center" style="width:200px"><img src="${ctp}/data/books/'+imgSaved+'" class="img-fluid img-thumbnail" alt="도서표지"><input type="hidden" value="'+idx+'" name="idxBookHiden""/><input type="hidden" value="'+isbn+' name="isbn"/></div>';
+	    					let htmlInputedGetData = '<div class="row border-bottom border-success author_idx"><div class="col">'+idx+'</div><div class="col">'+isbn+'</div><div class="col">'+title+'</div><div class="col">'+publisher+'</div><div class="col">'+datePublishing+'</div></div><div class="row text-center" style="width:200px"><img src="${ctp}/data/books/'+imgSaved+'" class="img-fluid img-thumbnail" alt="도서표지"><input type="hidden" value="'+idx+' name="idxBookHiden""/><input type="hidden" value="'+isbn+' name="isbn"/></div>';
 							$(".search_idx").show(200);
 		     				$('.product_input_res').html('<div class="row border-bottom border-success"><div class="col">고유번호</div><div class="col">ISBN</div><div class="col">도서제목</div><div class="col">출판사</div><div class="col">출간일</div></div>'+htmlInputedGetData);
 		    		},
@@ -118,7 +117,7 @@
 	    					let rateDiscount = dataParsed.series[i].rateDiscount;
 	    					let isbn = dataParsed.series[i].isbnSeries;
 	    					let imgSaved = dataParsed.series[i].imgSaved;
-	    					divRes += '<div class="row border-bottom border-success"><div class="col-2">'+idx+'</div><div class="col-2">'+title+'</div><div class="col-2">'+price+'</div><div classcol-2">'+rateDiscount+'</div><div classcol-2">'+isbn+'</div></div><div class="row text-center" style="width:200px"><img src="${ctp}/data/books/'+imgSaved+'" class="img-fluid img-thumbnail" alt="도서표지"></div>';
+	    					divRes += '<div class="row border-bottom border-success"><div class="col-2">'+idx+'</div><div class="col-2">'+title+'</div><div class="col-2">'+price+'</div><div classcol-2">'+rateDiscount+'</div><div classcol-2">'+isbn+'</div></div><div class="row text-center" style="width:200px"><img src="${ctp}/data/books/'+imgSaved+'" class="img-fluid img-thumbnail" alt="도서표지"><input type="hidden" value="'+idx+' name="idxBookHiden""/><input type="hidden" value="'+isbn+' name="isbn"/></div>';
 		    			}
     					
 	     				$('.series_search_res').html('<div class="row border-bottom border-success"><div class="col-2">고유번호</div><div class="col-2">ISBN</div><div class="col-2">시리즈제목</div><div class="col-2">시리즈가격</div><div class="col-2">시리즈할인%</div><div class="col-2">isbn</div></div>'+divRes);
@@ -135,33 +134,40 @@
             list-style: none;
             padding: 0px;
         }
+
         a:hover {
             text-decoration: none;
             color: #afafaf;
             transition: color, 0.3s;
         }
+
         ul {
             color: #fff;
         }
+
         li {
             padding: 0.5em;
         }
+
         .admin_nav {
             height: 100vh;
             background-color: #007f5f;
         }
+
         .btn-primary {
             border: 0px;
             background-color: #80b918;
             color: #fff;
             font-weight: bold;
         }
+
         .btn-primary:hover,
         .btn-primary:active {
             border: 0px;
             background-color: #2b9348;
             color: #fff;
         }
+
         .badge_alarm {
             position: absolute;
             transform: scale(0.8) translate(70%, -10%);
@@ -172,35 +178,43 @@
             white-space: nowrap;
             border-radius: 0.35rem;
         }
+
         .nav_title {
             font-weight: 500;
             font-size: 1em;
             border-bottom: 1px solid #fff;
         }
+
         .nav_main_title {
             font-size: 2em;
             font-weight: bold;
             border-bottom: 1px solid #fff;
         }
+
         .nav_cont {
             color: #000;
             margin-left: 1em;
         }
+
         .nav_setting {
             color: #000;
         }
+
         .amount-text {
             color: #495057 !important;
             font-weight: 500 !important;
         }
+
         .border-weight {
             border-left: 0.5rem solid transparent;
         }
+
         .input_label {
             border-bottom: 5px solid #007f5f;
             border-radius: 3px;
             font-size: 1.2rem;
         }
+
         .col input {
             width: 100%;
             height: 2rem;
@@ -211,10 +225,12 @@
         	width: 2rem;
         	accent-color: #007f5f;
         }
+
         textarea {
             background: rgba(192, 192, 192, 0.4);
             border: 0px;
         }
+
     </style>
 
 </head>
@@ -278,9 +294,9 @@
                         <div class="row d-flex flex-column">
                             <div class="col">
                                 <div class="card shadow">
-                                    <form name="enrollProductForm" method="post" action="${ctp}/setProductInfo.ad">
+                                    <form name="enrollProductForm" method="post" action="${ctp}/setProductInfo.ad" enctype="multipart/form-data">
                                         <div class="card-body">
-                                            <div class="book_input row mb-2">
+                                            <div class="product_input row mb-2">
                                                 <div class="col-3 input_label">상품 등록할 도서 검색(ISBN)</div>
                                                 <div class="col">
                                                     <input type="text" name="isbn" id="input_serach_isbn"
@@ -296,7 +312,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="book_input row mb-2">
+                                            <div class="isbn_input row mb-2">
                                                 <div class="col-3 input_label">상품 등록할 도서 고유번호로 입력</div>
                                                 <div class="col">
                                                     <input type="text" name="idxBook" id="input_idx_book"
@@ -312,26 +328,22 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="book_input row mb-2">
+                                            <div class="price_paper_input row mb-2">
                                                 <div class="col-3 input_label">판매할 도서의 종이책 정가</div>
                                                 <div class="col"><input type="number" name="pricePaper" id="price_paper"
                                                         placeholder="선택 입력사항" /></div>
                                             </div>
-                                            <div class="book_input row mb-2">
+                                            <div class="price_ebook_input row mb-2">
                                                 <div class="col-3 input_label">판매할 도서의 전자책 가격</div>
                                                 <div class="col"><input type="number" name="priceEbook" id="price_ebook"
                                                         placeholder="필수 입력사항" /></div>
                                             </div>
-                                            <div class="book_input row mb-2">
+                                            <div class="rate_discount_input row mb-2">
                                                 <div class="col-3 input_label">할인율</div>
                                                 <div class="col"><input type="number" name="rateDiscount"
                                                         id="rate_discount" placeholder="5 입력 시 할인율 5% 적용" /></div>
                                             </div>
-                                            <div class="book_input row mb-2">
-                                                <div class="col-3 input_label">도서 소개</div>
-                                                <div class="col"><textarea rows="5" style="width:100%" name="textIntroduce"></textarea></div>
-                                            </div>
-                                            <div class="book_input row mb-2">
+                                            <div class="input_series row mb-2">
                                                 <div class="col-3 input_label">시리즈 등록</div>
                                                 <div class="col">
                                                     <button type="button" class="form-control"

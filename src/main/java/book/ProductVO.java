@@ -3,11 +3,13 @@ package book;
 public class ProductVO {
 	private int idx;
 	private int idxBook;
+	private int idxSeries;
 	private String pricePaper;
 	private String priceEbook;
 	private String rateDiscount;
 	private int canReader;
-	private int idxSeries;
+	private String textIntroduce;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -50,11 +52,18 @@ public class ProductVO {
 	public void setIdxSeries(int idxSeries) {
 		this.idxSeries = idxSeries;
 	}
+	public String getTextIntroduce() {
+		return textIntroduce;
+	}
+	public void setTextIntroduce(String textIntroduce) {
+		this.textIntroduce = textIntroduce;
+	}
 	@Override
 	public String toString() {
 		return "ProductVO [idx=" + idx + ", idxBook=" + idxBook + ", pricePaper=" + pricePaper + ", priceEbook="
 				+ priceEbook + ", rateDiscount=" + rateDiscount + ", canReader=" + canReader + ", idxSeries="
-				+ idxSeries + "]";
+				+ idxSeries + ", textIntroduce=" + textIntroduce + "]";
 	}
+	
 	
 }

@@ -282,13 +282,15 @@ public class AdminDAO {
 		String res = "0";
 		try {
 			sql="INSERT INTO j_product "
-					+ "VALUES(DEFAULT,?,?,?,?,?)";
+					+ "VALUES(DEFAULT,?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getIdxBook());
-			pstmt.setString(2, vo.getPricePaper());
-			pstmt.setString(3, vo.getPriceEbook());
-			pstmt.setString(4, vo.getRateDiscount());
-			pstmt.setInt(5, vo.getCanReader());
+			pstmt.setInt(2, vo.getIdxSeries());
+			pstmt.setString(3, vo.getPricePaper());
+			pstmt.setString(4, vo.getPriceEbook());
+			pstmt.setString(5, vo.getRateDiscount());
+			pstmt.setInt(6, vo.getCanReader());
+			pstmt.setString(7, vo.getTextIntroduce());
 			pstmt.executeUpdate();
 			res="1";
 		} catch (SQLException e) {

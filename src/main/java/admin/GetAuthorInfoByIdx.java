@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-public class GetAuthorInfoByIdx implements AdminInterface {
+import bookinfo.BookInfoInterface;
+
+public class GetAuthorInfoByIdx implements BookInfoInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idx = request.getParameter("idx") == null ? 0 : Integer.parseInt(request.getParameter("idx"));
-		
 		AdminDAO dao = new AdminDAO();
 		JSONObject bringData = dao.getAuthorInfoByIdx(idx);
 		

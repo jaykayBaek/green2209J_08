@@ -9,6 +9,12 @@ public class AuthorProfileVO {
 	private String awards;
 	private String education;
 	private String introduceText;
+	
+	private int authorOrdinal;
+	
+	private String titleBook;
+	private String isbn;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -57,11 +63,30 @@ public class AuthorProfileVO {
 	public void setIntroduceText(String introduceText) {
 		this.introduceText = introduceText;
 	}
+	public int getAuthorOrdinal() {
+		return authorOrdinal;
+	}
+	public void setAuthorOrdinal(int authorOrdinal) {
+		this.authorOrdinal = authorOrdinal;
+	}
+	public String getTitleBook() {
+		return titleBook;
+	}
+	public void setTitleBook(String titleBook) {
+		this.titleBook = titleBook;
+	}
+	public String getIsbn() {
+		return isbn;
+	}
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
 	@Override
 	public String toString() {
 		return "AuthorProfileVO [idx=" + idx + ", nameAuthor=" + nameAuthor + ", role=" + role + ", nationality="
 				+ nationality + ", birthday=" + birthday + ", awards=" + awards + ", education=" + education
-				+ ", introduceText=" + introduceText + "]";
+				+ ", introduceText=" + introduceText + ", authorOrdinal=" + authorOrdinal + ", titleBook=" + titleBook
+				+ ", isbn=" + isbn + "]";
 	}
 	
 	

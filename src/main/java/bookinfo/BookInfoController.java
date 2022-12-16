@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.MemberInterface;
+import admin.GetAuthorInfoByIdx;
 
 @WebServlet("*.bi")
 public class BookInfoController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MemberInterface command = null;
+		BookInfoInterface command = null;
 		String viewPage = "/WEB-INF/bookInfo";
 		String uri = request.getRequestURI();
 		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
@@ -24,6 +24,11 @@ public class BookInfoController extends HttpServlet {
 			command = new GetBookInfoCommand();
 			command.execute(request, response);
 			viewPage += "/bookinfo.jsp";
+		}
+		else if (com.equals("/getAuthorAndBookInfo")) {
+			command = new GetAuthorInfoByIdx();
+			command.execute(request, response);
+			return;
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

@@ -34,8 +34,7 @@
  	    	$.ajax({
 	    		type   : "post",
 	    		url    : "${ctp}/getAuthorInfoByName.ad",
-	    		data : {author:author,
-	    		},
+	    		data : {author:author},
 	    		success:function(data) {
  	    			let dataParsed = JSON.parse(data);
  	    			

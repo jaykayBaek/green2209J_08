@@ -85,13 +85,34 @@ public class MemberController extends HttpServlet{
 				dispatcher.forward(request, response);
 				return;
 			}
-			viewPage += "/wishlist.jsp";
+			else {
+				command = new WishlistCommand();
+				command.execute(request, response);
+				viewPage += "/wishlist.jsp";
+			}
 		}
 		
-		
+		/*--- 장바구니 추가 ---*/
+		else if(com.equals("/addWishlist")) {
+			if(grade>=99) {
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/member/login.jsp");
+				dispatcher.forward(request, response);
+				return;
+			}
+			
+			command = new AddWishlistCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
 		else if(grade >= 99) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
+		}
+		/*--- 장바구니 제거 ---*/
+		else if(com.equals("/removeWishlist")) {
+			command = new RemoveWishlistCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/logout")) {
 			command = new LogoutCommand();
@@ -101,8 +122,6 @@ public class MemberController extends HttpServlet{
 		else if(com.equals("/accountModify")) {
 			viewPage += "/accountModify.jsp";
 		}
-
-		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 	}

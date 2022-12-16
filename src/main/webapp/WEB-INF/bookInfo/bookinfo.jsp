@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -8,7 +10,63 @@
 	<meta charset="UTF-8">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
-	
+	<script>
+		let getAuthorDetailView = (idxAuthor) => {
+			let idx = idxAuthor;
+	    	$.ajax({
+	    		type   : "post",
+	    		url    : "${ctp}/getAuthorAndBookInfo.bi",
+	    		data : {idx:idx},
+	    		success:function(data) {
+ 	    			let dataParsed = JSON.parse(data);
+ 	    			
+ 	    			let infoAuthor = "";
+    				for(let i in dataParsed.author) {
+						let nameAuthor = dataParsed.author[i].nameAuthor;
+						let nationality = dataParsed.author[i].nationality;
+						let birthday = dataParsed.author[i].birthday;
+						let education = dataParsed.author[i].education;
+						let awards = dataParsed.author[i].awards;
+						
+						infoAuthor = '<li><h3 class="p-1 font-weight-bold">'+nameAuthor+'</h3></li><li><span class="p-1">국적</span><span class="p-1">'+nationality+'</span></li>';
+						
+						if(birthday != '없음'){
+							infoAuthor += '<li><span class="p-1">출생</span><span class="p-1">'+birthday+'</span></li>';
+						}
+						
+						education=education.substring(0, education.lastIndexOf("/"));
+						let educationSplited = education.split('/');
+						infoAuthor+='<li><span class="p-1">학력</span><span class="p-1">';
+						
+						for(let j=0; j<educationSplited.length; j++){
+							infoAuthor +=educationSplited[j]+'<br/>';
+						}
+						infoAuthor += '</span></li>';
+						
+						if(awards != '없음'){
+							awards=awards.substring(0, awards.lastIndexOf("/"));
+							let awardsSplited = awards.split('/');
+							infoAuthor += '<li><span class="p-1">수상</span><span class="p-1">';
+							for(let j=0; j<awardsSplited.length; j++){
+								infoAuthor+=awardsSplited[j]+'<br/>';
+							}
+								
+							infoAuthor += '</span></li>';
+						}
+    				
+    				}
+    				
+					$(".author-info-detail").html(infoAuthor);
+					
+	    		},
+	    		error : function() {
+	    			alert("전송 오류!");
+	    		}
+	    		
+	    	});
+		}
+		
+	</script>
     <style>
     body,h1,h2,h3,h4,h5,h6,span,div,strong, a {
         font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
@@ -117,12 +175,17 @@
     }
     .author-category-wrap{
     	font-size:1rem;
-    }
-    .book-info{
     	border-bottom: 1px solid #ced4da;
+    	padding:0.5rem;
     }
     .author-profile-box{
     	border-right: 1px solid #ced4da;
+    }
+    .author-info-detail li{
+    	display:table;
+    }
+    .author-info-detail li span{
+    	display:table-cell;
     }
     </style>
 </head>
@@ -160,7 +223,7 @@
 	                        <div>${bookInfoVo.publisher} 출판</div>
                         </p>
                     </div>
-                    <table width="100%" class="info-table border-top border-bottom">
+                    <table width="100%" class="info-table border-top">
                         <tr>
                             <th rowspan="3" class="background text-center pt-4 pb-4 pl-3 pr-3">소장</th>
                             <c:if test="${bookInfoVo.pricePaper!='없음'}">
@@ -172,29 +235,48 @@
                             <td>전자책 정가</td>
                             <td><fmt:formatNumber value="${bookInfoVo.priceEbook}" pattern="#,###"/>원</td>
                         </tr>
-                        <tr>
+                        <tr class="border-bottom">
                             <td>전자책 판매가</td>
                             <td>
                             	<fmt:formatNumber value="${bookInfoVo.priceCalculated}" pattern="#,###"/>원
                             	<span class="badge badge-danger"><b>${bookInfoVo.rateDiscount}% 할인!</b></span>
                             </td>
                         </tr>
+                        <tr>
+                        	<td colspan="3">
+				                <ul class="d-flex float-right info-button-wrap mt-2">
+			                    	<li class="mr-2 list">
+				                    	<c:if test="${bookInfoVo.hasWishlist eq 1}">
+					                        <a href="${ctp}/removeWishlist.member?idxProduct=${bookInfoVo.idxProduct}&isbn=${bookInfoVo.isbn}&hasWishlist=${bookInfoVo.hasWishlist}" class="btn">
+					                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#d00000" class="bi bi-cart-fill" viewBox="0 0 16 16">
+					                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+					                            </svg>
+					                        </a>
+				                    	</c:if>
+				                    	<c:if test="${bookInfoVo.hasWishlist eq 0}">
+					                        <a href="${ctp}/addWishlist.member?idxProduct=${bookInfoVo.idxProduct}&isbn=${bookInfoVo.isbn}&hasWishlist=${bookInfoVo.hasWishlist}" class="btn">
+					                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#212529" class="bi bi-cart-fill" viewBox="0 0 16 16">
+					                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+					                            </svg>
+					                        </a>
+				                    	</c:if>
+				                        </li>
+				                    <li class="mr-2">
+				                        <button class="btn btn-success">단품 소장하기</button>
+				                    </li>
+				                    <c:if test="${bookInfoVo.idxProductSeries!=1}">
+				                    <li>
+				                        <button class="btn btn-success">시리즈로 소장하기</button>
+				                    </li>
+				                    </c:if>
+				                </ul>
+                        		
+                        	</td>
+                        </tr>
                     </table>
                 </div>
             </div>
-            <div class="row d-flex justify-content-end">
-                <ul class="d-flex float-right info-button-wrap mt-2">
-                    <li class="mr-2 list">
-                        <button class="btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#6c757d" class="bi bi-cart-fill" viewBox="0 0 16 16">
-                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                            </svg>
-                        </button>
-                        </li>
-                    <li>
-                        <button class="btn btn-success">소장하기</button>
-                    </li>
-                </ul>
+            <div class="row d-flex justify-content-start">
             </div>
 			<div class="book-info-box d-flex align-items-center mt-3">
 				<ul class="d-flex flex-column">
@@ -227,12 +309,10 @@
 	                </div>
 		                <div class="book-info float-left">
 		                	<div class="img-series" style="width:150px">
-		                		<a href="${ctp}/booksearch.bi?idxProductSeries=${bookInfoVo.isbn}">
-			                		<div class="img-wrap">
-					                	<img src="${ctp}/data/books/${bookInfoVo.imgSavedSeries}" alt="시리즈 ${bookInfoVo.titleSeries}의 표지" class="img-thumbnail"/>
-			                			<span class="series_text badge">시리즈 상품</span>
-			                		</div>
-		                		</a>
+		                		<div class="img-wrap">
+				                	<img src="${ctp}/data/books/${bookInfoVo.imgSavedSeries}" alt="시리즈 ${bookInfoVo.titleSeries}의 표지" class="img-thumbnail"/>
+		                			<span class="series_text badge">시리즈 상품</span>
+		                		</div>
 		                		<div>${bookInfoVo.titleSeries}</div>
 		                		<div>
 		                			소장
@@ -279,12 +359,14 @@
 	                    <ul class="d-flex author-category-wrap p-2">
 		                   	<li class="author-profile-box">
 		                   		<ul class="d-flex align-items-center">
-			                    	<span class="font-weight-bold">저자&nbsp</span>
-			                    	<c:forEach var="vo" items="${authorVos}" varStatus="st">
-			                    		<c:if test="${vo.role == '작가'}">
+		                    	<c:forEach var="vo" items="${authorVos}" varStatus="st">
+		                    		<c:if test="${vo.role == '작가'}">
+				                    	<span class="font-weight-bold mr-1">저자&nbsp</span>
 			    	               			<li>
-				    	                		<span>${vo.nameAuthor}&nbsp</span>
-				    	                		<input type="hidden" value="${vo.idx}" id="a${st.count}"/>
+			    	               				<a href='javascript:void(0);' onclick="getAuthorDetailView(${vo.idx})">
+					    	                		<span>${vo.nameAuthor}&nbsp</span>
+					    	                		<input type="hidden" value="${vo.idx}" id="a${st.count}"/>
+			    	               				</a>
 			        	           			</li>
 			                    		</c:if>
 			                    	</c:forEach>
@@ -292,20 +374,57 @@
 		                   	</li>
 		                   	<li>
 		                   		<ul class="d-flex align-items-center">
-			                    	<span class="font-weight-bold">번역가&nbsp</span>
 			                    	<c:forEach var="vo" items="${authorVos}">
 			                    		<c:if test="${vo.role == '번역가'}">
+					                    	<span class="font-weight-bold ml-1">번역가&nbsp</span>
 			    	               			<li>
-			    	               				<a href="${vo.idx}">
+			    	               				<a href='javascript:void(0);' onclick="getAuthorDetailView(${vo.idx})">
 				    	                			<span>${vo.nameAuthor}&nbsp</span>
 				    	                			<input type="hidden" value="${vo.idx}"/>
-				    	                		</a>
+			    	                			</a>
 			        	           			</li>
 			                    		</c:if>
 			                    	</c:forEach>
 		                   		</ul>
 	                  		</li>
 	                    </ul>
+	                  		
+               			<ul class="author-info-detail">
+               			<c:forEach var="vo" items="${authorVos}">
+               				<c:if test="${vo.authorOrdinal == 0}">
+               					<li>
+               						<h3 class="p-1 font-weight-bold">${vo.nameAuthor }</h3>
+               					</li>
+               					<li>
+               						<span class="p-1">국적</span>
+               						<span class="p-1">${vo.nationality}</span>
+               					</li>
+               					<li>
+               						<span class="p-1">출생</span>
+               						<span class="p-1">${vo.birthday}</span>
+               					</li>
+               					<li>
+               						<span class="p-1">학력</span>
+               						<span class="p-1">
+	               						<c:set var="educations" value="${fn:split(vo.education,'/')}"/>
+	               						<c:forEach var="education" items="${educations}">
+	               							${education}<br/>
+	               						</c:forEach>
+               						</span>
+               					</li>
+               					<li>
+               						<span class="p-1">수상</span>
+               						<span class="p-1">
+	               						<c:set var="awards" value="${fn:split(vo.awards,'/')}"/>
+	               						<c:forEach var="award" items="${awards}">
+	               							${award}<br/>
+	               						</c:forEach>
+               						</span>
+               					</li>
+               				</c:if>
+               			</c:forEach>
+               			</ul>
+	                  		
 					</div>
                 </div>
             </div>

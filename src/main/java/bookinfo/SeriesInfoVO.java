@@ -8,12 +8,11 @@ public class SeriesInfoVO {
 	private String titleSeries;
 	private String imgSavedBook;
 	private String imgSavedProductSeries;
+	private String isbnSeries;
 	
 	private int idxBook;
 	private int idxProduct;
 	private int idxProductSeries;
-	
-	
 	public String getTitleBook() {
 		return titleBook;
 	}
@@ -56,6 +55,12 @@ public class SeriesInfoVO {
 	public void setImgSavedProductSeries(String imgSavedProductSeries) {
 		this.imgSavedProductSeries = imgSavedProductSeries;
 	}
+	public String getIsbnSeries() {
+		return isbnSeries;
+	}
+	public void setIsbnSeries(String isbnSeries) {
+		this.isbnSeries = isbnSeries;
+	}
 	public int getIdxBook() {
 		return idxBook;
 	}
@@ -78,9 +83,11 @@ public class SeriesInfoVO {
 	public String toString() {
 		return "SeriesInfoVO [titleBook=" + titleBook + ", publisher=" + publisher + ", datePublishing="
 				+ datePublishing + ", isbn=" + isbn + ", titleSeries=" + titleSeries + ", imgSavedBook=" + imgSavedBook
-				+ ", imgSavedProductSeries=" + imgSavedProductSeries + ", idxBook=" + idxBook + ", idxProduct="
-				+ idxProduct + ", idxProductSeries=" + idxProductSeries + "]";
+				+ ", imgSavedProductSeries=" + imgSavedProductSeries + ", isbnSeries=" + isbnSeries + ", idxBook="
+				+ idxBook + ", idxProduct=" + idxProduct + ", idxProductSeries=" + idxProductSeries + "]";
 	}
+	
+	
 
 	
 	

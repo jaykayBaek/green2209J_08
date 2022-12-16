@@ -7,6 +7,7 @@ public class NewBookVO {
 	private String publisher;
 	private String isbn;
 	private String imgSaved;
+	
 	//평점테이블만들면 평점도
 	public int getBookIdx() {
 		return bookIdx;

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import conn.GetConn;
 
@@ -207,5 +208,87 @@ public class MemberDAO {
 		
 		return res;
 	}
-	
+
+	public boolean addWishList(int idxProduct, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "INSERT INTO j_wishlist (idx, idx_product, idx_user) "
+					+ "VALUES (DEFAULT, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxProduct);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (SQLException e) {
+			System.out.println("addWishList"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public boolean removeWishlist(int idxProduct, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "DELETE FROM j_wishlist "
+					+ "WHERE idx_product = ? AND idx_user = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxProduct);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (SQLException e) {
+			System.out.println("addWishList"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public ArrayList<WishlistVO> getWishlist(int idxUser) {
+		ArrayList<WishlistVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT b.idx idxBook, p.idx idxProduct, "
+					+ "b.title, p.price_ebook, p.rate_discount, b.isbn, name_author, b.img_saved "
+					+ "FROM j_wishlist w "
+					+ "	JOIN j_product p ON p.idx = w.idx_product "
+					+ "	JOIN j_book b ON b.idx = p.idx_book "
+					+ "	JOIN j_book_author ba ON ba.idx_book = b.idx "
+					+ " JOIN j_author_profile ap ON ap.idx=ba.idx_author and ba.author_ordinal = 0 and ap.role = '작가' "
+					+ "WHERE idx_user=?;";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				WishlistVO vo = new WishlistVO();
+				vo.setIdxBook(rs.getInt("idxBook"));
+				vo.setIdxProduct(rs.getInt("idxProduct"));
+				vo.setTitle(rs.getString("b.title"));
+				vo.setPriceEbook(rs.getString("p.price_ebook"));
+				vo.setRateDiscount(rs.getString("p.rate_discount"));
+				vo.setIsbn(rs.getString("b.isbn"));
+				vo.setNameAuthor(rs.getString("name_author"));
+				vo.setImgSaved(rs.getString("b.img_saved"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getWishlist"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		return vos;
+	}
 }

@@ -64,34 +64,32 @@
                             </div>
                             <button class="btn btn-outline-success btn-sm">선택 삭제</button>
                         </div>
-                        <c:forEach var="vo" items="${vos}">
-	                        <div class="cart_content d-flex">
-	                            <div class="d-flex mb-3">
-	                                <div class="col-2 d-flex mr-3 p-0">
-	                                    <input type="checkbox" name="" id=""/>
-	                                    <img src="${ctp}/data/books/${vo.imgSaved}" alt="도서 ${vo.title}의 표지" width="100%" height="100%"/>
-	                                </div>
-	                                <div class="col-10">
-	                                    <div class="row">
-	                                        <div class="col">
-	                                            <div class="row d-flex flex-column flex-nowrap">
-	                                                <div class="col">
-	                                                    <h3 class="h5 font-weight-bold">${vo.title}</h3>
-	                                                    <p>${vo.nameAuthor}</p>
-	                                                </div>
-	                                            </div>
-	                                        </div>
-	                                        <div class="col d-flex flex-row flex-nowrap text-right align-items-center">
-	                                            <div class="col font-weight-bold" style="color:#28a745">${vo.priceEbook}</div>
-	                                        </div>
-	                                    </div>
-	                                    <div class="row">
-	                                        <button class="btn btn-success pl-5 pr-5 btn-sm">삭제</button>
-	                                    </div>
-	                                </div>
-	                            </div>
-	                        </div>
-                        </c:forEach>
+                        <div class="cart_content d-flex">
+                            <div class="d-flex mb-3">
+                                <div class="col-2 d-flex mr-3 p-0">
+                                    <input type="checkbox" name="" id=""/>
+                                    <img src="${ctp}/images/dummybook.jpg" alt="더비 데이터" width="100%" height="100%"/>
+                                </div>
+                                <div class="col-10">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row d-flex flex-column flex-nowrap">
+                                                <div class="col">
+                                                    <h3 class="h5 font-weight-bold">당신 인생의 이야기</h3>
+                                                    <p>테드 창</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col d-flex flex-row flex-nowrap text-right align-items-center">
+                                            <div class="col font-weight-bold" style="color:#28a745">5,000,000</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <button class="btn btn-success pl-5 pr-5 btn-sm">삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
                     </div>
                 </div>

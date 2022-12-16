@@ -34,6 +34,12 @@
     else if(msg == "successEnrollSeries") msg = "시리즈 등록을 성공했습니다.";
     else if(msg == "failEnrollSeries") msg = "시리즈 등록에 실패했습니다. 서버의 상태나, 양식을 다시 확인해주세요.";
     
+    /*--- 장바구니 ---*/
+    else if(msg == "failAddWishlist") msg = "서버 상태가 좋지 못해 장바구니에 담는 것을 실패했습니다.";
+    else if(msg == "successAddWishlist") msg = "해당 상품을 장바구니에 담았습니다.";
+    else if(msg == "successDeleteWishlist") msg = "해당 상품을 장바구니에서 지웠습니다.";
+    else if(msg == "failDeleteWishlist") msg = "서버 상태가 좋지 못해 장바구니에 지우는 것을 실패했습니다.";
+    
     alert(msg);
     if(url != "") location.href = url;
     

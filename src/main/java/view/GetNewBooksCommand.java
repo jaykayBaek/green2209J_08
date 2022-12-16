@@ -22,6 +22,8 @@ public class GetNewBooksCommand implements AdminInterface {
 		
 		JSONArray jsonArr = new JSONArray();
 		JSONObject finalObject = new JSONObject();
+		
+		
 		for(NewBookVO vo : vos) {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("bookIdx", vo.getBookIdx());

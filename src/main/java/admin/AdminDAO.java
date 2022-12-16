@@ -188,6 +188,9 @@ public class AdminDAO {
 			System.out.println("getIdxBook"+sql);
 			System.out.println(e.getMessage());
 		}
+		finally {
+			getConn.rsClose();
+		}
 		return idx;
 	}
 
@@ -240,7 +243,7 @@ public class AdminDAO {
 			System.out.println(e.getMessage());
 		}
 		finally {
-			getConn.pstmtClose();
+			getConn.rsClose();
 		}
 		
 		return vo;
@@ -272,7 +275,7 @@ public class AdminDAO {
 			System.out.println(e.getMessage());
 		}
 		finally {
-			getConn.pstmtClose();
+			getConn.rsClose();
 		}
 		
 		return vo;
@@ -347,6 +350,9 @@ public class AdminDAO {
 		} catch (SQLException e) {
 			System.out.println("getIdxBook"+sql);
 			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
 		}
 		return vos;
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -8,46 +9,56 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
-	    <style>
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        span,
-        div,
-        strong {
-            font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
-            text-decoration: none !important;
-        }
+	<script>
+		$("#checkDeleteAll").onchange(function(){
+			
+		});
+	</script>
+    <style>
+       body,
+       h1,
+       h2,
+       h3,
+       h4,
+       span,
+       div,
+       strong {
+           font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+           text-decoration: none !important;
+       }
 
-        .summary_content {
-            border: 1px solid #80B918;
-        }
+       .summary_content {
+           border: 1px solid #80B918;
+       }
 
-        .total_amount {
-            background-color: #80B918;
-            color: #fff;
-        }
+       .total_amount {
+           background-color: #80B918;
+           color: #fff;
+       }
 
-        .summary_top {
-            color: #55a630;
-        }
+       .summary_top {
+           color: #55a630;
+       }
 
-        .cart_tab {
-            border: 1px solid #adb5bd;
-        }
+       .cart_tab {
+           border: 1px solid #adb5bd;
+       }
 
-        .cart_nav {
-            border-bottom: 1px solid #adb5bd;
-            background-color: #fff;
-        }
+       .cart_nav {
+           border-bottom: 1px solid #adb5bd;
+           background-color: #fff;
+       }
 
-        .cart_content {
-            border-bottom: 1px solid #adb5bd;
+       .cart_content {
+           border-bottom: 1px solid #adb5bd;
 
-        }
-    </style>
+       }
+      	ul, li{
+			list-style:none;
+			padding:0px;
+			margin:0px;
+		}
+   </style>
 </head>
 <body>
     <jsp:include page="/include/nav.jsp"/>
@@ -59,19 +70,23 @@
                     <div class="container mt-2 mb-2">
                         <div class="cart_nav d-flex align-content-center justify-content-between sticky-top pt-3 pb-3">
                             <div class="d-flex align-content-center justify-content-center">
-                                <input type="checkbox" name="" id="" />
-                                <span class="">&nbsp 전체 선택</span>
+                                <input type="checkbox" name="check" id="checkDeleteAll"/>
+                                <label for ="checkDeleteAll">
+	                                <span class="">&nbsp; 전체 선택</span>
+                                </label>
                             </div>
                             <button class="btn btn-outline-success btn-sm">선택 삭제</button>
                         </div>
                         <c:forEach var="vo" items="${vos}">
 	                        <div class="cart_content d-flex">
 	                            <div class="d-flex mb-3">
+	                            	<div class="col-1 d-flex align-items-center">
+	                                    <input type="checkbox" name="checkDelete" id="${vo.isbn}"/>
+	                            	</div>
 	                                <div class="col-2 d-flex mr-3 p-0">
-	                                    <input type="checkbox" name="" id=""/>
-	                                    <img src="${ctp}/data/books/${vo.imgSaved}" alt="도서 ${vo.title}의 표지" width="100%" height="100%"/>
+	                                    <img src="${ctp}/data/books/${vo.imgSaved}" alt="도서 ${vo.title}의 표지" width="100%" height="100%" class="img-thumbnail"/>
 	                                </div>
-	                                <div class="col-10">
+	                                <div class="col">
 	                                    <div class="row">
 	                                        <div class="col">
 	                                            <div class="row d-flex flex-column flex-nowrap">
@@ -81,8 +96,19 @@
 	                                                </div>
 	                                            </div>
 	                                        </div>
-	                                        <div class="col d-flex flex-row flex-nowrap text-right align-items-center">
-	                                            <div class="col font-weight-bold" style="color:#28a745">${vo.priceEbook}</div>
+	                                        <div class="col-2 d-flex flex-column flex-nowrap text-right align-items-center">
+	                                        	<ul>
+	                                        		<li>
+			                                            <div class="col" style="color:#cccccc">
+			                                            	 <del><fmt:formatNumber value="${vo.priceEbook}"/></del>
+			                                            </div>
+	                                        		</li>
+	                                        		<li>
+			                                            <div class="col font-weight-bold h5" style="color:#28a745">
+			                                            	 <fmt:formatNumber value="${vo.priceEbook}"/>
+			                                            </div>
+	                                        		</li>
+	                                        	</ul>
 	                                        </div>
 	                                    </div>
 	                                    <div class="row">

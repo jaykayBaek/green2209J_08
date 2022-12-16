@@ -19,7 +19,18 @@ public class WishlistCommand implements MemberInterface {
 		MemberVO memberVO = dao.getUserInformation(email);
 		int idxUser = memberVO.getIdx();
 		
-		ArrayList<WishlistVO> vos =dao.getWishlist(idxUser);
+		ArrayList<WishlistVO> vos = dao.getWishlist(idxUser);
+		
+		for(WishlistVO vo : vos) {
+			int priceEbook = Integer.parseInt(vo.getPriceEbook());
+			int rateDiscount = Integer.parseInt(vo.getRateDiscount());
+			int priceCalculated = (int)(priceEbook * 1 - rateDiscount * 0.01);
+			vo.setPriceCalculated(priceCalculated);
+			vo.setPriceCalculated((int)(Integer.parseInt(vo.getPriceEbook()) * (1 - (Integer.parseInt(vo.getRateDiscount())) * 0.01)));
+		}
+
+		
+		
 		
 		request.setAttribute("vos", vos);
 	}

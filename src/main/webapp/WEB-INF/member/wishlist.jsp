@@ -10,9 +10,32 @@
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
 	<script>
-		$("#checkDeleteAll").onchange(function(){
-			
+		$(document).ready(function(){
+			$.ajax({
+				
+			});
+			$("#checkDeleteAll").click(function(){
+				if($("#checkDeleteAll").is(":checked")){
+					$("input[name=checkDelete]").prop("checked", true);
+				}
+				else{
+					$("input[name=checkDelete]").prop("checked", false);
+				}
+			});
+			 $('input:checkbox[name="checkDelete"]').each(function() {
+			     if(this.checked == false){
+			            this.checked = true; 
+			            $('input:checkbox[name="checkDeleteAll"]').checked=true;
+			      }
+			 });
 		});
+		$('input:checkbox[name="checkDelete"]').click(function(){
+			let checkLength = $('input:checkbox[name="checkDelete"]').length;
+			let checkedCount = $('input:checkbox[name="checkDelete"]:checked').length;
+			console.log(checkLength);
+			console.log(checkedCount);
+		});
+		
 	</script>
     <style>
        body,
@@ -58,6 +81,12 @@
 			padding:0px;
 			margin:0px;
 		}
+		.rate-wrap{
+			display: table;
+		}
+		.rate-wrap span{
+			display: table-cell;
+		}
    </style>
 </head>
 <body>
@@ -70,7 +99,7 @@
                     <div class="container mt-2 mb-2">
                         <div class="cart_nav d-flex align-content-center justify-content-between sticky-top pt-3 pb-3">
                             <div class="d-flex align-content-center justify-content-center">
-                                <input type="checkbox" name="check" id="checkDeleteAll"/>
+                                <input type="checkbox" name="checkDeleteAll" id="checkDeleteAll" checked/>
                                 <label for ="checkDeleteAll">
 	                                <span class="">&nbsp; 전체 선택</span>
                                 </label>
@@ -81,7 +110,7 @@
 	                        <div class="cart_content d-flex">
 	                            <div class="d-flex mb-3">
 	                            	<div class="col-1 d-flex align-items-center">
-	                                    <input type="checkbox" name="checkDelete" id="${vo.isbn}"/>
+	                                    <input type="checkbox" name="checkDelete" id="${vo.isbn}" />
 	                            	</div>
 	                                <div class="col-2 d-flex mr-3 p-0">
 	                                    <img src="${ctp}/data/books/${vo.imgSaved}" alt="도서 ${vo.title}의 표지" width="100%" height="100%" class="img-thumbnail"/>
@@ -103,9 +132,12 @@
 			                                            	 <del><fmt:formatNumber value="${vo.priceEbook}"/></del>
 			                                            </div>
 	                                        		</li>
-	                                        		<li>
-			                                            <div class="col font-weight-bold h5" style="color:#28a745">
-			                                            	 <fmt:formatNumber value="${vo.priceEbook}"/>
+	                                        		<li class="d-flex">
+			                                            <div class="col d-flex rate-wrap">
+			                                            	 <span class="text-danger">${vo.rateDiscount}%&#129059;</span>
+			                                            	 <span class="h5 font-weight-bold" style="color:#28a745">
+			                                            	 	<fmt:formatNumber value="${vo.priceCalculated}"/>
+			                                            	 </span>
 			                                            </div>
 	                                        		</li>
 	                                        	</ul>
@@ -150,7 +182,7 @@
                         </div>
                     </div>
                     <div class="mt-2" style="width:100%">
-                        <button class="btn btn-lg btn-success" style="width:100%">구매하여 소장하기</button>
+                        <button class="btn btn-lg btn-success p-4 font-weight-bold" style="width:100%">구매하여 소장하기</button>
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@ public class GetBookInfoCommand implements BookInfoInterface {
 		
 		/*--- 작가 정보 가져오기 ---*/
 		ArrayList<AuthorProfileVO> authorVos = dao.getAuthorInfo(idxBook);
-		
+
 		int idxUser = 0;
 		int idxProduct = 0;
 		HttpSession session = request.getSession();

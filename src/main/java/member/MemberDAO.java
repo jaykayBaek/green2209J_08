@@ -280,6 +280,7 @@ public class MemberDAO {
 				vo.setIsbn(rs.getString("b.isbn"));
 				vo.setNameAuthor(rs.getString("name_author"));
 				vo.setImgSaved(rs.getString("b.img_saved"));
+				vo.setPriceCalculated((int)(Integer.parseInt(vo.getPriceEbook()) * (1 - (Integer.parseInt(vo.getRateDiscount())) * 0.01)));
 				vos.add(vo);
 			}
 		} catch (SQLException e) {

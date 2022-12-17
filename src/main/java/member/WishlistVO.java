@@ -90,10 +90,7 @@ public class WishlistVO {
 				+ priceEbook + ", rateDiscount=" + rateDiscount + ", isbn=" + isbn + ", nameAuthor=" + nameAuthor
 				+ ", imgSaved=" + imgSaved + ", priceCalculated=" + priceCalculated + "]";
 	}
+	
 
-	
-	
-	
-	
 	
 }

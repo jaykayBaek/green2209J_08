@@ -11,7 +11,7 @@ public class RemoveWishlistCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int idxProduct = request.getParameter("idxProduct")==null?0:Integer.parseInt(request.getParameter("idxProduct"));
+		String idxProduct = request.getParameter("idxProduct")==null?"":request.getParameter("idxProduct");
 		String isbn = request.getParameter("isbn")==null?"":request.getParameter("isbn");
 		
 		MemberDAO dao = new MemberDAO();

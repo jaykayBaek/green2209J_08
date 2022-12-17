@@ -187,6 +187,7 @@ public class MemberDAO {
 		return res;
 	}
 
+	/*--- 임시 비밀번호 수정 ---*/
 	public boolean updatePassword(String pwdParsed, String email) {
 		boolean res = false;
 		try {
@@ -208,7 +209,8 @@ public class MemberDAO {
 		
 		return res;
 	}
-
+	
+	/*--- 장바구니 추가하기 ---*/
 	public boolean addWishList(int idxProduct, int idxUser) {
 		boolean res = false;
 		
@@ -231,16 +233,16 @@ public class MemberDAO {
 		
 		return res;
 	}
-
-	public boolean removeWishlist(int idxProduct, int idxUser) {
+	/*--- 장바구니 지우기 ---*/
+	public boolean removeWishlist(String idxProduct, int idxUser) {
 		boolean res = false;
 		
 		try {
 			sql = "DELETE FROM j_wishlist "
-					+ "WHERE idx_product = ? AND idx_user = ?";
+					+ "WHERE idx_user=? AND idx_product IN ("+idxProduct+")";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, idxProduct);
-			pstmt.setInt(2, idxUser);
+			pstmt.setInt(1, idxUser);
+			
 			pstmt.executeUpdate();
 			res = true;
 			
@@ -254,7 +256,8 @@ public class MemberDAO {
 		
 		return res;
 	}
-
+	/*---  ---*/
+	/*--- 장바구니 가져오기 ---*/
 	public ArrayList<WishlistVO> getWishlist(int idxUser) {
 		ArrayList<WishlistVO> vos = new ArrayList<>();
 		try {
@@ -292,4 +295,31 @@ public class MemberDAO {
 		}
 		return vos;
 	}
+
+	public int getWishlistCount(int idx) {
+		int res=0;
+		
+		try {
+			sql = "SELECT COUNT(idx_user) count "
+					+ "FROM j_wishlist "
+					+ "WHERE idx_user = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idx);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				res = rs.getInt("count");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("getWishlistCount"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
 }

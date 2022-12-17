@@ -20,18 +20,30 @@ public class WishlistCommand implements MemberInterface {
 		int idxUser = memberVO.getIdx();
 		
 		ArrayList<WishlistVO> vos = dao.getWishlist(idxUser);
+		/* 장바구니 초기화면에 뿌려줄 금액들을 구함
+		 * 구해야 하는 금액은?
+		 * 1. 총 주문 금액(장바구니에 있는 ebook의 원가들의 합)
+		 * 2. 할인 금액(ebook들의 할인율*ebook 원가를 계산해서 누적한 금액)
+		 * 3. 합계는 총 주문금액-할인금액의 값
+		 * 4. cnt(몇 건 장바구니에 있는지)*/
 		
+		int priceTotal = 0;
+		int priceSales = 0;
+		int priceCalc = 0;
+		int cnt = 0;
 		for(WishlistVO vo : vos) {
-			int priceEbook = Integer.parseInt(vo.getPriceEbook());
+			priceTotal += Integer.parseInt(vo.getPriceEbook());
 			int rateDiscount = Integer.parseInt(vo.getRateDiscount());
-			int priceCalculated = (int)(priceEbook * 1 - rateDiscount * 0.01);
-			vo.setPriceCalculated(priceCalculated);
-			vo.setPriceCalculated((int)(Integer.parseInt(vo.getPriceEbook()) * (1 - (Integer.parseInt(vo.getRateDiscount())) * 0.01)));
+			priceSales += (int) (Integer.parseInt(vo.getPriceEbook()) * rateDiscount * 0.01);
+			cnt ++;
 		}
-
 		
-		
+		priceCalc = priceTotal - priceSales;
 		
 		request.setAttribute("vos", vos);
+		request.setAttribute("priceCalc", priceCalc);
+		request.setAttribute("priceTotal", priceTotal);
+		request.setAttribute("priceSales", priceSales);
+		request.setAttribute("cnt", cnt);
 	}
 }

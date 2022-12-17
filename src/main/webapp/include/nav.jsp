@@ -46,6 +46,20 @@
 	.title{
 		color: #80B918;
 	}
+	.badge-counter{
+		position: absolute;
+	    transform: scale(0.8) translate(70%, -10%);
+	    transform-origin: top right;
+	    padding: 0.25em 0.4em;
+	    font-size: 75%;
+	    font-weight: 700;
+	    white-space: nowrap;
+	    border-radius: 0.35rem;
+	    top:10%
+	}
+	.wishlist{
+		position: relative;
+	}
 </style>
 <header>
 	<div class="container d-flex justify-content-end align-items-center">
@@ -100,7 +114,7 @@
 				</form>
 				<ul class="navbar-nav" id="navbarNav">
 					<!-- 장바구니 -->
-					<li class="nav-item">
+					<li class="nav-item wishlist">
 						<a class="nav-link" href="${ctp}/wishlist.member">
 							<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cart"
 								viewBox="0 0 16 16">
@@ -108,6 +122,7 @@
 									d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
 							</svg>
 						</a>
+						<span class="badge badge-danger badge-counter"></span>
 					</li>
 					<!-- 마이홈 -->
 					<li class="nav-item">

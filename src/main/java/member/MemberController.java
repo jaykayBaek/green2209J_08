@@ -108,12 +108,7 @@ public class MemberController extends HttpServlet{
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		}
-		/*--- 장바구니 제거 ---*/
-		else if(com.equals("/removeWishlist")) {
-			command = new RemoveWishlistCommand();
-			command.execute(request, response);
-			viewPage = "/include/message.jsp";
-		}
+		/*--- 로그아웃, 계정 수정창 이동 ---*/
 		else if(com.equals("/logout")) {
 			command = new LogoutCommand();
 			command.execute(request, response);
@@ -122,6 +117,38 @@ public class MemberController extends HttpServlet{
 		else if(com.equals("/accountModify")) {
 			viewPage += "/accountModify.jsp";
 		}
+		/*--- 장바구니 제거 ---*/
+		else if(com.equals("/removeWishlist")) {
+			command = new RemoveWishlistCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		/*--- 장바구니 뷰에서 도서 제거 ---*/
+		else if(com.equals("/deleteBookWishlist")) {
+			command = new DeleteBookWishlist();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 장바구니 뷰에서 선택된 도서 제거 ---*/
+		else if(com.equals("/deleteBooksWishlist")) {
+			command = new DeleteBooksWishlist();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 체크아웃 ---*/
+		else if(com.equals("/checkout")) {
+			command = new CheckoutCommand();
+			command.execute(request, response);
+			viewPage += "/accountModify.jsp";
+		}
+		
+		/*--- 미구현 ---*/
+		else if(com.equals("/getWishCount")) {
+			command = new GetWishCount();
+			command.execute(request, response);
+			return;
+		}
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 	}

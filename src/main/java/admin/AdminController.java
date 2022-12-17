@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import member.ValidEmailCommand;
+import member.CommandValidEmail;
 
 @SuppressWarnings("serial")
 @WebServlet("*.ad")

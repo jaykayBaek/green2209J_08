@@ -268,7 +268,7 @@ public class MemberDAO {
 					+ "	JOIN j_book b ON b.idx = p.idx_book "
 					+ "	JOIN j_book_author ba ON ba.idx_book = b.idx "
 					+ " JOIN j_author_profile ap ON ap.idx=ba.idx_author and ba.author_ordinal = 0 and ap.role = '작가' "
-					+ "WHERE idx_user=?;";
+					+ "WHERE idx_user=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idxUser);
 			rs = pstmt.executeQuery();
@@ -291,7 +291,7 @@ public class MemberDAO {
 			System.out.println(e.getMessage());
 		}
 		finally {
-			getConn.pstmtClose();
+			getConn.rsClose();
 		}
 		return vos;
 	}
@@ -320,6 +320,41 @@ public class MemberDAO {
 		}
 		
 		return res;
+	}
+
+	public ArrayList<CheckoutVO> getCheckout(String idxProduct) {
+		ArrayList<CheckoutVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT b.img_saved, p.idx, p.price_ebook, p.rate_discount, b.title, ap.name_author, b.isbn "
+					+ "FROM j_product p "
+					+ "JOIN j_book b ON b.idx = p.idx_book "
+					+ "JOIN j_book_author ba ON ba.idx_book = b.idx "
+					+ "JOIN j_author_profile ap ON ap.idx = ba.idx_author and ba.author_ordinal = 0 "
+					+ "WHERE p.idx IN("+idxProduct+")";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				CheckoutVO vo = new CheckoutVO();
+				
+				vo.setImgSaved(rs.getString("b.img_saved"));
+				vo.setIdxProduct(rs.getInt("p.idx"));
+				vo.setPriceEbook(rs.getString("p.price_ebook"));
+				vo.setRateDiscount(rs.getString("p.rate_discount"));
+				vo.setTitleBook(rs.getString("b.title"));
+				vo.setNameAuthor(rs.getString("ap.name_author"));
+				vo.setIsbn(rs.getString("b.isbn"));
+				vo.setPriceCalculated((int)(Integer.parseInt(vo.getPriceEbook()) * (1 - (Integer.parseInt(vo.getRateDiscount())) * 0.01)));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getWishlist"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vos;
 	}
 
 }

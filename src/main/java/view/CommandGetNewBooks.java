@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 
 import admin.AdminInterface;
 
-public class GetNewBooksCommand implements AdminInterface {
+public class CommandGetNewBooks implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

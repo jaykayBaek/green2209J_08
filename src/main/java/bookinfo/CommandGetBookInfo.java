@@ -12,7 +12,7 @@ import book.AuthorProfileVO;
 import member.MemberDAO;
 import member.MemberVO;
 
-public class GetBookInfoCommand implements BookInfoInterface {
+public class CommandGetBookInfo implements BookInfoInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

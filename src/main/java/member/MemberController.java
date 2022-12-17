@@ -48,22 +48,22 @@ public class MemberController extends HttpServlet{
 			return;
 		}
 		else if(com.equals("/loginBefore")) {
-			command = new LoginBeforeCommand();
+			command = new CommandLoginBefore();
 			command.execute(request, response);
 			viewPage += "/login.jsp";
 		}
 		else if(com.equals("/loginCheck")) {
-			command = new LoginCommand();
+			command = new CommandLogin();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/joinValidChk")) {
-			command = new RegisterCommand();
+			command = new CommandRegister();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/validEmail")) {
-			command = new ValidEmailCommand();
+			command = new CommandValidEmail();
 			command.execute(request, response);
 			return;
 		}
@@ -75,7 +75,7 @@ public class MemberController extends HttpServlet{
 				dispatcher.forward(request, response);
 				return;
 			}
-			command = new MyhomeCommand();
+			command = new CommandMyhome();
 			command.execute(request, response);
 			viewPage += "/myhome.jsp";
 		}
@@ -86,7 +86,7 @@ public class MemberController extends HttpServlet{
 				return;
 			}
 			else {
-				command = new WishlistCommand();
+				command = new CommandWishlist();
 				command.execute(request, response);
 				viewPage += "/wishlist.jsp";
 			}
@@ -99,8 +99,7 @@ public class MemberController extends HttpServlet{
 				dispatcher.forward(request, response);
 				return;
 			}
-			
-			command = new AddWishlistCommand();
+			command = new CommandAddWishlist();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
@@ -110,7 +109,7 @@ public class MemberController extends HttpServlet{
 		}
 		/*--- 로그아웃, 계정 수정창 이동 ---*/
 		else if(com.equals("/logout")) {
-			command = new LogoutCommand();
+			command = new CommandLogout();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
@@ -119,27 +118,33 @@ public class MemberController extends HttpServlet{
 		}
 		/*--- 장바구니 제거 ---*/
 		else if(com.equals("/removeWishlist")) {
-			command = new RemoveWishlistCommand();
+			command = new CommandRemoveWishlist();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
 		/*--- 장바구니 뷰에서 도서 제거 ---*/
-		else if(com.equals("/deleteBookWishlist")) {
-			command = new DeleteBookWishlist();
+		else if(com.equals("/clearBook")) {
+			command = new CommandClearBook();
 			command.execute(request, response);
 			return;
 		}
 		/*--- 장바구니 뷰에서 선택된 도서 제거 ---*/
-		else if(com.equals("/deleteBooksWishlist")) {
-			command = new DeleteBooksWishlist();
+		else if(com.equals("/clearSelectedBook")) {
+			command = new CommandClearSelectedBook();
 			command.execute(request, response);
 			return;
 		}
 		/*--- 체크아웃 ---*/
 		else if(com.equals("/checkout")) {
-			command = new CheckoutCommand();
+			command = new CommandCheckout();
 			command.execute(request, response);
 			viewPage += "/checkout.jsp";
+		}
+		// 체크아웃 이후, 결제 시 결제 처리
+		else if(com.equals("/order")) {
+			command = new CommandOrder();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
 		}
 		
 		/*--- 미구현 ---*/

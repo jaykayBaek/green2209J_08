@@ -10,6 +10,7 @@ public class WishlistVO {
 	private String nameAuthor;
 	private String imgSaved;
 	
+	
 	private int priceCalculated;
 
 	public int getIdxBook() {

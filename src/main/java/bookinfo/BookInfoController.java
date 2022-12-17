@@ -21,7 +21,7 @@ public class BookInfoController extends HttpServlet {
 		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
 		
 		if(com.equals("/booksearch")) {
-			command = new GetBookInfoCommand();
+			command = new CommandGetBookInfo();
 			command.execute(request, response);
 			viewPage += "/bookinfo.jsp";
 		}

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -7,118 +9,192 @@
 	<meta charset="UTF-8">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
-	  <style>
-    body,h1,h2,h3,h4,span,div,strong {
-        font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
-        text-decoration: none !important;
-    }
-
-    .order_nav {
-        border-bottom: 1px solid #adb5bd;
-    }
-
-    .order_content {
-        border-bottom: 1px solid #adb5bd;
-
-    }
-    ul, li{
-      list-style:none;
-      padding:0px;
-      margin:0px;
-    }
-    .order-info-box{
-      border: 1px solid #007f5f;
-      width: 100%;
-    }
-    .order-cont{
-      border-bottom: 1px solid #adb5bd;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-    .total-price{
-      background-color: #80b918;
-      color: #fff;
-      padding: 1rem;
-    }
-    .payment-cont{
-      padding-top: 0.3rem;
-      padding-left: 0.5rem;
-    }
-    .methodChoice{
-      width: 1rem;
-      height: 1rem;
-    }
-    .pay-agreement li{
-      font-size: 0.9rem;
-      list-style: square;
-    }
-    .point-input{
-      border: 1px solid #adb5bd;
-      padding: 0.5rem;
-      border-radius: 5px;
-    }
-    .point-input input{
-      text-align: right;
-      border: 0px;
-    }
-    .point-input input:focus{
-      text-align: right;
-      outline: 0px;
-    }
-  </style>				
+	<script>
+		$(document).ready(function(){
+			$("#point-amount-input").blur(function(){
+				const regPoint = /[^0-9]/g;
+				let point = $('#point-amount-input').val();
+				let pointChanged = point.replaceAll(regPoint, '');
+					
+				if(pointChanged>${point}){
+					$('#point-amount-input').val(${point});
+					
+					let priceCaltTot = ${priceCalcTot};
+					priceCaltTot = ${priceCalcTot} - ${point};
+					priceCaltTot=priceCaltTot.toLocaleString();
+					$('#price-tot-demo').html(priceCaltTot);
+					return;
+				}
+				
+				let priceCaltTot = ${priceCalcTot};
+				priceCaltTot = ${priceCalcTot} - pointChanged;
+				priceCaltTot=priceCaltTot.toLocaleString();
+				$('#point-amount-input').val(pointChanged);
+				$('#price-tot-demo').html(priceCaltTot);
+			});
+			$('.payment-btn').click(function() {
+				/* 약관 동의 했는지 체크 */
+				const isChecked = $("#agree-terms").is(":checked");
+				if(isChecked == false){
+					alert("약관에 동의해야 구매할 수 있습니다.");
+					return false;
+				}
+				
+				let point = $("#point-amount-input").val();
+				
+				if(point == ""){
+					point = 0;
+				}
+				
+				let check = $('.methodChoice').is(':checked');
+				
+				if(check==false){
+					alert('비정상적인 접근입니다!');
+					location.reload();
+					return false;
+				}
+				
+				let method = $('input[name=paymentMethod]:checked').val();
+				
+				/* 동적 폼 생성 */
+				let orderForm = $('<form></form>');
+				orderForm.attr("name", "orderForm");
+				orderForm.attr("method", "post");
+				orderForm.attr("action", "${ctp}/order.member");
+				
+				/* 히든 태그에 사용한 포인트와, 도서 상품 idx를 넘긴다 */
+				orderForm.append($("<input/>", {type: 'hidden', name:'priceTot', value:${priceEbookTot}}));
+				orderForm.append($("<input/>", {type: 'hidden', name:'priceSalesTot', value:${priceSalesTot}}));
+				orderForm.append($("<input/>", {type: 'hidden', name:'point', value:point}));
+				orderForm.append($("<input/>", {type: 'hidden', name:'paymentMethod', value:method}));
+				
+				$("input[name=idxProduct]").each(function(){
+					let idxProduct = $(this).val();
+					orderForm.append($("<input/>", {type: 'hidden', name:'idxProduct', value:idxProduct}));
+				})
+				
+				/* 바디에 폼태그를 넣는다 */
+				orderForm.appendTo('body');
+				orderForm.submit();
+			});
+		});
+	</script>
+	<style>
+		body,h1,h2,h3,h4,span,div,strong {
+		    font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
+		    text-decoration: none !important;
+		}
+		
+		.order_nav {
+		    border-bottom: 1px solid #adb5bd;
+		}
+		
+		.order_content {
+		    border-bottom: 1px solid #adb5bd;
+		
+		}
+		ul, li{
+		  list-style:none;
+		  padding:0px;
+		  margin:0px;
+		}
+		.order-info-box{
+		  border: 1px solid #007f5f;
+		  width: 100%;
+		}
+		.order-cont{
+		  border-bottom: 1px solid #adb5bd;
+		  padding-top: 1rem;
+		  padding-bottom: 1rem;
+		}
+		.total-price{
+		  background-color: #80b918;
+		  color: #fff;
+		  padding: 1rem;
+		}
+		.payment-cont{
+		  padding-top: 0.3rem;
+		  padding-left: 0.5rem;
+		}
+		.methodChoice{
+		  width: 1rem;
+		  height: 1rem;
+		}
+		.pay-agreement li{
+		  font-size: 0.9rem;
+		  list-style: square;
+		}
+		.point-input{
+		  border: 1px solid #adb5bd;
+		  padding: 0.5rem;
+		  border-radius: 5px;
+		}
+		.point-input input{
+		  text-align: right;
+		  border: 0px;
+		}
+		.point-input input:focus{
+		  text-align: right;
+		  outline: 0px;
+		}
+		.checkoutlist{
+			border-bottom: 1px solid #adb5bd; ;
+			padding:5px;
+		}
+	</style>				
 </head>
 <body>
   <jsp:include page="/include/nav.jsp"/>
-  <div class="container mt-3">
+  <div class="container order-wrap mt-3">
     <div class="row">
       <div class="col">
         <nav class="order_nav d-flex">
           <h5 class="font-weight-bold">주문 목록</h5>
-          <span class="font-weight-bolder pl-1">3</span>
+          <span class="font-weight-bolder pl-1">${cnt}</span>
         </nav>
 
-        <ul class="d-flex mb-3" style="width:100%">
-          <li class="col-1 d-flex mr-3 p-0">
-            <a href="/green2209J_08/booksearch.bi?isbn=9781781106303">
-              <img src="${ctp}/data/books/9781781106303.jpg" alt="도서 개정 번역판 | 해리 포터와 마법사의 돌의 표지" width="70px" height="70px"
-                class="img-thumbnail">
-            </a>
-            <input type="hidden" value="10050" name="priceEbook" id="price2">
-            <input type="hidden" value="5" name="rateDiscount" id="rate2">
-          </li>
-          <li class="col d-flex align-items-center">
-            <div class="row" style="width:100%">
-              <div class="col">
-                <div class="row d-flex flex-column flex-nowrap">
-                  <div class="col">
-                    <h3 class="h5 font-weight-bold">개정 번역판 | 해리 포터와 마법사의 돌</h3>
-                    <p>조앤.K.롤링</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-2 d-flex flex-column flex-nowrap text-right align-items-center">
-                <ul>
-                  <li>
-                    <div class="col" style="color:#cccccc">
-                      <del>10,050</del>
-                    </div>
-                  </li>
-                  <li class="d-flex">
-                    <div class="col d-flex rate-wrap">
-                      <span class="text-danger">5%🠣</span>
-                      <span class="h5 font-weight-bold" style="color:#28a745">
-                        9,547
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
+          <c:forEach var="vo" items="${vos}">
+			<ul class="d-flex checkoutlist mb-3" style="width:100%">
+	          <li class="col-1 d-flex mr-3 p-0">
+	            <a href="/green2209J_08/booksearch.bi?isbn=${vo.isbn}">
+	              <img src="${ctp}/data/books/${vo.imgSaved}" alt="${vo.titleBook}의 표지" width="70px" height="70px"
+	                class="img-thumbnail">
+	            </a>
+
+	          </li>
+	          <li class="col d-flex align-items-center">
+	            <div class="row" style="width:100%">
+	              <div class="col">
+	                <div class="row d-flex flex-column flex-nowrap">
+	                  <div class="col">
+	                    <h3 class="h5 font-weight-bold">${vo.titleBook}</h3>
+	                    <p>${vo.nameAuthor}</p>
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-2 d-flex flex-column flex-nowrap text-right align-items-center">
+	                <ul>
+	                  <li>
+	                    <div class="col" style="color:#cccccc">
+	                      <del>${vo.priceEbook}</del>
+	                    </div>
+	                  </li>
+	                  <li class="d-flex">
+	                    <div class="col d-flex rate-wrap">
+	                      <span class="text-danger">${vo.rateDiscount}%&#8595;</span>
+	                      <span class="h5 font-weight-bold" style="color:#28a745">
+	                        ${vo.priceCalculated}
+	                        <input type="hidden" name="idxProduct" value="${vo.idxProduct}"/>
+	                      </span>
+	                    </div>
+	                  </li>
+	                </ul>
+	              </div>
+	            </div>
+	          </li>
+	       </ul>
+		</c:forEach>
       </div>
-      
-      
       <div class="col-4">
         <div class="summary_box">
           <div class="summary_content">
@@ -129,7 +205,7 @@
                     총 주문금액
                   </div>
                   <div class="col text-right">
-                    50000원
+                  	<b><fmt:formatNumber value="${priceEbookTot}" pattern="#,###" /> 원</b>
                   </div>
                 </li>
                 <li class="order-cont d-flex">
@@ -137,7 +213,7 @@
                     할인 금액
                   </div>
                   <div class="col text-right">
-                    50000원
+                  	<b><fmt:formatNumber value="${priceSalesTot}" pattern="#,###" /> 원</b>
                   </div>
                 </li>
                 <li class="order-cont">
@@ -147,13 +223,17 @@
                     </div>
                     <div class="col text-right">
                       <div class="point-input d-flex">
-                        <input type="text" name="pointAmount"/>
-                        원
+                        <input type="text" name="pointAmount" id="point-amount-input"/>
+						원
                       </div>
                     </div>
                   </div>
                   <div class="text-center mt-2">
-                    현재 보유 중인 포인트는? <strong>800000원</strong>
+                    현재 보유 중인 포인트는?
+                    <strong>
+                    	<fmt:formatNumber value="${point}" pattern="#,###"/>
+	                    원
+                    </strong>
                   </div>
                 </li>
                 <li class="order-cont d-flex">
@@ -161,15 +241,21 @@
                     포인트 적립 예상 금액
                   </div>
                   <div class="col text-right">
-                    50000원
+                  	<b><fmt:formatNumber value="${pointExpected}" pattern="#,###" /></b> 원
                   </div>
                 </li>
                 <li class="order-cont text-center total-price">
                   <span class="h5 font-weight-bold ">총 결제금액</span>
-                  <span class="h4 font-weight-bold ">1000000원</span>
+                  <span class="h4 font-weight-bold ">
+                  	<b>
+                  		<span id="price-tot-demo">
+		                  	<fmt:formatNumber value="${priceCalcTot}" pattern="#,###" />
+                  		</span>
+                  	</b> 원
+                  </span>
                 </li>
               </ul>
-              <ul class="order-info-box">
+              <ul class="order-info-box payment-method">
                 <li class="payment-method">
                   <div class="payment-cont">
                     결제 수단
@@ -177,7 +263,7 @@
                 </li>
                 <li>
                   <div class="payment-cont d-flex align-items-center">
-                    <input type="radio" name="paymentMethod" id="paymentCard" class="methodChoice mr-1">
+                    <input type="radio" name="paymentMethod" id="paymentCard" class="methodChoice mr-1" value="card"checked />
                     <label for="paymentCard">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-credit-card-2-back-fill" viewBox="0 0 16 16">
@@ -192,7 +278,7 @@
                 </li>
                 <li>
                   <div class="payment-cont d-flex align-items-center">
-                    <input type="radio" name="paymentMethod" id="paymentCash" class="methodChoice mr-1">
+                    <input type="radio" name="paymentMethod" id="paymentCash" class="methodChoice mr-1" value="cash">
                     <label for="paymentCash">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-cash-stack" viewBox="0 0 16 16">
@@ -220,8 +306,8 @@
 	              	  </label>
                     </div>
                   </div>
-                  <button class="btn btn-lg btn-success p-2 font-weight-bold" style="width:100%" type="button"
-                    onclick="orderBook()">결제 하기</button>
+                  <button class="btn btn-lg btn-success p-2 font-weight-bold payment-btn" style="width:100%" type="button"
+                    >결제 하기</button>
                 </li>
               </ul>
               <ul class="pay-agreement">
@@ -234,7 +320,7 @@
         </div>
       </div>
     </div>
-  </div>
   <jsp:include page="/include/footer.jsp"/>
+  </div>
 </body>
 </html>

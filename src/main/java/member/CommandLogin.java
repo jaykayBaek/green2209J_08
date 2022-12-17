@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import conn.SecurityUtil;
 
-public class LoginCommand implements MemberInterface {
+public class CommandLogin implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

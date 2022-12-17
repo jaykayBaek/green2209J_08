@@ -22,7 +22,7 @@ public class ViewController extends HttpServlet {
 		String com = uri.substring(uri.lastIndexOf("/"), uri.lastIndexOf("."));
 		
 		if(com.equals("/getNewBooks")) {
-			command = new GetNewBooksCommand();
+			command = new CommandGetNewBooks();
 			command.execute(request, response);
 			return;
 		}

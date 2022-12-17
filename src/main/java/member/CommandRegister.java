@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import conn.SecurityUtil;
 
-public class RegisterCommand implements MemberInterface {
+public class CommandRegister implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

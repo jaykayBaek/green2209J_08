@@ -1,6 +1,7 @@
 package member;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,16 @@ public class CheckoutCommand implements MemberInterface {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String[] idx = request.getParameterValues("checkBook");
-		String tmp="";
+		
+		String idxProduct="";
+		
 		for(String i:idx) {
-			tmp += i+",";
+			idxProduct += i+",";
 		}
-		System.out.println("checkoutcommand"+tmp);
+		idxProduct=idxProduct.substring(0,idxProduct.lastIndexOf(","));
+		
+		MemberDAO dao = new MemberDAO();
+		ArrayList<E> vos = dao.getCheckout();
+			
 	}
 }

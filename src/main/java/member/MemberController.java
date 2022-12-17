@@ -147,7 +147,7 @@ public class MemberController extends HttpServlet{
 			viewPage = "/include/message.jsp";
 		}
 		
-		/*--- 미구현 ---*/
+		/*--- 장바구니에 담긴 개수 ---*/
 		else if(com.equals("/getWishCount")) {
 			command = new GetWishCount();
 			command.execute(request, response);

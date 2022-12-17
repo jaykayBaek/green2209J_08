@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import admin.AdminInterface;
+import member.MemberInterface;
 
 @WebServlet("*.view")
 public class ViewController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AdminInterface command = null;
+		MemberInterface command = null;
 		String viewPage = "/WEB-INF/";
 		
 		String uri = request.getRequestURI();
@@ -26,7 +27,6 @@ public class ViewController extends HttpServlet {
 			command.execute(request, response);
 			return;
 		}
-		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

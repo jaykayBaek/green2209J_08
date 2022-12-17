@@ -356,5 +356,7 @@ public class MemberDAO {
 		}
 		return vos;
 	}
+	
+	
 
 }

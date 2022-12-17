@@ -10,7 +10,6 @@
     		url    : "${ctp}/getNewBooks.view",
     		success:function(data) {
 	    			let dataParsed = JSON.parse(data);
-		    		console.log(dataParsed);
 		    		let divRes="";
 	    			for(let i in dataParsed.newBooksView){
     					let bookIdx = dataParsed.newBooksView[i].bookIdx;
@@ -22,11 +21,11 @@
     					divRes += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지"></div><div><span>'+title+'</span></div></a></div>';
 	    			}
 	    			
-	    			
-
-	    			
      				$('.swiper-newbook').append(divRes);
     		},
+    		error:function(){
+    			console.log('errorNewbooks');
+    		}
 		});
 	});
 </script>

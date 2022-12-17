@@ -11,22 +11,6 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0.3/css/all.min.css">
- 	<script> 
-		'use strict';
-/* 		$(document).ready(function(){
-			$.ajax({
-				url   : "${ctp}/getWishCount.member",
-				type: "post",
-				success: function(res) {
-					$(".badge-counter").text(res);
-				},
-				error: function() {
-					alert("오류")
-				}
-			});
-		}); */
-	</script>
-	
 	<style>
 	    body, h1, h2, span, div, strong  {
 			font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;

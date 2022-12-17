@@ -10,6 +10,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>title</title>
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
+	<script>
+		$(function(){
+			$.ajax({
+	    		type   : "post",
+	    		url    : "${ctp}/getWishCount.member",
+	    		success:function(res) {
+	    			console.log(res);
+	    			$(".wishlist-cnt").html(res);
+   				}
+			});
+		});
+	</script>
 	<style>
     	body, h1, h2, h3, h4 span, div, strong  {
 			font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
@@ -27,7 +39,7 @@
         h4{
             color: #495057;
         }
-        li{
+        .home-list li{
             color:#6c757d;
         }
         a:hover{
@@ -128,7 +140,9 @@
 		                    		<div class="col">
                 				    	<i class="fas fa-shopping-cart"></i>
 		                                <span class="h5 font-weight-bold">장바구니</span>
-		                                <p class="h2 amount_item">7건</p>
+		                                <p class="h2 amount_item">
+		                                	<span class="wishlist-cnt"></span>건
+		                                </p>
 		                                <p class="h6">
 		                                    <a href="${ctp}/wishlist.member">
 		                                        장바구니로

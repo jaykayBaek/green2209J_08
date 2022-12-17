@@ -6,6 +6,20 @@
   int grade = session.getAttribute("sGrade")==null? 99 : (int) session.getAttribute("sGrade");
   pageContext.setAttribute("grade", grade);
 %>
+<script>
+	$(function(){
+		$.ajax({
+			type   : "post",
+			url    : "${ctp}/getWishCount.member",
+			success:function(res) {
+				$(".badge-counter").append(res);
+			},
+			error:function(){
+				console.log('gd');
+			}
+		});
+	});
+</script>
 <style>
 	nav {
 		background-color: #fff;
@@ -48,8 +62,7 @@
 	}
 	.badge-counter{
 		position: absolute;
-	    transform: scale(0.8) translate(70%, -10%);
-	    transform-origin: top right;
+	    transform: scale(0.8) translate(200%, -20%);
 	    padding: 0.25em 0.4em;
 	    font-size: 75%;
 	    font-weight: 700;

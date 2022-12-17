@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import admin.AdminInterface;
+import member.MemberInterface;
 
-public class CommandGetNewBooks implements AdminInterface {
+public class CommandGetNewBooks implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

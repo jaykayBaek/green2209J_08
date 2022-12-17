@@ -25,6 +25,8 @@ public class GetWishCount implements MemberInterface {
 		
 		int res = dao.getWishlistCount(idx);
 		
-		response.getWriter().write(res);
+		String strRes = res+"";
+
+		response.getWriter().write(strRes);
 	}
 }

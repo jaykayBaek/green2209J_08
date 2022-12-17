@@ -25,9 +25,6 @@
     h4{
         color: #495057;
     }
-    li{
-        color:#6c757d;
-    }
     a:hover{
         text-decoration: none !important;
         font-weight: bold;
@@ -65,7 +62,7 @@
                <i class="fas fa-book"></i>
                <h4 class="h5 font-weight-bold pl-1">책</h4>
            </div>
-           <ul>
+           <ul class="home-list">
                <li>
                    <a href="${ctp}/wishlist.member">장바구니</a>
                </li>
@@ -81,7 +78,7 @@
                </svg>
                <h4 class="h5 font-weight-bold pl-1">결제 내역</h4>
            </div>
-           <ul>
+           <ul class="home-list">
                <li><a href="">결제 내역</a></li>
                <li><a href="">잔여 포인트</a></li>
                <li><a href="">사용 가능 쿠폰</a></li>
@@ -94,7 +91,7 @@
                </svg>
                <h4 class="h5 font-weight-bold pl-1">계정</h4>
            </div>
-           <ul>
+           <ul class="home-list">
                <li><a href="">1:1 문의</a></li>
                <li><a href="">내 리뷰 관리</a></li>
                <li><a href="${ctp}/accountModify.member">정보 변경</a></li>

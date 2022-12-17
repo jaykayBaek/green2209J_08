@@ -228,12 +228,11 @@
 		                                    </div>
 		                                    <div class="row">
 		                                        <button class="btn btn-success pl-5 pr-5 btn-sm delete-btn" type="button" onclick="deletebook(this.value)" value="${vo.idxProduct}">삭제</button>
-<%-- 		                                        <button class="btn btn-success pl-5 pr-5 btn-sm delete-btn" value="${vo.idxProduct}">삭제</button> --%>
 		                                    </div>
 		                                </div>
 		                            </div>
                         		</div>
-                        	</c:forEach>
+                       	</c:forEach>
                     </div>
                 </div>
             </div>

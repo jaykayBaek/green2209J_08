@@ -139,7 +139,7 @@ public class MemberController extends HttpServlet{
 		else if(com.equals("/checkout")) {
 			command = new CheckoutCommand();
 			command.execute(request, response);
-			viewPage += "/accountModify.jsp";
+			viewPage += "/checkout.jsp";
 		}
 		
 		/*--- 미구현 ---*/

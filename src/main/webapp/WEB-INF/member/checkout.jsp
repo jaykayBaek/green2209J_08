@@ -25,13 +25,13 @@
 					$('#price-tot-demo').html(priceCaltTot);
 					return;
 				}
-				
 				let priceCaltTot = ${priceCalcTot};
 				priceCaltTot = ${priceCalcTot} - pointChanged;
 				priceCaltTot=priceCaltTot.toLocaleString();
 				$('#point-amount-input').val(pointChanged);
 				$('#price-tot-demo').html(priceCaltTot);
 			});
+			
 			$('.payment-btn').click(function() {
 				/* 약관 동의 했는지 체크 */
 				const isChecked = $("#agree-terms").is(":checked");
@@ -60,7 +60,7 @@
 				let orderForm = $('<form></form>');
 				orderForm.attr("name", "orderForm");
 				orderForm.attr("method", "post");
-				orderForm.attr("action", "${ctp}/order.member");
+				orderForm.attr("action", "${ctp}/orderBook.member");
 				
 				/* 히든 태그에 사용한 포인트와, 도서 상품 idx를 넘긴다 */
 				orderForm.append($("<input/>", {type: 'hidden', name:'priceTot', value:${priceEbookTot}}));
@@ -185,6 +185,7 @@
 	                      <span class="h5 font-weight-bold" style="color:#28a745">
 	                        ${vo.priceCalculated}
 	                        <input type="hidden" name="idxProduct" value="${vo.idxProduct}"/>
+	                        <input type="hidden" name="idxBook" value="${vo.idxBook}"/>
 	                      </span>
 	                    </div>
 	                  </li>

@@ -12,7 +12,9 @@
 			type   : "post",
 			url    : "${ctp}/getWishCount.member",
 			success:function(res) {
-				$(".badge-counter").append(res);
+				if(res != 0){
+					$(".badge-counter").append(res);
+				}
 			},
 			error:function(){
 				console.log('gd');
@@ -149,7 +151,7 @@
 					</li>
 					<!-- 책보기 -->
 					<li class="nav-item">
-						<a class="nav-link" href="#">
+						<a class="nav-link" href="${ctp}/mylib.member">
 							<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-book"
 								viewBox="0 0 16 16">
 								<path

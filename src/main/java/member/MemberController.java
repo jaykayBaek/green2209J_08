@@ -107,6 +107,12 @@ public class MemberController extends HttpServlet{
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
 			dispatcher.forward(request, response);
 		}
+		/*--- 내 서재 이동---*/
+		else if(com.equals("/mylib")) {
+			command = new CommandMyLib();
+			command.execute(request, response);
+			viewPage += "/mylib.jsp";
+		}
 		/*--- 로그아웃, 계정 수정창 이동 ---*/
 		else if(com.equals("/logout")) {
 			command = new CommandLogout();
@@ -141,8 +147,8 @@ public class MemberController extends HttpServlet{
 			viewPage += "/checkout.jsp";
 		}
 		// 체크아웃 이후, 결제 시 결제 처리
-		else if(com.equals("/order")) {
-			command = new CommandOrder();
+		else if(com.equals("/orderBook")) {
+			command = new CommandOrderBook();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
@@ -152,6 +158,18 @@ public class MemberController extends HttpServlet{
 			command = new GetWishCount();
 			command.execute(request, response);
 			return;
+		}
+		
+		/*--- 결제내역 가기 ---*/
+		else if(com.equals("/myPayment")) {
+			command = new CommandMyPayment();
+			command.execute(request, response);
+			viewPage += "/myPayment.jsp";
+		}
+		else if(com.equals("/paymentDetail")) {
+			/* command = new CommandMyPaymentDetail(); */
+			/* command.execute(request, response); */
+			viewPage += "/myPaymentDetail.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

@@ -12,7 +12,7 @@ public class CommandCheckout implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String[] idx = request.getParameterValues("checkBook");
+		String[] idx = request.getParameterValues("idxProduct");
 		HttpSession session = request.getSession();
 		String email = ""+session.getAttribute("sEmail");
 		

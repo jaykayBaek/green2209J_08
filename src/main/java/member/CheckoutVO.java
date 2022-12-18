@@ -2,6 +2,8 @@ package member;
 
 public class CheckoutVO {
 	private int idxProduct;
+	private int idxBook;
+
 	private String imgSaved;
 	private String nameAuthor;
 	private String priceEbook;
@@ -14,6 +16,12 @@ public class CheckoutVO {
 	}
 	public void setIdxProduct(int idxProduct) {
 		this.idxProduct = idxProduct;
+	}
+	public int getIdxBook() {
+		return idxBook;
+	}
+	public void setIdxBook(int idxBook) {
+		this.idxBook = idxBook;
 	}
 	public String getImgSaved() {
 		return imgSaved;
@@ -59,12 +67,9 @@ public class CheckoutVO {
 	}
 	@Override
 	public String toString() {
-		return "CheckoutVO [idxProduct=" + idxProduct + ", imgSaved=" + imgSaved + ", nameAuthor=" + nameAuthor
-				+ ", priceEbook=" + priceEbook + ", rateDiscount=" + rateDiscount + ", titleBook=" + titleBook
-				+ ", isbn=" + isbn + ", priceCalculated=" + priceCalculated + "]";
+		return "CheckoutVO [idxProduct=" + idxProduct + ", idxBook=" + idxBook + ", imgSaved=" + imgSaved
+				+ ", nameAuthor=" + nameAuthor + ", priceEbook=" + priceEbook + ", rateDiscount=" + rateDiscount
+				+ ", titleBook=" + titleBook + ", isbn=" + isbn + ", priceCalculated=" + priceCalculated + "]";
 	}
-	
-	
-	
 	
 }

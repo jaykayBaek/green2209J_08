@@ -79,7 +79,11 @@
                <h4 class="h5 font-weight-bold pl-1">결제 내역</h4>
            </div>
            <ul class="home-list">
-               <li><a href="">결제 내역</a></li>
+               <li>
+	               <a href="${ctp}/myPayment.member">
+						결제 내역
+	               </a>
+               </li>
                <li><a href="">잔여 포인트</a></li>
                <li><a href="">사용 가능 쿠폰</a></li>
            </ul>

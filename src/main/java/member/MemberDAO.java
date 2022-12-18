@@ -247,7 +247,7 @@ public class MemberDAO {
 			res = true;
 			
 		} catch (SQLException e) {
-			System.out.println("addWishList"+sql);
+			System.out.println("removeWishlist"+sql);
 			System.out.println(e.getMessage());
 		}
 		finally {
@@ -325,7 +325,7 @@ public class MemberDAO {
 	public ArrayList<CheckoutVO> getCheckout(String idxProduct) {
 		ArrayList<CheckoutVO> vos = new ArrayList<>();
 		try {
-			sql = "SELECT b.img_saved, p.idx, p.price_ebook, p.rate_discount, b.title, ap.name_author, b.isbn "
+			sql = "SELECT b.img_saved, p.idx, b.idx, p.price_ebook, p.rate_discount, b.title, ap.name_author, b.isbn "
 					+ "FROM j_product p "
 					+ "JOIN j_book b ON b.idx = p.idx_book "
 					+ "JOIN j_book_author ba ON ba.idx_book = b.idx "
@@ -339,6 +339,7 @@ public class MemberDAO {
 				
 				vo.setImgSaved(rs.getString("b.img_saved"));
 				vo.setIdxProduct(rs.getInt("p.idx"));
+				vo.setIdxBook(rs.getInt("b.idx"));
 				vo.setPriceEbook(rs.getString("p.price_ebook"));
 				vo.setRateDiscount(rs.getString("p.rate_discount"));
 				vo.setTitleBook(rs.getString("b.title"));
@@ -348,7 +349,7 @@ public class MemberDAO {
 				vos.add(vo);
 			}
 		} catch (SQLException e) {
-			System.out.println("getWishlist"+sql);
+			System.out.println("getCheckout"+sql);
 			System.out.println(e.getMessage());
 		}
 		finally {
@@ -356,7 +357,273 @@ public class MemberDAO {
 		}
 		return vos;
 	}
-	
-	
 
+	public String getDatePurchased() {
+		String res = "";
+		try {
+			sql = "SELECT order_no "
+					+ "FROM j_order_list "
+					+ "WHERE date_purchased > CURDATE() "
+					+ "ORDER BY order_no desc "
+					+ "LIMIT 1;";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				res = rs.getString("order_no");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("getDatePurchased"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
+	public boolean setOrderList(OrderListVO listVO) {
+		boolean res = false;
+		try {
+			sql = "INSERT INTO j_order_list "
+					+ "VALUES(DEFAULT,?,?,?,?,?,?,?,?,DEFAULT,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, listVO.getIdxUser());
+			pstmt.setString(2, listVO.getOrderNo());
+			pstmt.setInt(3, listVO.getPriceOrder());
+			pstmt.setInt(4, listVO.getPriceSales());
+			pstmt.setInt(5, listVO.getPricePointUsed());
+			pstmt.setInt(6, listVO.getPricePayment());
+			pstmt.setString(7, listVO.getOptionChoosed());
+			pstmt.setInt(8, listVO.getPointEarned());
+			pstmt.setString(9, listVO.getBirthYear());
+			pstmt.setString(10, listVO.getPhoneNo());
+			pstmt.setString(11, listVO.getGender());
+			pstmt.setString(12, listVO.getJob());
+			
+			pstmt.executeUpdate();
+			
+			res = true;
+			
+		} catch (SQLException e) {
+			System.out.println("setOrderList e : " + sql);
+			System.out.println(e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+
+	public ArrayList<String> getIdxProduct(String productIdx, int idx) {
+		ArrayList<String> arr = new ArrayList<>();
+		
+		try {
+			sql = "SELECT b.idx bookIdx FROM j_product p "
+					+ "JOIN j_book b ON b.idx =  p.idx_book "
+					+ "WHERE p.idx in ("+productIdx+")";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				arr.add(rs.getString("bookIdx"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("getIdxProduct"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return arr;
+	}
+
+	public boolean setMyLib(ArrayList<String> bookIdx, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "INSERT INTO "
+					+ "j_mylib (idx, idx_book, idx_user) VALUES ";
+			
+			for(int i=0; i<bookIdx.size(); i++) {
+				sql += "(DEFAULT,"+bookIdx.get(i)+","+idxUser+"),";
+			}
+			sql = sql.substring(0,sql.lastIndexOf(","));
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (Exception e) {
+			System.out.println("setMyLib"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public boolean addPoint(int pointEarned, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "UPDATE j_user SET point=point+? WHERE idx = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pointEarned);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (Exception e) {
+			System.out.println("addPoint"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public boolean subtractPoint(int pointEarned, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "UPDATE j_user SET point=point-? WHERE idx = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pointEarned);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (Exception e) {
+			System.out.println("addPoint"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public int getOrderListIdx(int idxOrderList) {
+		int res = 0;
+		try {
+			sql = "SELECT idx FROM j_order_list "
+					+ "WHERE idx_user = ? "
+					+ "ORDER BY idx DESC "
+					+ "LIMIT 1";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxOrderList);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				res = rs.getInt("idx");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("setOrderListBook"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
+	public boolean setOrderListBook(int idxOrderList, String[] productIdxArr) {
+		boolean res = false;
+		
+		try {
+			sql = "INSERT INTO "
+					+ "j_order_book_info (idx, idx_order_list, idx_product) VALUES ";
+			
+			for(int i=0; i<productIdxArr.length; i++) {
+				sql += "(DEFAULT,"+idxOrderList+","+productIdxArr[i]+"),";
+			}
+			sql = sql.substring(0,sql.lastIndexOf(","));
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
+			res = true;
+			
+		} catch (SQLException e) {
+			System.out.println("setMyLib"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public int getTotalPaymentRecord(int idxUser) {
+		int res = 0;
+		try {
+			sql = "SELECT count(idx_user) cnt FROM j_order_list WHERE idx_user = 1";
+			
+			sql = sql.substring(0,sql.lastIndexOf(","));
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = rs.getInt("cnt");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("setMyLib"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
+	public ArrayList<MyPaymentVO> getOrderList(int idxUser) {
+		ArrayList<MyPaymentVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT idx, idx_user, order_no, price_order, price_sales, price_point_used, "
+					+ "price_payment, option_choosed, point_earned, date_purchased "
+					+ "FROM j_order_list "
+					+ "WHERE idx_user = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MyPaymentVO vo = new MyPaymentVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setIdxUser(rs.getInt("idx_user"));
+				vo.setOrderNo(rs.getString("order_no"));
+				vo.setPriceOrder(rs.getInt("price_order"));
+				vo.setPriceSales(rs.getInt("price_sales"));
+				vo.setPricePointUsed(rs.getInt("price_point_used"));
+				vo.setPricePayment(rs.getInt("price_payment"));
+				vo.setOptionChoosed(rs.getString("option_choosed"));
+				vo.setPointEarned(rs.getInt("point_earned"));
+				vo.setDatePurchased(rs.getString("date_purchased"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getOrderList"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			
+		}
+		return vos;
+	}
 }

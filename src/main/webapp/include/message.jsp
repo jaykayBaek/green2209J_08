@@ -40,6 +40,11 @@
     else if(msg == "successDeleteWishlist") msg = "해당 상품을 장바구니에서 지웠습니다.";
     else if(msg == "failDeleteWishlist") msg = "서버 상태가 좋지 못해 장바구니에 지우는 것을 실패했습니다.";
     
+    /*--- 주문 처리 ---*/
+    else if(msg == "failOrderBook") msg = "서버 상태가 좋지 못해 주문에 실패했습니다.";
+    else if(msg == "successOrderBook") msg = "주문에 성공했습니다.";
+    else if(msg == "suspiousPoint") msg = "비정상적인 접근입니다.";
+    
     alert(msg);
     if(url != "") location.href = url;
     

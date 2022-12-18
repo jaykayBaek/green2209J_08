@@ -110,17 +110,28 @@
 		
 		/* 선택 상품 구매 */
 		let orderBook = () => {
-			let idxArr = [];
-			$("input[name=checkBook]:checked").each(function(){
-				idxArr.push($(this).val());
-			})
-			console.log(idxArr);
-			if(idxArr == ""){
+			let idxProduct = $('input[name=checkBook]:checked').val();
+			if(typeof idxProduct == "undefined"	){
 				alert("결제할 도서를 선택해주세요.");
 				return false;
 			}
 			
-			$("#wishForm").submit();  
+			
+			/* 동적 폼 생성 */
+			let wishForm = $('<form></form>');
+			wishForm.attr("name", "wishForm");
+			wishForm.attr("method", "post");
+			wishForm.attr("action", "${ctp}/checkout.member");
+			
+			/* 히든 태그에 사용한 포인트와, 도서 상품 idx를 넘긴다 */
+			$("input[name=checkBook]:checked").each(function(){
+				let idxProduct = $(this).val();
+				wishForm.append($("<input/>", {type: 'hidden', name:'idxProduct', value:idxProduct}));
+			})
+			
+			/* 바디에 폼태그를 넣는다 */
+			wishForm.appendTo('body');
+			wishForm.submit();
 		}
 	</script>
     <style>

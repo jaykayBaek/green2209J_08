@@ -20,6 +20,7 @@ public class CommandWishlist implements MemberInterface {
 		int idxUser = memberVO.getIdx();
 		
 		ArrayList<WishlistVO> vos = dao.getWishlist(idxUser);
+		
 		/* 장바구니 초기화면에 뿌려줄 금액들을 구함
 		 * 구해야 하는 금액은?
 		 * 1. 총 주문 금액(장바구니에 있는 ebook의 원가들의 합)

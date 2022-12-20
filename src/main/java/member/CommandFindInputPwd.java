@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 
 import conn.SecurityUtil;
 
-public class FindInputPwd implements MemberInterface {
+public class CommandFindInputPwd implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

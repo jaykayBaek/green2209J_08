@@ -38,12 +38,12 @@ public class MemberController extends HttpServlet{
 			viewPage += "/find_pwd.jsp";
 		}
 		else if(com.equals("/findInputEmail")) {
-			command = new FindInputEmail();
+			command = new CommandFindInputEmail();
 			command.execute(request, response);
 			return;
 		}
 		else if(com.equals("/findInputPwd")) {
-			command = new FindInputPwd();
+			command = new CommandFindInputPwd();
 			command.execute(request, response);
 			return;
 		}
@@ -104,14 +104,25 @@ public class MemberController extends HttpServlet{
 			viewPage = "/include/message.jsp";
 		}
 		else if(grade >= 99) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/member/login.jsp");
 			dispatcher.forward(request, response);
+			return;
 		}
 		/*--- 내 서재 이동---*/
 		else if(com.equals("/mylib")) {
 			command = new CommandMyLib();
 			command.execute(request, response);
 			viewPage += "/mylib.jsp";
+		}
+		else if(com.equals("/mylibDetail")) {
+			command = new CommandMyLibDetail();
+			command.execute(request, response);
+			viewPage += "/mylibDetail.jsp";
+		}
+		else if(com.equals("/showBookContent")) {
+			command = new CommandShowBookContent();
+			command.execute(request, response);
+			viewPage += "/showBookContent.jsp";
 		}
 		/*--- 로그아웃, 계정 수정창 이동 ---*/
 		else if(com.equals("/logout")) {
@@ -155,7 +166,13 @@ public class MemberController extends HttpServlet{
 		
 		/*--- 장바구니에 담긴 개수 ---*/
 		else if(com.equals("/getWishCount")) {
-			command = new GetWishCount();
+			command = new CommandGetWishCount();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 내책권수 ---*/
+		else if(com.equals("/getMybookCount")) {
+			command = new CommandGetMyBookCount();
 			command.execute(request, response);
 			return;
 		}
@@ -166,10 +183,23 @@ public class MemberController extends HttpServlet{
 			command.execute(request, response);
 			viewPage += "/myPayment.jsp";
 		}
-		else if(com.equals("/paymentDetail")) {
-			/* command = new CommandMyPaymentDetail(); */
-			/* command.execute(request, response); */
+		else if(com.equals("/myPaymentDetail")) {
+			command = new CommandMyPaymentDetail();
+			command.execute(request, response);
 			viewPage += "/myPaymentDetail.jsp";
+		}
+		
+		/*--- 리뷰 달기 ---*/
+		else if(com.equals("/review")) {
+			command = new CommandReview();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		/*--- 리뷰 지우기 ---*/
+		else if(com.equals("/deleteReview")) {
+			command = new CommandDeleteReview();
+			command.execute(request, response);
+			return;
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

@@ -105,7 +105,7 @@ public class CommandOrderBook implements MemberInterface {
 		
 		/*--- 내 서고에 저장 ---*/
 		// product idx 로 book idx를 구해야 함.
-		ArrayList<String> bookIdx = dao.getIdxProduct(productIdx, memberVO.getIdx());
+		ArrayList<String> bookIdx = dao.getBookIdx(productIdx, memberVO.getIdx());
 		boolean mlRes = dao.setMyLib(bookIdx, memberVO.getIdx());
 		
 		

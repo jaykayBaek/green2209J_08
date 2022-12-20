@@ -12,7 +12,7 @@
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0.3/css/all.min.css">
 			<style>
 				body {
-					background-color: #eeef20;
+					/* background-color: #eeef20; */
 					font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
 				}
 

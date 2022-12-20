@@ -247,18 +247,3 @@
       });
     </script>
     </article>
-    <article class="age">
-      <div class="container-fluid">
-        <h2 class="h3 font-weight-bold">내 나이대에 많이 읽는 도서는? ✨</h2>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores, necessitatibus modi numquam nemo aspernatur
-        corrupti, a soluta nobis explicabo ratione, blanditiis nisi voluptates. Fuga explicabo dolorem placeat corrupti
-        quisquam molestias.
-        Sequi eos corporis quod culpa, quam quibusdam mollitia accusamus cupiditate labore soluta hic ab voluptatum
-        suscipit vel accusantium eligendi minus aliquid consequuntur repudiandae. Provident porro optio ea tempora iure
-        impedit.
-        Incidunt id accusamus dolorem voluptatum facere facilis praesentium esse asperiores numquam. Nesciunt aliquid,
-        eum quasi enim assumenda ea neque doloremque itaque, illo optio corrupti, provident hic eius error impedit id.
-        Ea voluptas nam quaerat repellat officiis recusandae optio dolor nostrum sunt perferendis vel quidem, ullam
-        facilis odio reiciendis mollitia debitis tenetur! Sunt aliquid ducimus itaque quibusdam quidem alias ipsum id?
-      </div>
-    </article>

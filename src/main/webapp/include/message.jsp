@@ -45,6 +45,11 @@
     else if(msg == "successOrderBook") msg = "주문에 성공했습니다.";
     else if(msg == "suspiousPoint") msg = "비정상적인 접근입니다.";
     
+    /*--- 리뷰 달기 ---*/
+    else if(msg == "successReview") msg = "리뷰를 작성했습니다.";
+    else if(msg == "failReview") msg = "서버 상태가 좋지 못해 리뷰 작성에 실패했습니다.";
+    else if(msg == "failReviewInput") msg = "이미 리뷰를 작성하셨습니다.";
+    
     alert(msg);
     if(url != "") location.href = url;
     

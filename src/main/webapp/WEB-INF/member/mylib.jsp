@@ -12,9 +12,6 @@
             font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
             text-decoration: none !important;
         }
-        .mylib-wrap{
-            background-color: #e0e0e0;
-        }
         nav{
             background-color: #fff;
         }
@@ -58,22 +55,32 @@
 </head>
 <body>
 	<jsp:include page="/include/nav.jsp"/>
-	<div class = "container-fluid mylib-wrap">
-	
-        <div class="row d-flex justify-content-around">
-            <div class="col">
-                <div class="book_wrap mt-3" style="width:20%; height: 25vh;">
-                    <a href="#">
-                        <div class="d-flex flex-column align-items-center book_thumbnail" style="width:100%; height:100%">
-                            <div class="badge badge-dark bage_thumbnail mb-1 mt-1">
-                                <span class="bage_thumbnail_text">총 보유 권수 2권</span>
-                            </div>
-                            <img src="../images/dummy.jpg" alt="책 표지" height="80%" />
-                        </div>
-                    </a>
-                </div>
-            </div>
+	<div class = "container mylib-wrap">
+        <div class="row d-flex flex-column justify-content-around flex-wrap">
+		   	<span class="h4 font-weight-bold">
+		        내가 구매한 도서
+	        </span>
+        
+	        <c:forEach var="vo" items="${vos}">
+	        	<c:if test="${vos == '[]'}">
+	        		<div>구입한 도서가 없습니다</div>
+	        	</c:if>
+	            <div class="col">
+	                <div class="book_wrap mt-3" style="width:40%; height: 35vh;">
+	                    <a href="${ctp}/mylibDetail.member?isbn=${vo.isbnSeries}&idx=${vo.idxSeries}">
+	                        <div class="d-flex flex-column align-items-center book_thumbnail" style="width:100%; height:100%">
+	                            <div class="badge badge-dark bage_thumbnail mb-1 mt-1">
+	                                <span class="bage_thumbnail_text">총 보유 권수 ${vo.bookCntInSeries}권</span>
+	                            </div>
+	                            <img src="${ctp}/data/books/${vo.imgSavedSeires}" alt="시리즈 ${vo.titleSeries}의 표지" height="80%" />
+	                        </div>
+	                    </a>
+	                </div>
+	            </div>
+	        </c:forEach>
+        
         </div>
+        
 	</div>
   	<jsp:include page="/include/footer.jsp"/>
 </body>

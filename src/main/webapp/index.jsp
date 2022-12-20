@@ -12,11 +12,16 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-applesdgothicneo@1.0.3/css/all.min.css">
 	<style>
+ 		body{
+	        background-color:#fff;
+ 		
+ 		}
 	    body, h1, h2, span, div, strong  {
 			font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
-		 		    text-decoration: none !important;
-	 		        font-size: 1em;
+ 		    text-decoration: none !important;
+	        font-size: 1em;
  		}
+ 		
   		a:hover, a:active{
   			text-decoration: none;
   			color:inherit;

@@ -15,6 +15,7 @@ public class OrderListVO {
 	private String phoneNo;
 	private String gender;
 	private String job;
+	
 	public int getIdx() {
 		return idx;
 	}

@@ -417,7 +417,7 @@ public class MemberDAO {
 		return res;
 	}
 
-	public ArrayList<String> getIdxProduct(String productIdx, int idx) {
+	public ArrayList<String> getBookIdx(String productIdx, int idx) {
 		ArrayList<String> arr = new ArrayList<>();
 		
 		try {
@@ -598,7 +598,8 @@ public class MemberDAO {
 			sql = "SELECT idx, idx_user, order_no, price_order, price_sales, price_point_used, "
 					+ "price_payment, option_choosed, point_earned, date_purchased "
 					+ "FROM j_order_list "
-					+ "WHERE idx_user = ?";
+					+ "WHERE idx_user = ? "
+					+ "ORDER BY date_purchased DESC";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idxUser);
 			rs=pstmt.executeQuery();
@@ -626,4 +627,293 @@ public class MemberDAO {
 		}
 		return vos;
 	}
+
+	public MyPaymentVO getOrderListDetail(int idxUser, String orderNo) {
+		MyPaymentVO vo = new MyPaymentVO();
+		try {
+			sql = "SELECT * FROM "
+					+ "j_order_list ol "
+					+ "WHERE order_no = ? AND idx_user = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderNo);
+			pstmt.setInt(2, idxUser);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setIdx(rs.getInt("idx"));
+				vo.setIdxUser(rs.getInt("idx_user"));
+				vo.setOrderNo(rs.getString("order_no"));
+				vo.setPriceOrder(rs.getInt("price_order"));
+				vo.setPriceSales(rs.getInt("price_sales"));
+				vo.setPricePointUsed(rs.getInt("price_point_used"));
+				vo.setPricePayment(rs.getInt("price_payment"));
+				vo.setOptionChoosed(rs.getString("option_choosed"));
+				vo.setPointEarned(rs.getInt("point_earned"));
+				vo.setDatePurchased(rs.getString("date_purchased"));
+			}
+		} catch (SQLException e) {
+			System.out.println("getOrderList"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vo;
+		
+	}
+
+	public ArrayList<OrderListBookVO> getOrderListDetailBook(String orderNo, int idxUser) {
+		ArrayList<OrderListBookVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT b.title, b.isbn, p.idx idxProduct, ol.idx idxOrderList, obi.idx "
+					+ "FROM j_order_book_info obi "
+					+ "JOIN j_product p ON p.idx = obi.idx_product "
+					+ "JOIN j_book b ON b.idx = p.idx_book "
+					+ "JOIN j_order_list ol ON ol.idx = obi.idx_order_list "
+					+ "WHERE ORDER_NO =  ? ANd idx_user = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderNo);
+			pstmt.setInt(2, idxUser);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrderListBookVO vo = new OrderListBookVO();
+				vo.setIdx(rs.getInt("obi.idx"));
+				vo.setIdxOrderList(rs.getInt("idxOrderList"));
+				vo.setIdxProduct(rs.getInt("p.idxProduct"));
+				vo.setIsbn(rs.getString("b.isbn"));
+				vo.setTitle(rs.getString("b.title"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getOrderListDetailBook"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vos;
+	}
+
+	public ArrayList<MyLibVO> getMyLibList(int idxUser) {
+		ArrayList<MyLibVO> vos = new ArrayList<>();
+		
+		try {
+			sql = "SELECT ps.title_series, ps.isbn_series, ps.idx, ml.idx, ps.img_saved, count(ps.isbn_series) cnt "
+					+ "FROM j_mylib ml "
+					+ "JOIN j_book b ON b.idx = ml.idx_book "
+					+ "JOIN j_product p ON p.idx_book = b.idx "
+					+ "JOIN j_product_series ps ON ps.idx = p.idx_series "
+					+ "JOIN j_user u ON u.idx = ml.idx_user "
+					+ "WHERE u.idx =? "
+					+ "GROUP BY title_series";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				MyLibVO vo = new MyLibVO();
+				vo.setIdxMylib(rs.getInt("ml.idx"));
+				vo.setIdxSeries(rs.getInt("ps.idx"));
+				vo.setImgSavedSeires(rs.getString("ps.img_saved"));
+				vo.setIsbnSeries(rs.getString("ps.isbn_series"));
+				vo.setTitleSeries(rs.getString("ps.title_series"));
+				vo.setBookCntInSeries(rs.getInt("cnt"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getMyLibList"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vos;
+		
+	}
+
+	public int getMyBookCount(int idxUser) {
+		int res=0;
+		
+		try {
+			sql = "SELECT count(idx_book) count FROM j_mylib "
+					+ "WHERE idx_user=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				res = rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			System.out.println("getMyBookCount"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
+	public ArrayList<MyBookVO> getBuyedBookInSeries(int idxProductSeries, int idxUser) {
+		ArrayList<MyBookVO> vos = new ArrayList<>();
+		
+		try {
+			sql = "SELECT b.title, b.img_saved, b.isbn, b.text_content "
+					+ "FROM j_order_book_info obi "
+					+ "JOIN j_order_list ol ON ol.idx=obi.idx_order_list "
+					+ "JOIN j_product p ON obi.idx_product = p.idx "
+					+ "JOIN j_book b ON b.idx = p.idx_book "
+					+ "WHERE idx_series = ? AND idx_user = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxProductSeries);
+			pstmt.setInt(2, idxUser);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				MyBookVO vo = new MyBookVO();
+				vo.setTitleBook(rs.getString("b.title"));
+				vo.setImgSaved(rs.getString("b.img_saved"));
+				vo.setIsbnBook(rs.getString("b.isbn"));
+				vo.setTextContent(rs.getString("b.text_content"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("getBuyedBookInSeries"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vos;
+	}
+
+	/*--- 리뷰 작성했는지 ---*/
+	public boolean getReview(int idxUser, int idxProduct) {
+		boolean res = false;
+		try {
+			sql = "SELECT idx_user "
+					+ "FROM j_book_review "
+					+ "WHERE idx_product = ? AND idx_user = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxProduct);
+			pstmt.setInt(2, idxUser);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				res = true;
+			}
+			else {
+				res = false;
+			}
+		} catch (SQLException e) {
+			System.out.println("getBuyedBookInSeries"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
+	/*
+	 * public boolean setReview(int idxUser, int idxProduct) { boolean res = false;
+	 * try { sql = "SELECT idx_user " + "FROM j_book_review " +
+	 * "WHERE idx_product = ? AND idx_user = ?";
+	 * 
+	 * pstmt = conn.prepareStatement(sql); pstmt.setInt(1, idxProduct);
+	 * pstmt.setInt(2, idxUser); rs = pstmt.executeQuery();
+	 * 
+	 * if(rs.next()) { res = true; } else { res = false; } } catch (SQLException e)
+	 * { System.out.println("getBuyedBookInSeries"+sql);
+	 * System.out.println(e.getMessage()); } finally { getConn.rsClose(); }
+	 * 
+	 * return res; }
+	 */
+
+	public boolean getResIsBuyer(int idxUser, int idxBook) {
+		boolean res = false;
+		
+		try {
+			sql = "SELECT idx_book "
+					+ "FROM j_mylib "
+					+ "WHERE idx_user = ? AND idx_book = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			pstmt.setInt(2, idxBook);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				res = true;
+			}
+			else {
+				res = false;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("getResIsBuyer"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
+	}
+
+	/* --- 리뷰 작성 --- */
+	public boolean setReview(ReviewVO vo) {
+		boolean res = false;
+		
+		try {
+			sql = "INSERT INTO j_book_review "
+					+ "VALUES(DEFAULT, ?, ?, ?, ?, DEFAULT, ?, DEFAULT, ?)";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getIdxProduct());
+			pstmt.setInt(2, vo.getIdxUser());
+			pstmt.setString(3, vo.getContentReview());
+			pstmt.setInt(4, vo.getStarRating());
+			pstmt.setInt(5, vo.getBuyCheck());
+			pstmt.setInt(6, vo.getSpoilerCheck());
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setReview"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+	/*--- 리뷰 지우기 ---*/
+	public boolean deleteReview(int idxReview) {
+		boolean res = false;
+		
+		try {
+			sql = "DELETE FROM j_book_review "
+					+ "WHERE idx = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("deleteReview"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
 }

@@ -32,39 +32,53 @@
 	                        	<tbody class="payment-detail">
 	                                <tr>
 	                                	<th bgcolor="ced4da">주문번호</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>${orderVO.orderNo}</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">구분</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>
+	                                		<c:forEach var="vo" items="${bookVOS}">
+	                                			<a href="${ctp}/booksearch.bi?isbn=${vo.isbn}">${vo.title}</a> <br/>
+	                                		</c:forEach>
+	                                	</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">주문금액</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>
+	                                		<fmt:formatNumber value="${orderVO.priceOrder}" type="number"/> 원
+	                                	</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">할인금액</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>
+	                                		<fmt:formatNumber value="${orderVO.priceSales}" type="number"/> 원
+	                                	</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">포인트 사용금액</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>
+	                                		<fmt:formatNumber value="${orderVO.pricePointUsed}" type="number"/> 원
+	                                	</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">결제금액</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>
+	                                		<fmt:formatNumber value="${orderVO.pricePayment}" type="number"/> 원
+	                                	</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">결제수단</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>${orderVO.optionChoosed}</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">적립 포인트</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>
+	                                		<fmt:formatNumber value="${orderVO.pointEarned}" type="number"/> 원
+	                                	</td>
 	                                </tr>
 	                                <tr>
 	                                	<th bgcolor="ced4da">구매일자</th>
-	                                	<td>ㅎㅇ</td>
+	                                	<td>${fn:substring(orderVO.datePurchased, 0, 16)} 분</td>
 	                                </tr>
 	                        	</tbody>
 	                        </table>

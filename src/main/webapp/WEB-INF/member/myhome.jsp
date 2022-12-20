@@ -20,6 +20,14 @@
 	    			$(".wishlist-cnt").html(res);
    				}
 			});
+			$.ajax({
+	    		type   : "post",
+	    		url    : "${ctp}/getMybookCount.member",
+	    		success:function(res) {
+	    			console.log(res);
+	    			$(".mybook-cnt").html(res);
+   				}
+			});
 		});
 	</script>
 	<style>
@@ -128,10 +136,12 @@
 		                    		</div>
 		                    		<div class="col">
    				                    	<i class="fas fa-book"></i>
-		                                <span class="h5 font-weight-bold">내 서고</span>
-		                                <p class="h2 amount_item">255권</p>
+		                                <span class="h5 font-weight-bold">보유 도서</span>
+		                                <p class="h2 amount_item">
+		                                	<span class="mybook-cnt"></span>권
+		                                </p>
 		                                <p class="h6">
-		                                    <a href="">
+		                                    <a href="${ctp}/mylib.member">
 		                                        내 서고로
 		                                        <i class="fas fa-hand-point-right"></i>
 		                                    </a>

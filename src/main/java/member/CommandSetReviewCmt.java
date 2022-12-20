@@ -1,19 +1,18 @@
 package member;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class CommandDeleteReview implements MemberInterface {
+public class CommandSetReviewCmt implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int idxReview = request.getParameter("idx") == null? 0 : Integer.parseInt(request.getParameter("idx"));
-		int idxProduct = request.getParameter("idxProduct") == null? 0 : Integer.parseInt(request.getParameter("idxProduct"));
+		int idxReview = request.getParameter("idxReview") == null? 0 : Integer.parseInt(request.getParameter("idxReview"));
+		String contentReply = request.getParameter("contentReply") == null? "" : request.getParameter("contentReply");
 		HttpSession session = request.getSession();
 		String res = "";
 
@@ -22,17 +21,13 @@ public class CommandDeleteReview implements MemberInterface {
 		MemberVO vo = dao.getUserInformation(email);
 		int idxUser = vo.getIdx();
 		
-		boolean isWrite = dao.getReview(idxUser, idxProduct);
+		boolean setRes = dao.setReviewCmt(idxUser, idxReview, contentReply);
 		
-		if(isWrite == false) {
-			res = "fail";
-			return;
-		}
-		
-		boolean delRes = dao.deleteReview(idxReview);
-		
-		if(delRes == true) {
+		if(setRes == true) {
 			res = "success";
+		}
+		else {
+			res = "fail";
 		}
 		
 		response.getWriter().write(res);

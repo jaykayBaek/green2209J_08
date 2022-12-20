@@ -12,6 +12,7 @@
 	<jsp:include page="../../include/bs4.jsp"></jsp:include>
 	<script>
 		$(function () {
+			
 			$('input[name=rating]').on("change", function () {
 				let rating = $('input[name=rating]:checked').val();
 				if (rating == 1) {
@@ -56,7 +57,46 @@
 
 
 		});
-
+		let getCmt = (idx) => {
+			const idxReview = idx;
+			$.ajax({
+				type: "post",
+				url:"${ctp}/getReviewCmt.member",
+				data: {
+					idxReview : idxReview,
+				},
+				success : function(data){
+ 	    			let dataParsed = JSON.parse(data);
+ 	    			
+ 	    			if(dataParsed == ""){
+ 	    				$(reviewIdx).html('아직 댓글이 없습니다.');
+ 	    				return false;;
+ 	    			}
+ 	    			
+ 	    			let divRes = "";
+    				for(let i in dataParsed.cmt) {
+    					let idxCmt = dataParsed.cmt[i].idxCmt;
+    					let idxReview = dataParsed.cmt[i].idxReview;
+    					let idxUser = dataParsed.cmt[i].idxUser;
+    					let contentReply = dataParsed.cmt[i].contentReply;
+    					let dateCreated = dataParsed.cmt[i].dateCreated;
+    					let hidden = dataParsed.cmt[i].hidden;
+    					let email = dataParsed.cmt[i].email;
+    					if(hidden != 1){
+	    					divRes += '<ul class="p-2"><li><p>'+contentReply+'</p><ul class="d-flex"><li>'+email+'&nbsp;</li><li>'+dateCreated.substring(0,16)+'</li></li><li><a href="${ctp}/deleteReviewCmt?idxCmt='+idxCmt+'&idxUser='+idxUser+'">삭제</a></li></ul></ul>';
+	    					
+    					}
+	    			 }
+    				let reviewIdx = "#review"+idxReview;
+    				$(reviewIdx).html(divRes);
+				},
+				error: function(){
+					alert('서버의 상태가 좋지 못합니다. 다시 시도해주세요.');
+				}
+				
+			});
+		}
+		
 		let getAuthorDetailView = (idxAuthor) => {
 			let idx = idxAuthor;
 			$.ajax({
@@ -139,36 +179,34 @@
 				}
 			});
 		}
-		let input-Review-Cmt = (idx) => {
-			const reviewIdx = idx;
-			const contentCmt = $('#text'+idx).val();
-			console.log(reviewIdx);
-			console.log(contentCmt);
-			
-			
+		let inputReviewCmt = (idx) => {
+			const idxReview = idx;
+			let contentReply = $('#text'+idx).val();
+			const regContent = /^.{5,100}$/
+			if(!contentReply.match(regContent)){
+				alert('댓글은 5자 이상, 100자 미만으로 작성하셔야 합니다.');
+				return false;
+			}
 			$.ajax({
-				type: 'post',
-				url: '${ctp}/deleteReview.member',
+				type: "post",
+				url:"${ctp}/setReviewCmt.member",
 				data: {
-					idx : idx,
-					idxProduct : ${bookInfoVo.idxProduct}
-					},
+					idxReview : idxReview,
+					contentReply : contentReply
+				},
 				success : function(res){
 					if(res == 'fail'){
-						alert('비정상적인 접근이거나 서버의 상태가 좋지 못합니다. 다시 시도해주세요.')
+						alert('비정상적인 접근이거나, 서버의 상태가 좋지 못합니다. 다시 확인해주세요.')
 					}
-					else{
-						alert('리뷰를 삭제했습니다');
-			            $('#review-content').load(location.href+' #review-content');
-					    $('#review-page').load(location.href+' #review-page');
-					}
+					location.reload();
 				},
-				error : function(){
-					alert('서버의 오류가 발생했습니다. 잠시만 기다려주세요.')
+				error: function(){
+					alert('서버의 상태가 좋지 못합니다. 다시 시도해주세요.');
 				}
+				
 			});
 		}
-		
+
 	</script>
     <style>
     body,h1,h2,h3,h4,h5,h6,span,div,strong, a {
@@ -289,6 +327,9 @@
     }
     .author-info-detail li span{
     	display:table-cell;
+    }
+    .review-comment>div>ul{
+   		border-bottom:1px solid #ced4da;
     }
     </style>
 </head>
@@ -656,7 +697,7 @@
 							<div class="row d-flex flex-column">
 								<div class="row d-flex justify-content-end">
 									<div class="mb-1 pb-1 pr-1 pt-1">
-										<button class="btn btn-outline-dark mr-r" type="button" data-toggle="collapse" data-target="#review${cnt}"
+										<button class="btn btn-outline-dark mr-r get-cmt" onclick="getCmt(${vo.idx})" type="button" data-toggle="collapse" data-target="#review-cmt${cnt}"
 											aria-expanded="false" aria-controls="#review1">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 												class="bi bi-chat-fill" viewBox="0 0 16 16">
@@ -683,21 +724,13 @@
 										
 									</div>
 								</div>
-								<div class="row review-comment mt-2 collapse" id="review${cnt}">
-									<ul class="p-2">
-										<li>
-											<p>맞아요 ㅠㅠ 맞아</p>
-											<ul class="d-flex">
-												<li>jaykay***&nbsp;</li>
-												<li>20221219&nbsp;</li>
-												<li>삭제&nbsp;</li>
-											</ul>
-										</li>
-									</ul>
+								<div class="row review-comment mt-2 collapse" id="review-cmt${cnt}">
+									<div id="review${vo.idx}">
+									</div>
 									<div class="input-group p-2">
-										<textarea class="form-control" id="text${vo.idx}" aria-label="With textarea"></textarea>
+										<textarea class="form-control" id="text${vo.idx}"></textarea>
 										<div class="input-group-prepend">
-											<button class="btn btn-secondary cmt-btn" onclick="input-Review-Cmt(${vo.idx})">댓글 입력</button>
+											<button class="btn btn-secondary cmt-btn" onclick="inputReviewCmt(${vo.idx})">댓글 입력</button>
 										</div>
 									</div>
 								</div>

@@ -67,6 +67,12 @@ public class MemberController extends HttpServlet{
 			command.execute(request, response);
 			return;
 		}
+		/*--- 리뷰에 단 댓글 확인하기 ---*/
+		else if(com.equals("/getReviewCmt")) {
+			command = new CommandGetReviewCmt();
+			command.execute(request, response);
+			return;
+		}
 		
 		/* --- 아래는 세션처리가 필요함 ---*/
 		else if(com.equals("/myhome")) {
@@ -198,6 +204,18 @@ public class MemberController extends HttpServlet{
 		/*--- 리뷰 지우기 ---*/
 		else if(com.equals("/deleteReview")) {
 			command = new CommandDeleteReview();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 리뷰에 댓글 달기 ---*/
+		else if(com.equals("/setReviewCmt")) {
+			command = new CommandSetReviewCmt();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 리뷰에 댓글 지우기 ---*/
+		else if(com.equals("/deleteReviewCmt")) {
+			command = new CommandSetReviewCmt();
 			command.execute(request, response);
 			return;
 		}

@@ -916,4 +916,62 @@ public class MemberDAO {
 		return res;
 	}
 
+	public boolean setReviewCmt(int idxUser, int idxReview, String contentReply) {
+		boolean res = false;
+		
+		try {
+			sql = "INSERT INTO j_book_review_cmt "
+					+ "VALUES(DEFAULT, ?, ?, ?, DEFAULT, DEFAULT)";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contentReply);
+			pstmt.setInt(2, idxReview);
+			pstmt.setInt(3, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setReviewCmt"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public ArrayList<ReviewCmtVO> getReviewCmt(int idxReview) {
+		ArrayList<ReviewCmtVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT rc.idx, rc.idx_book_review idx_review, rc.idx_user, "
+					+ "rc.content_reply, rc.date_created, rc.hidden, u.email "
+					+ "FROM j_book_review_cmt rc "
+					+ "JOIN j_user u ON u.idx = rc.idx_user "
+					+ "JOIN j_book_review br ON br.idx = rc.idx_book_review "
+					+ "WHERE rc.idx_book_review = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReviewCmtVO vo = new ReviewCmtVO();
+				vo.setIdxCmt(rs.getInt("rc.idx"));
+				vo.setIdxReview(rs.getInt("idx_review"));
+				vo.setIdxUser(rs.getInt("rc.idx_user"));
+				vo.setContentReply(rs.getString("rc.content_reply"));
+				vo.setDateCreated(rs.getString("rc.date_created"));
+				vo.setHidden(rs.getInt("rc.hidden"));
+				vo.setEmail(rs.getString("u.email"));
+				vos.add(vo);
+			}
+		} catch (Exception e) {
+			System.out.println("getResIsBuyer"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vos;
+	}
+
 }

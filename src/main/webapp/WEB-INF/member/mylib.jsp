@@ -29,9 +29,6 @@
         background-color: transparent;
         border: 0px;
         }
-        footer{
-            height: 25vh;
-        }
         .bage_thumbnail{
             position: absolute;
             bottom:40%;
@@ -80,7 +77,6 @@
 	        </c:forEach>
         
         </div>
-        
 	</div>
   	<jsp:include page="/include/footer.jsp"/>
 </body>

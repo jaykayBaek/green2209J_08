@@ -30,6 +30,13 @@
 	});
 </script>
 <style>
+	body{
+		background:#fff;
+	}
+	.input-group-text {
+		background-color: transparent;
+		border: 0px;
+	}
 	section {
 		text-decoration: none !important;
 	}

@@ -50,6 +50,9 @@
     else if(msg == "failReview") msg = "서버 상태가 좋지 못해 리뷰 작성에 실패했습니다.";
     else if(msg == "failReviewInput") msg = "이미 리뷰를 작성하셨습니다.";
     
+    else if(msg == "successDeleteReviewCmt") msg = "댓글을 삭제했습니다";
+    else if(msg == "failDeleteReviewCmt") msg = "비정상적인 접근이거나 서버의 상태가 좋지 못해 댓글 삭제에 실패했습니다.";
+    
     alert(msg);
     if(url != "") location.href = url;
     

@@ -29,9 +29,6 @@
 	        background-color: transparent;
 	        border: 0px;
         }
-        footer{
-            height: 25vh;
-        }
         .mybook-badge{
             position: absolute;
             bottom:40%;

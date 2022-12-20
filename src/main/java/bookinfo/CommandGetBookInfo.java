@@ -65,7 +65,7 @@ public class CommandGetBookInfo implements BookInfoInterface {
 		
 		//2. 페이징 처리
 		int page = request.getParameter("page")==null?1:Integer.parseInt(request.getParameter("page"));
-		int pageList = 10;
+		int pageList = 7;
 		int totRecord = dao.getTotalRecordReview(getIdxProduct);
 		int totPage = (totRecord % pageList)==0 ? totRecord/pageList : (totRecord/pageList)+1;
 		
@@ -106,6 +106,5 @@ public class CommandGetBookInfo implements BookInfoInterface {
 		/*---시리즈 뷰 구하기---*/
 		ArrayList<SeriesInfoVO> seriesVos = dao.getBookInfoInSeries(idxProductSeries);
 		request.setAttribute("seriesVos", seriesVos);
-		
 	}
 }

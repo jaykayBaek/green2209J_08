@@ -59,6 +59,7 @@
 		});
 		let getCmt = (idx) => {
 			const idxReview = idx;
+			const isbn = ${bookInfoVo.isbn}
 			$.ajax({
 				type: "post",
 				url:"${ctp}/getReviewCmt.member",
@@ -83,7 +84,7 @@
     					let hidden = dataParsed.cmt[i].hidden;
     					let email = dataParsed.cmt[i].email;
     					if(hidden != 1){
-	    					divRes += '<ul class="p-2"><li><p>'+contentReply+'</p><ul class="d-flex"><li>'+email+'&nbsp;</li><li>'+dateCreated.substring(0,16)+'</li></li><li><a href="${ctp}/deleteReviewCmt?idxCmt='+idxCmt+'&idxUser='+idxUser+'">삭제</a></li></ul></ul>';
+	    					divRes += '<ul class="p-2"><li><p>'+contentReply+'</p><ul class="d-flex"><li>'+email+'&nbsp;</li><li>'+dateCreated.substring(0,16)+'</li></li><li class="ml-2"><a href="${ctp}/deleteReviewCmt.member?idxCmt='+idxCmt+'&idxUser='+idxUser+'&isbn='+isbn+'">삭제</a></li></ul></ul>';
 	    					
     					}
 	    			 }
@@ -206,7 +207,32 @@
 				
 			});
 		}
-
+		let checkAndSetLike = (idx) => {
+			const idxReview = idx;
+			$.ajax({
+				type: "post",
+				url:"${ctp}/checkAndSetLike.member",
+				data: {
+					idxReview : idxReview.
+					isbn : ${bookInfoVo.isbn}
+				},
+				success : function(res){
+					if(res == 'mustLogin'){
+						alert('로그인 이후 좋아요를 누를 수 있습니다.');
+					}
+					else if(res == 'mustBuy'){
+						alert('도서를 구매해야 좋아요를 누를 수 있습니다');
+					}
+					else if(res == 'fail'){
+						alert('서버의 상태가 좋지 못합니다. 다시 시도해주세요.');
+					}
+					location.reload();
+				},
+				error: function(){
+					alert('서버의 상태가 좋지 못합니다. 다시 시도해주세요.');
+				}
+			});
+		}
 	</script>
     <style>
     body,h1,h2,h3,h4,h5,h6,span,div,strong, a {
@@ -706,15 +732,28 @@
 											</svg>
 											댓글
 										</button>
-										<button class="btn btn-outline-dark">
-											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-												class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-												<path
-													d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
-											</svg>
-											좋아요
-											<span>0</span>
-										</button>
+										<c:if test="${vo.idxUserLike == idxUser}">
+											<button class="btn btn-outline-danger like-btn" onclick="checkAndSetLike(${vo.idx})">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ba181b"
+													class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+													<path
+														d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
+												</svg>
+												좋아요
+												<span>${vo.likeNum}</span>
+											</button>
+										</c:if>
+										<c:if test="${vo.idxUserLike != idxUser}">
+											<button class="btn btn-outline-dark like-btn" onclick="checkAndSetLike(${vo.idx})">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+													class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+													<path
+														d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
+												</svg>
+												좋아요
+												<span>${vo.likeNum}</span>
+											</button>
+										</c:if>
 										<input type="hidden" value ="${vo.idx}" id='cmt${vo.idx}'/>
 										<c:if test="${idxUser==vo.idxUser}">
 											<button class="btn btn-outline-warning delete-btn" onclick="deleteReviewBtn(${vo.idx})">

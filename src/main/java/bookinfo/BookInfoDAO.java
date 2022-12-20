@@ -5,10 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import book.AuthorProfileVO;
 import book.BookAuthorVO;
@@ -275,7 +271,13 @@ public class BookInfoDAO {
 		ArrayList<ReviewVO> vos = new ArrayList<>();
 		try {
 			sql = "SELECT br.idx, br.idx_product, br.idx_user, br.content_review, br.star_rating, br.date_created, "
-					+ "br.buy_check, br.hidden, br.spoiler_check, u.email "
+					+ "br.buy_check, br.hidden, br.spoiler_check, u.email, "
+						+ "	(SELECT count(idx) "
+						+ "	FROM j_book_review_like "
+						+ "	WHERE idx_review = br.idx) likeNum, "
+						+ "	(SELECT idx_user "
+						+ "	FROM j_book_review_like "
+						+ " WHERE idx_review = br.idx) idxUserLike "
 					+ "FROM j_book_review br "
 					+ "JOIN j_user u ON u.idx = br.idx_user "
 					+ "WHERE idx_product = ? "
@@ -297,6 +299,8 @@ public class BookInfoDAO {
 				vo.setHidden(rs.getInt("br.hidden"));
 				vo.setSpoilerCheck(rs.getInt("br.spoiler_check"));
 				vo.setEmail(rs.getString("u.email"));
+				vo.setLikeNum(rs.getInt("likeNum"));
+				vo.setIdxUserLike(rs.getInt("idxUserLike"));
 				vos.add(vo);
 			}
 		}
@@ -309,6 +313,78 @@ public class BookInfoDAO {
 		}
 		
 		return vos;
+	}
+
+	public ArrayList<SearchVO> getSearchResult(String search, int pageList, int indexNoStartPage) {
+		ArrayList<SearchVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT p.idx, b.idx, ap.idx, b.img_saved, b.title, b.isbn, ap.name_author, p.text_introduce, "
+					+ "	round((SELECT sum(star_rating) / count(star_rating) FROM j_book_review br where br.idx_product = p.idx), 1) starRating, "
+					+ "	(SELECT count(idx) FROM j_book_review br where br.idx_product = p.idx) reviewCnt, p.price_ebook "
+					+ "FROM j_product p "
+					+ "JOIN j_book b on b.idx = p.idx_book "
+					+ "join j_book_author ba on ba.idx_book = b.idx "
+					+ "join j_author_profile ap on ap.idx = ba.idx_author "
+					+ "WHERE ba.author_ordinal = 0 AND b.title like ? "
+					+ "ORDER BY p.idx desc "
+					+ "LiMIT ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+search+"%");
+			pstmt.setInt(2, indexNoStartPage);
+			pstmt.setInt(3, pageList);
+
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				SearchVO vo = new SearchVO();
+				vo.setIdxProduct(rs.getInt("p.idx"));
+				vo.setIdxBook(rs.getInt("b.idx"));
+				vo.setIdxAuthor(rs.getInt("ap.idx"));
+				vo.setImgSavedBook(rs.getString("b.img_saved"));
+				vo.setTitle(rs.getString("b.title"));
+				vo.setIsbn(rs.getString("b.isbn"));
+				vo.setNameAuthor(rs.getString("ap.name_author"));
+				vo.setTextIntroduce(rs.getString("p.text_introduce"));
+				vo.setStarRating(rs.getInt("starRating"));
+				vo.setReviewCnt(rs.getInt("reviewCnt"));
+				vo.setPriceEbook(rs.getInt("price_ebook"));
+				vos.add(vo);
+			}
+		}
+		catch (SQLException e) {
+			System.out.println("getSearchResult"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return vos;
+	}
+
+	/* 검색어로 자료 토탈 구하기 */
+	public int getTotalRecordSearch(String search) {
+		int res = 0;
+		
+		try {
+			sql = "SELECT count(idx) total "
+					+ "FROM j_book "
+					+ "WHERE title LIKE ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+search+"%");
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = rs.getInt("total");
+			}
+		}
+		catch (SQLException e) {
+			System.out.println("getReview"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		
+		return res;
 	}
 
 }

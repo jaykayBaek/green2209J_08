@@ -30,6 +30,11 @@ public class BookInfoController extends HttpServlet {
 			command.execute(request, response);
 			return;
 		}
+		else if (com.equals("/search")) {
+			command = new GetSearchResult();
+			command.execute(request, response);
+			viewPage += "/search.jsp";
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);
 	}

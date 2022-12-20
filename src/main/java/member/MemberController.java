@@ -215,7 +215,13 @@ public class MemberController extends HttpServlet{
 		}
 		/*--- 리뷰에 댓글 지우기 ---*/
 		else if(com.equals("/deleteReviewCmt")) {
-			command = new CommandSetReviewCmt();
+			command = new CommandDeleteReviewCmt();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		/*--- 리뷰 좋아요 토글 ---*/
+		else if(com.equals("/checkAndSetLike")) {
+			command = new CommandCheckAndSetLike();
 			command.execute(request, response);
 			return;
 		}

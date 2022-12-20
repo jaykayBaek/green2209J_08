@@ -820,21 +820,6 @@ public class MemberDAO {
 		return res;
 	}
 
-	/*
-	 * public boolean setReview(int idxUser, int idxProduct) { boolean res = false;
-	 * try { sql = "SELECT idx_user " + "FROM j_book_review " +
-	 * "WHERE idx_product = ? AND idx_user = ?";
-	 * 
-	 * pstmt = conn.prepareStatement(sql); pstmt.setInt(1, idxProduct);
-	 * pstmt.setInt(2, idxUser); rs = pstmt.executeQuery();
-	 * 
-	 * if(rs.next()) { res = true; } else { res = false; } } catch (SQLException e)
-	 * { System.out.println("getBuyedBookInSeries"+sql);
-	 * System.out.println(e.getMessage()); } finally { getConn.rsClose(); }
-	 * 
-	 * return res; }
-	 */
-
 	public boolean getResIsBuyer(int idxUser, int idxBook) {
 		boolean res = false;
 		
@@ -965,7 +950,7 @@ public class MemberDAO {
 				vos.add(vo);
 			}
 		} catch (Exception e) {
-			System.out.println("getResIsBuyer"+sql);
+			System.out.println("getReviewCmt"+sql);
 			System.out.println(e.getMessage());
 		}
 		finally {
@@ -974,4 +959,99 @@ public class MemberDAO {
 		return vos;
 	}
 
+	public boolean deleteReviewCmt(int idxCmt, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "DELETE FROM j_book_review_cmt "
+					+ "WHERE idx = ? AND idx_user = ?";
+			
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxCmt);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("DeleteReviewCmt"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public boolean getResIsClickedLike(int idxReview, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "SELECT idx "
+					+ "FROM j_book_review_like "
+					+ "WHERE idx_review = ? AND idx_user = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			pstmt.setInt(2, idxUser);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = true;
+			}
+		} catch (SQLException e) {
+			System.out.println("getResIsClickLiked"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return res;
+	}
+
+	public boolean setReviewLike(int idxReview, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "INSERT INTO j_book_review_like "
+					+ "VALUE(DEFAULT, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setReviewLike"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public boolean deleteReviewLike(int idxReview, int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "DELETE FROM j_book_review_like "
+					+ "WHERE idx_review = ? AND idx_user = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			pstmt.setInt(2, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setReviewLike"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+	
+	
 }

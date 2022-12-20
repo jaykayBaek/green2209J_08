@@ -10,6 +10,9 @@ public class ReviewVO {
 	private int hidden;
 	private int idxProduct;
 	private int spoilerCheck;
+
+	private int likeNum;
+	private int idxUserLike;
 	
 	private String email;
 
@@ -85,6 +88,22 @@ public class ReviewVO {
 		this.spoilerCheck = spoilerCheck;
 	}
 
+	public int getLikeNum() {
+		return likeNum;
+	}
+
+	public void setLikeNum(int likeNum) {
+		this.likeNum = likeNum;
+	}
+
+	public int getIdxUserLike() {
+		return idxUserLike;
+	}
+
+	public void setIdxUserLike(int idxUserLike) {
+		this.idxUserLike = idxUserLike;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -97,8 +116,11 @@ public class ReviewVO {
 	public String toString() {
 		return "ReviewVO [idx=" + idx + ", contentReview=" + contentReview + ", starRating=" + starRating + ", idxUser="
 				+ idxUser + ", dateCreated=" + dateCreated + ", buyCheck=" + buyCheck + ", hidden=" + hidden
-				+ ", idxProduct=" + idxProduct + ", spoilerCheck=" + spoilerCheck + ", email=" + email + "]";
+				+ ", idxProduct=" + idxProduct + ", spoilerCheck=" + spoilerCheck + ", likeNum=" + likeNum
+				+ ", idxUserLike=" + idxUserLike + ", email=" + email + "]";
 	}
+
+	
 	
 	
 	

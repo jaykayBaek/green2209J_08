@@ -409,6 +409,9 @@
 								<c:if test="${vo.role == '작가'}">
 									<span><b>${vo.nameAuthor}</b> 저</span>
 								</c:if>
+								<c:if test="${vo.role == '삽화가'}">
+									<span><b>${vo.nameAuthor}</b> 그림</span>
+								</c:if>
 								<c:if test="${vo.role == '번역가'}">
 									<span><b>${vo.nameAuthor}</b> 역</span>
 								</c:if>
@@ -422,7 +425,7 @@
 							<c:if test="${bookInfoVo.pricePaper!='없음'}">
 								<td>종이책 정가</td>
 								<td>
-									<fmt:formatNumber value=" fmt:${bookInfoVo.pricePaper}" pattern="#,###" />원
+									<fmt:formatNumber value="${bookInfoVo.pricePaper}" pattern="#,###" />원
 								</td>
 							</c:if>
 						</tr>
@@ -569,6 +572,21 @@
 									<c:forEach var="vo" items="${authorVos}" varStatus="st">
 										<c:if test="${vo.role == '작가'}">
 											<span class="font-weight-bold mr-1">저자&nbsp</span>
+											<li>
+												<a href='javascript:void(0);' onclick="getAuthorDetailView(${vo.idx})">
+													<span>${vo.nameAuthor}&nbsp</span>
+													<input type="hidden" value="${vo.idx}" id="a${st.count}" />
+												</a>
+											</li>
+										</c:if>
+									</c:forEach>
+								</ul>
+							</li>
+							<li class="author-profile-box">
+								<ul class="d-flex align-items-center">
+									<c:forEach var="vo" items="${authorVos}" varStatus="st">
+										<c:if test="${vo.role == '삽화가'}">
+											<span class="font-weight-bold mr-1">그림&nbsp</span>
 											<li>
 												<a href='javascript:void(0);' onclick="getAuthorDetailView(${vo.idx})">
 													<span>${vo.nameAuthor}&nbsp</span>

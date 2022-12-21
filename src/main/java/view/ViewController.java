@@ -27,6 +27,11 @@ public class ViewController extends HttpServlet {
 			command.execute(request, response);
 			return;
 		}
+		else if(com.equals("/getHotBooks")) {
+			command = new CommandGetHotBooks();
+			command.execute(request, response);
+			return;
+		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);

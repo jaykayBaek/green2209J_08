@@ -7,25 +7,43 @@
  	$(function(){
 		$.ajax({
     		type   : "post",
-    		url    : "${ctp}/getNewBooks.view",
+    		url    : "${ctp}/getHotBooks.view",
     		success:function(data) {
-	    			let dataParsed = JSON.parse(data);
-		    		let divRes="";
-	    			for(let i in dataParsed.newBooksView){
-    					let bookIdx = dataParsed.newBooksView[i].bookIdx;
-    					let productIdx = dataParsed.newBooksView[i].productIdx;
-    					let title = dataParsed.newBooksView[i].title;
-    					let publisher = dataParsed.newBooksView[i].publisher;
-    					let isbn = dataParsed.newBooksView[i].isbn;
-    					let imgSaved = dataParsed.newBooksView[i].imgSaved;
-    					divRes += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:200px"></div><div><span>'+title+'</span></div></a></div>';
-	    			}
-	    			
-     				$('.swiper-newbook').append(divRes);
-    		},
-    		error:function(){
-    			console.log('errorNewbooks');
+    			let dataParsed = JSON.parse(data);
+	    		let hotBooks="";
+    			for(let i in dataParsed.hotBooksView){
+   					let bookIdx = dataParsed.hotBooksView[i].bookIdx;
+   					let productIdx = dataParsed.hotBooksView[i].productIdx;
+   					let title = dataParsed.hotBooksView[i].title;
+   					let publisher = dataParsed.hotBooksView[i].publisher;
+   					let isbn = dataParsed.hotBooksView[i].isbn;
+   					let imgSaved = dataParsed.hotBooksView[i].imgSaved;
+   					hotBooks += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:180px"></div><div><span>'+title+'</span></div></a></div>';
+    			}
+				$('.swiper-hotbook').html(hotBooks);
     		}
+		});
+		$.ajax({
+	   		type   : "post",
+	   		url    : "${ctp}/getNewBooks.view",
+	   		success:function(data) {
+    			let dataParsed = JSON.parse(data);
+	    		let newBooks="";
+    			for(let i in dataParsed.newBooksView){
+   					let bookIdx = dataParsed.newBooksView[i].bookIdx;
+   					let productIdx = dataParsed.newBooksView[i].productIdx;
+   					let title = dataParsed.newBooksView[i].title;
+   					let publisher = dataParsed.newBooksView[i].publisher;
+   					let isbn = dataParsed.newBooksView[i].isbn;
+   					let imgSaved = dataParsed.newBooksView[i].imgSaved;
+   					newBooks += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:180px"></div><div><span>'+title+'</span></div></a></div>';
+    			}
+	    			
+   				$('.swiper-newbook').append(newBooks);
+	   		},
+	   		error:function(){
+	   			console.log('errorNewbooks');
+	   		}
 		});
 	});
 </script>
@@ -86,104 +104,11 @@
 		<div class="container-fluid">
 		  <h2 class="h3 font-weight-bold">지금 핫한 도서 🔥</h2>
 		  <div class="swiper hotSwiper">
+		  
 		      <div class="swiper-wrapper swiper-hotbook">
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781104996.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781105009.jpg" alt="">
-		          </div>
-		          <div>
-		            <span >개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781105016.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781106303.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781106341.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781106389.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781106426.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781104996.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781104996.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781104996.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781104996.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
-		        <div class="swiper-slide d-flex flex-column text-left">
-		          <div>
-		            <img src="images/9781781104996.jpg" alt="">
-		          </div>
-		          <div>
-		            <span>개정 번역판 | 해리 포터와 불사조 기사단</span>
-		          </div>
-		        </div>
+		      	<span class="hotbook_res"></span>
 		      </div>
+		      
 		    <div class="swiper-button-next swiper-button shadow-lg">
 		      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
 		        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
@@ -211,6 +136,8 @@
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
+        observer: true,
+        observeParents: true,	
       });
     </script>
     </article>
@@ -219,9 +146,11 @@
 		<div class="container-fluid">
 		  <h2 class="h3 font-weight-bold">뜨끈뜨끈한 신작 🐱‍🏍‍</h2>
 		  <div class="swiper newSwiper">
+		  
 		      <div class="swiper-wrapper swiper-newbook">
 		      	<span class="newbooks_res"></span>
 		      </div>
+		      
 		    <div class="swiper-button-next swiper-button shadow-lg">
 		      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
 		        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>

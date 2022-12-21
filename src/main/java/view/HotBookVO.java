@@ -1,13 +1,12 @@
 package view;
 
-public class NewBookVO {
+public class HotBookVO {
 	private int bookIdx;
 	private int productIdx;
 	private String title;
 	private String publisher;
 	private String isbn;
 	private String imgSaved;
-	
 	public int getBookIdx() {
 		return bookIdx;
 	}
@@ -46,10 +45,9 @@ public class NewBookVO {
 	}
 	@Override
 	public String toString() {
-		return "NewBookVO [bookIdx=" + bookIdx + ", productIdx=" + productIdx + ", title=" + title + ", publisher="
+		return "HotBootVO [bookIdx=" + bookIdx + ", productIdx=" + productIdx + ", title=" + title + ", publisher="
 				+ publisher + ", isbn=" + isbn + ", imgSaved=" + imgSaved + "]";
 	}
-	
 	
 	
 }

@@ -402,7 +402,7 @@
 					<div class="h3 font-weight-bold">${bookInfoVo.titleBook}</div>
 					<div>
 						<p>
-							⭐4.5점 (862명)
+							⭐${bookInfoVo.starRating}점 (${bookInfoVo.reviewCnt}명)
 						</p>
 						<p>
 							<c:forEach var="vo" items="${authorVos}">

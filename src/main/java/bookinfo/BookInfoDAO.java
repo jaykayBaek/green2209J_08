@@ -37,7 +37,9 @@ public class BookInfoDAO {
 					+ "b.title, b.publisher, b.isbn, b.date_publishing, b.img_saved, "
 					+ "p.price_paper, p.price_ebook, p.rate_discount, p.can_reader, p.text_introduce, "
 					+ "ps.title_series, ps.img_saved, ps.price_series, "
-					+ "b.idx, p.idx, ps.idx "
+					+ "b.idx, p.idx, ps.idx, "
+					+ "round((SELECT sum(star_rating) / count(star_rating) FROM j_book_review br where br.idx_product = p.idx), 1) starRating, "
+					+ "(SELECT count(idx) FROM j_book_review br where br.idx_product = p.idx) reviewCnt "
 					+ "FROM j_book b "
 						+ "JOIN j_product p ON b.idx=p.idx_book "
 						+ "JOIN j_product_series ps ON ps.idx = p.idx_series "
@@ -71,8 +73,10 @@ public class BookInfoDAO {
 				vo.setIdxProductSeries(rs.getInt("ps.idx"));
 				vo.setPriceSeries(rs.getString("ps.price_series"));
 				vo.setDatePublishing(rs.getString("b.date_publishing"));
+				vo.setStarRating(rs.getDouble("starRating"));
+				vo.setReviewCnt(rs.getInt("reviewCnt"));
 			}
-
+			
 		} catch (SQLException e) {
 			System.out.println("getAllBookInfo" + sql);
 			System.out.println(e.getMessage());

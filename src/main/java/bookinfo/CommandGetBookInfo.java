@@ -31,23 +31,6 @@ public class CommandGetBookInfo implements BookInfoInterface {
 		
 		int idxBook = bookInfoVo.getIdxBook();
 		
-		
-		/*--- 최근 본 작품 구현 위해 쿠키 생성 ---*/
-		Cookie cookieIsbn = new Cookie("cIsbn", isbn);
-		if(cookieIsbn == null) {
-			cookieIsbn.setMaxAge(60*60*24*7);
-			cookieIsbn.setMaxAge(0);
-		}
-		
-		Cookie[] cookies = request.getCookies();
-		for(int i=0; i<cookies.length; i++) {
-			if(cookies[i].getName().equals("cIsbn")) {
-				request.setAttribute("cIsbn", cookies[i].getValue());
-				break;
-			}
-		}
-		
-		
 		/*--- 작가 정보 가져오기 ---*/
 		ArrayList<AuthorProfileVO> authorVos = dao.getAuthorInfo(idxBook);
 

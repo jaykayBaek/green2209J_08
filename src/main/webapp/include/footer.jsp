@@ -67,28 +67,23 @@
         <div class="row">
         
             <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                <h4 class="footer-head">Landing</h4>
+                <h4 class="footer-head">리딩북스</h4>
             </div>
 
             <div class="col-lg-2 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                <h4 class="footer-head">About</h4>
+                <h4 class="footer-head">서비스</h4>
                 <ul class="list-unstyled footer-list mt-4">
-                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> About us</a></li>
-                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Services</a></li>
-                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Team</a></li>
-                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Terms Policy</a></li>
-                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Privacy Policy</a></li>
-                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Login</a></li>
+                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> 리딩 포인트</a></li>
+                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> 제휴사 확인</a></li>
+                    <li><a href="javascript:void(0)" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> 이벤트 확인</a></li>
                 </ul>
             </div>
 
             <div class="col-lg-3 col-md-4 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                <h4 class="footer-head">Locations</h4>
+                <h4 class="footer-head">기타문의</h4>
                 <ul class="list-unstyled footer-list mt-4">
-                    <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> San Francisco</a></li>
-                    <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Tokio</a></li>
-                    <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> South Korea</a></li>
-                    <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> Myanmar</a></li>
+                    <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> 사업 제휴 문의</a></li>
+                    <li><a href="#" class="text-foot"><i class="mdi mdi-chevron-right mr-1"></i> 기타 문의</a></li>
                 </ul>
             </div>
         </div>

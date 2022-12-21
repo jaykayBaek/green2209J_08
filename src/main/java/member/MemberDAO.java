@@ -689,29 +689,25 @@ public class MemberDAO {
 		return vos;
 	}
 
-	public ArrayList<MyLibVO> getMyLibList(int idxUser) {
-		ArrayList<MyLibVO> vos = new ArrayList<>();
+	public ArrayList<MyBookVO> getMyLibList(int idxUser) {
+		ArrayList<MyBookVO> vos = new ArrayList<>();
 		
 		try {
-			sql = "SELECT ps.title_series, ps.isbn_series, ps.idx, ml.idx, ps.img_saved, count(ps.isbn_series) cnt "
+			sql = "SELECT b.title, b.isbn, b.img_saved "
 					+ "FROM j_mylib ml "
 					+ "JOIN j_book b ON b.idx = ml.idx_book "
 					+ "JOIN j_product p ON p.idx_book = b.idx "
 					+ "JOIN j_product_series ps ON ps.idx = p.idx_series "
 					+ "JOIN j_user u ON u.idx = ml.idx_user "
-					+ "WHERE u.idx =? "
-					+ "GROUP BY title_series";
+					+ "WHERE u.idx =? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idxUser);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				MyLibVO vo = new MyLibVO();
-				vo.setIdxMylib(rs.getInt("ml.idx"));
-				vo.setIdxSeries(rs.getInt("ps.idx"));
-				vo.setImgSavedSeires(rs.getString("ps.img_saved"));
-				vo.setIsbnSeries(rs.getString("ps.isbn_series"));
-				vo.setTitleSeries(rs.getString("ps.title_series"));
-				vo.setBookCntInSeries(rs.getInt("cnt"));
+				MyBookVO vo = new MyBookVO();
+				vo.setTitleBook(rs.getString("b.title"));
+				vo.setIsbnBook(rs.getString("b.isbn"));
+				vo.setImgSaved(rs.getString("b.img_saved"));
 				
 				vos.add(vo);
 			}

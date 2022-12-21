@@ -53,23 +53,23 @@
 <body>
 	<jsp:include page="/include/nav.jsp"/>
 	<div class = "container mylib-wrap">
-        <div class="row d-flex flex-column justify-content-around flex-wrap">
-		   	<span class="h4 font-weight-bold">
-		        내가 구매한 도서
-	        </span>
-        
+	   	<span class="h4 font-weight-bold">
+	        내가 구매한 도서
+        </span>
+        <div class="row d-flex justify-content-around flex-wrap">
+        	<c:if test="${vos == '[]'}">
+        		<div class="row">
+	        		<div class="display-4" style="margin:0 auto; height:50vh">
+		        		구입한 도서가 없습니다
+	        		</div>
+        		</div>
+        	</c:if>
 	        <c:forEach var="vo" items="${vos}">
-	        	<c:if test="${vos == '[]'}">
-	        		<div>구입한 도서가 없습니다</div>
-	        	</c:if>
-	            <div class="col">
-	                <div class="book_wrap mt-3" style="width:40%; height: 35vh;">
-	                    <a href="${ctp}/mylibDetail.member?isbn=${vo.isbnSeries}&idx=${vo.idxSeries}">
-	                        <div class="d-flex flex-column align-items-center book_thumbnail" style="width:100%; height:100%">
-	                            <div class="badge badge-dark bage_thumbnail mb-1 mt-1">
-	                                <span class="bage_thumbnail_text">총 보유 권수 ${vo.bookCntInSeries}권</span>
-	                            </div>
-	                            <img src="${ctp}/data/books/${vo.imgSavedSeires}" alt="시리즈 ${vo.titleSeries}의 표지" height="80%" />
+	            <div class="col d-flex flex-row">
+	                <div class="book_wrap mt-3">
+	                    <a href="${ctp}/showBookContent.member?isbn=${vo.isbnBook}">
+	                        <div class="d-flex flex-column align-items-center book_thumbnail" style="width:150px">
+	                            <img src="${ctp}/data/books/${vo.imgSaved}" alt="시리즈 ${vo.titleBook}의 표지" style="width:150px"/>
 	                        </div>
 	                    </a>
 	                </div>

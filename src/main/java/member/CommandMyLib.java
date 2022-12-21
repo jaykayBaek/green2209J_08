@@ -17,7 +17,7 @@ public class CommandMyLib implements MemberInterface {
 		String email = ""+session.getAttribute("sEmail");
 		MemberVO memberVO = dao.getUserInformation(email);
 		int idxUser = memberVO.getIdx();
-		ArrayList<MyLibVO> vos = dao.getMyLibList(idxUser);
+		ArrayList<MyBookVO> vos = dao.getMyLibList(idxUser);
 		
 		request.setAttribute("vos", vos);
 	}

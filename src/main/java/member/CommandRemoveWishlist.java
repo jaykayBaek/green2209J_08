@@ -27,12 +27,12 @@ public class CommandRemoveWishlist implements MemberInterface {
 		boolean res = dao.removeWishlist(idxProduct, idxUser);
 		
 		if(res==false) {
-			request.setAttribute("msg", "failLeave");
-			request.setAttribute("url", request.getContextPath()+"/accountModify.member");
+			request.setAttribute("msg", "failDeleteWishlist");
+			request.setAttribute("url", request.getContextPath()+"/booksearch.bi?isbn="+isbn);
 			return;
 		}
 		
-		request.setAttribute("msg", "successLeaved");
-		request.setAttribute("url", request.getContextPath()+"/");
+		request.setAttribute("msg", "successDeleteWishlist");
+		request.setAttribute("url", request.getContextPath()+"/booksearch.bi?isbn="+isbn);
 	}
 }

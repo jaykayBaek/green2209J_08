@@ -18,7 +18,7 @@
    					let publisher = dataParsed.hotBooksView[i].publisher;
    					let isbn = dataParsed.hotBooksView[i].isbn;
    					let imgSaved = dataParsed.hotBooksView[i].imgSaved;
-   					hotBooks += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:180px"></div><div><span>'+title+'</span></div></a></div>';
+   					hotBooks += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:250px"></div><div><span>'+title+'</span></div></a></div>';
     			}
 				$('.swiper-hotbook').html(hotBooks);
     		}
@@ -36,7 +36,7 @@
    					let publisher = dataParsed.newBooksView[i].publisher;
    					let isbn = dataParsed.newBooksView[i].isbn;
    					let imgSaved = dataParsed.newBooksView[i].imgSaved;
-   					newBooks += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:180px"></div><div><span>'+title+'</span></div></a></div>';
+   					newBooks += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:250px"></div><div><span>'+title+'</span></div></a></div>';
     			}
 	    			
    				$('.swiper-newbook').append(newBooks);

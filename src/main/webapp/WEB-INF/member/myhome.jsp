@@ -181,45 +181,8 @@
 		            </div>
 		        </div>
 		        
-	        	<div class="p-2 mt-2 d-flex justify-content-between align-items-center">
-	        		<span class="h3 font-weight-bold">최근 조회한 작품</span>
-	        		<button class="btn btn-warning">전체보기</button>
-	        	</div>
-		        <div class="row d-flex justify-content-around align-items-center p-4">
-		        	<div class="col">
-						<div class="img-wrap-series">
-						     <img src="${ctp}/data/books/9781781106426.jpg" alt="의 표지" style="width:100px"
-						    class="img-thumbnail">
-						</div>
-		        	</div>
-		        	<div class="col">
-						<div class="img-wrap-series">
-						     <img src="${ctp}/data/books/9781781106426.jpg" alt="의 표지" style="width:100px"
-						    class="img-thumbnail">
-						</div>
-		        	</div>
-		        	<div class="col">
-						<div class="img-wrap-series">
-						     <img src="${ctp}/data/books/9781781106426.jpg" alt="의 표지" style="width:100px"
-						    class="img-thumbnail">
-						</div>
-					</div>
-		        	<div class="col">
-						<div class="img-wrap-series">
-						     <img src="${ctp}/data/books/9781781106426.jpg" alt="의 표지" style="width:100px"
-						    class="img-thumbnail">
-						</div>
-		        	</div>
-		        	<div class="col">
-						<div class="img-wrap-series">
-						     <img src="${ctp}/data/books/9781781106426.jpg" alt="의 표지" style="width:100px"
-						    class="img-thumbnail">
-						</div>
-		        	</div>
 		        
-		        </div>
 		    </div>
-        
         </div>
     </div>
 	<jsp:include page="/include/footer.jsp"/>

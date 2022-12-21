@@ -52,6 +52,9 @@
     
     else if(msg == "successDeleteReviewCmt") msg = "댓글을 삭제했습니다";
     else if(msg == "failDeleteReviewCmt") msg = "비정상적인 접근이거나 서버의 상태가 좋지 못해 댓글 삭제에 실패했습니다.";
+
+    else if(msg == "failLeave") msg = "비정상적인 접근이거나 서버의 상태가 좋지 못해 회원탈퇴에 실패했습니다.";
+    else if(msg == "successLeave") msg = "그동안 리딩북스를 이용해주셔서 감사합니다.";
     
     alert(msg);
     if(url != "") location.href = url;

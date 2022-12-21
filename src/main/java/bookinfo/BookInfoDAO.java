@@ -33,15 +33,15 @@ public class BookInfoDAO {
 	public BookInfoVO getAllBookInfo(String isbn) {
 		BookInfoVO vo = null;
 		try {
-			sql = "select b.category_sub, b.category_nation, b.category_main, "
+			sql = "SELECT b.category_sub, b.category_nation, b.category_main, "
 					+ "b.title, b.publisher, b.isbn, b.date_publishing, b.img_saved, "
 					+ "p.price_paper, p.price_ebook, p.rate_discount, p.can_reader, p.text_introduce, "
 					+ "ps.title_series, ps.img_saved, ps.price_series, "
 					+ "b.idx, p.idx, ps.idx "
-					+ "from j_book b "
-						+ "join j_product p on b.idx=p.idx_book "
-						+ "join j_product_series ps on ps.idx = p.idx_series "
-					+ "where b.isbn=?";
+					+ "FROM j_book b "
+						+ "JOIN j_product p ON b.idx=p.idx_book "
+						+ "JOIN j_product_series ps ON ps.idx = p.idx_series "
+					+ "WHERE b.isbn=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, isbn);
 			rs = pstmt.executeQuery();
@@ -280,7 +280,7 @@ public class BookInfoDAO {
 						+ " WHERE idx_review = br.idx) idxUserLike "
 					+ "FROM j_book_review br "
 					+ "JOIN j_user u ON u.idx = br.idx_user "
-					+ "WHERE idx_product = ? "
+					+ "WHERE idx_product = ? AND br.hidden = 0 "
 					+ "ORDER BY idx DESC "
 					+ "LIMIT ?, ?";
 			pstmt = conn.prepareStatement(sql);

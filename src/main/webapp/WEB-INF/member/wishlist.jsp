@@ -139,7 +139,6 @@
            font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
            text-decoration: none !important;
        }
-
        .summary_content {
            border: 1px solid #80B918;
        }

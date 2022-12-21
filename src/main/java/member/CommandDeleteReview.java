@@ -26,9 +26,16 @@ public class CommandDeleteReview implements MemberInterface {
 		
 		if(isWrite == false) {
 			res = "fail";
+			response.getWriter().write(res);
 			return;
 		}
 		
+		boolean checkRes = dao.checkReviewHasCmt(idxReview);
+		if(checkRes == true) {
+			res = "hasCmt";
+			response.getWriter().write(res);
+			return;
+		}
 		boolean delRes = dao.deleteReview(idxReview);
 		
 		if(delRes == true) {

@@ -8,6 +8,29 @@
 <title>title</title>
 <jsp:include page="../../include/bs4.jsp"></jsp:include>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load("current", {packages:["corechart"]});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['카테고리', '판매 금액'],
+      ['German',  5.85],
+      ['French',  1.66],
+      ['Italian', 0.316],
+      ['Romansh', 0.0791]
+    ]);
+
+  var options = {
+    legend: 'none',
+    pieSliceText: 'label',
+    title: '연간 인기 카테고리',
+    pieStartAngle: 100,
+  };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
+  }
+</script>
 <title>관리자창</title>
 <head>
 <style>
@@ -205,25 +228,26 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                                        질의응답
+                                        매출(일별)
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        <span class="amount-text">&#8361 7건</span>
+                                        <span class="amount-text">&#8361 40,000</span>
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="495057" class="bi bi-wechat" viewBox="0 0 16 16">
-                                        <path d="M11.176 14.429c-2.665 0-4.826-1.8-4.826-4.018 0-2.22 2.159-4.02 4.824-4.02S16 8.191 16 10.411c0 1.21-.65 2.301-1.666 3.036a.324.324 0 0 0-.12.366l.218.81a.616.616 0 0 1 .029.117.166.166 0 0 1-.162.162.177.177 0 0 1-.092-.03l-1.057-.61a.519.519 0 0 0-.256-.074.509.509 0 0 0-.142.021 5.668 5.668 0 0 1-1.576.22ZM9.064 9.542a.647.647 0 1 0 .557-1 .645.645 0 0 0-.646.647.615.615 0 0 0 .09.353Zm3.232.001a.646.646 0 1 0 .546-1 .645.645 0 0 0-.644.644.627.627 0 0 0 .098.356Z"/>
-                                        <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.499.499 0 0 0-.032.14.192.192 0 0 0 .193.193c.039 0 .077-.01.111-.029l1.268-.733a.622.622 0 0 1 .308-.088c.058 0 .116.009.171.025a6.83 6.83 0 0 0 1.625.26 4.45 4.45 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02.05 0 .1 0 .15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826Zm4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0Zm3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0Z"/>
-                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="495057" class="bi bi-coin" viewBox="0 0 16 16">
+                                        <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518l.087.02z"/>
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/>
+                                    </svg>                               
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
             <div class="row mt-5">
-
                 <div class="col-4">
                     <!-- 인기 카테고리 -->
                     <div class="card shadow mb-4">
@@ -256,28 +280,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        google.charts.load("current", { packages: ["corechart"] });
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['카테고리', '인기 카테고리'],
-                ['판타지', 5.85],
-                ['고전문학', 1.66],
-                ['로맨스', 10.316],
-                ['인문', 5.0791]
-            ])
-
-            var options = {
-                legend: 'none',
-                pieSliceText: 'label',
-                pieStartAngle: 100,
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-            chart.draw(data, options);
-        }
-    </script>
 </body>
 </html>
 </body>

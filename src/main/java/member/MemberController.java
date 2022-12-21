@@ -137,7 +137,25 @@ public class MemberController extends HttpServlet{
 			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/accountModify")) {
+			command = new CommandAccountModify();
+			command.execute(request, response);
 			viewPage += "/accountModify.jsp";
+		}
+		else if(com.equals("/changeInfo")) {
+			command = new CommandAccountModify();
+			command.execute(request, response);
+			viewPage += "/changeInfo.jsp";
+		}
+		/*--- 회원 탈퇴창으로 ---*/
+		else if(com.equals("/leave")) {
+			command = new CommandLeave();
+			command.execute(request, response);
+			viewPage += "/leave.jsp";
+		}
+		else if(com.equals("/leaveOk")) {
+			command = new CommandLeaveOk();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
 		}
 		/*--- 장바구니 제거 ---*/
 		else if(com.equals("/removeWishlist")) {
@@ -207,6 +225,12 @@ public class MemberController extends HttpServlet{
 			command.execute(request, response);
 			return;
 		}
+		/*--- 리뷰 업데이트 ---*/
+		else if(com.equals("/updateReview")) {
+			command = new CommandUpdateReview();
+			command.execute(request, response);
+			return;
+		}
 		/*--- 리뷰에 댓글 달기 ---*/
 		else if(com.equals("/setReviewCmt")) {
 			command = new CommandSetReviewCmt();
@@ -224,6 +248,36 @@ public class MemberController extends HttpServlet{
 			command = new CommandCheckAndSetLike();
 			command.execute(request, response);
 			return;
+		}
+		/*--- 리뷰 숨김처리---*/
+		else if(com.equals("/setHiddenReview")) {
+			command = new CommandSetHiddenReview();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 비밀번호 체킹(내정보 수정 전에) ---*/
+		else if(com.equals("/checkPassword")) {
+			command = new CommandCheckPassword();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 비밀번호 변경 ---*/
+		else if(com.equals("/changePassword")) {
+			command = new CommandChangePassword();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 직업 변경 ---*/
+		else if(com.equals("/changeJob")) {
+			command = new CommandChangeJob();
+			command.execute(request, response);
+			return;
+		}
+		/*--- 마이홈 리뷰 수정 삭제창 ---*/
+		else if(com.equals("/reviewModify")) {
+			command = new CommandReviewModify();
+			command.execute(request, response);
+			viewPage += "/reviewModify.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

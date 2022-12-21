@@ -33,22 +33,18 @@ public class CommandRegister implements MemberInterface {
 		
 		MemberDAO dao = new MemberDAO();
 		MemberVO vo = null;
-		MemberWithdrawalVO voWithdrawal = null;
 		
 		/* --- 이메일 유효성 검사 ---*/
 		String regEmail = "^[\\w-\\.]{1,25}@([\\w-]+\\.)+[\\w-]{2,4}$";
 		boolean isValidEmail = Pattern.matches(regEmail, email);
 		
 		// 탈퇴한 이력 검사. 받은 이메일이 탈퇴한 이력이 있는지 체크하고, 탈퇴했었다면 30일이 지나지 않았으면 거절
-		voWithdrawal = dao.checkHistoryWithrawal(email, voWithdrawal);
+		int datePenalty = dao.checkHistoryWithrawal(email);
 		
-		if(voWithdrawal!=null) {
-			int datePenalty = Integer.parseInt(voWithdrawal.getDateDeletedDiff());
-			if (datePenalty < 31) {
-				request.setAttribute("msg", "failPassPenaltyDate");
-				request.setAttribute("url", request.getContextPath()+"/login.member");
-				return;
-			}
+		if (datePenalty < 31) {
+			request.setAttribute("msg", "failPassPenaltyDate");
+			request.setAttribute("url", request.getContextPath()+"/login.member");
+			return;
 		}
 		
 		/* --- 이메일 중복 검사 ---*/

@@ -53,7 +53,7 @@
                    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6Z"/>
                </svg>
                <h4 class="h5 font-weight-bold pl-1 title_home">
-                   <a href="">리딩북스 홈</a>
+                   <a href="${ctp}/myhome.member">리딩북스 홈</a>
                </h4>
            </div>
        </div>
@@ -96,9 +96,9 @@
                <h4 class="h5 font-weight-bold pl-1">계정</h4>
            </div>
            <ul class="home-list">
-               <li><a href="">1:1 문의</a></li>
-               <li><a href="">내 리뷰 관리</a></li>
+               <li><a href="${ctp}/reviewModify.member">내 리뷰 관리</a></li>
                <li><a href="${ctp}/accountModify.member">정보 변경</a></li>
+               <li><a href="">1:1 문의</a></li>
            </ul>
        </div>
 </body>

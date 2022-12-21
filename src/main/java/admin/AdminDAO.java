@@ -356,4 +356,23 @@ public class AdminDAO {
 		}
 		return vos;
 	}
+
+	public boolean setHiddenReview(int idxReview) {
+		boolean res = false;
+		try {
+			sql = "UPDATE j_book_review "
+					+ "SET hidden = 1 "
+					+ "WHERE idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setSeriesInfo"+sql);
+			System.out.println(e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
 }

@@ -21,8 +21,8 @@ public class MemberDAO {
 	MemberWithdrawalVO voWithdrawal = null;
 	
 	/*--- 탈퇴한 이력이 있는지 체킹 ---*/
-	public MemberWithdrawalVO checkHistoryWithrawal(String email, MemberWithdrawalVO vo) {
-		vo = new MemberWithdrawalVO();
+	public int checkHistoryWithrawal(String email) {
+		int res = 0;
 		try {
 			sql = "SELECT "
 					+ "idx, email_user, date_deleted, TIMESTAMPDIFF(DAY, date_deleted, NOW()) date_deleted_diff "
@@ -33,13 +33,7 @@ public class MemberDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				vo = new MemberWithdrawalVO();
-				vo.setEmailUser(rs.getString("email_user"));
-				vo.setDateDeleted(rs.getString("date_deleted"));
-				vo.setDateDeleted(rs.getString("date_deleted_diff"));
-			}
-			else {
-				vo = null;
+				res = rs.getInt("date_deleted_diff");
 			}
 		} catch (SQLException e) {
 			System.out.println("checkHistoryWithrawal e : " + sql);
@@ -48,7 +42,7 @@ public class MemberDAO {
 		finally {
 			getConn.rsClose();
 		}
-		return voWithdrawal;
+		return res;
 	}
 	
 	/* --- 중복된 이메일이 있는지 확인 --- */
@@ -1050,6 +1044,168 @@ public class MemberDAO {
 			getConn.pstmtClose();
 		}
 		
+		return res;
+	}
+
+	public boolean updateJob(String job, String email) {
+		boolean res = false;
+		
+		try {
+			sql = "UPDATE j_user "
+					+ "SET job = ?"
+					+ "WHERE email = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, job);
+			pstmt.setString(2, email);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setReviewLike"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;
+	}
+
+	public boolean deleteAccount(int idxUser) {
+		boolean res = false;
+		
+		try {
+			sql = "UPDATE j_user "
+					+ "SET email='회원탈퇴한 계정', password=null, grade=null, point=null, "
+					+ "date_created=null, date_visited = null, last_updated_ip=null, name_user=null,"
+					+ "address=null, birthyear=null,phone_no=null, gender=null, job=null "
+					+ "WHERE idx = ?";
+//			sql = "UPDATE j_user "
+//					+ "SET email='회원탈퇴한 계정', password='', grade='', point='', "
+//					+ "date_created='', date_visited = '', last_updated_ip='', name_user='',"
+//					+ "address='', birthyear='',phone_no='', gender='', job='' "
+//					+ "WHERE idx = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("deleteAccount"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		
+		return res;		
+	}
+
+	public void setUserWithdrawl(String email, String reason) {
+		
+		try {
+			sql = "INSERT INTO j_user_withdrawal (idx, reason_withdrawal, email_user, date_deleted) "
+					+ "VALUES(DEFAULT, ?, ?, DEFAULT)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reason);
+			pstmt.setString(2, email);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("setReviewLike"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+	}
+
+	public ArrayList<ReviewVO> getReviewContent(int idxUser) {
+		ArrayList<ReviewVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT br.idx, br.idx_product, br.idx_user, b.title, br.content_review, br.star_rating, "
+					+ "br.date_created, br.buy_check, br.hidden, br.spoiler_check, b.isbn "
+					+ "FROM j_book_review br "
+					+ "JOIN j_product p ON p.idx = br.idx_product "
+					+ "JOIN j_book b ON b.idx = p.idx_book "
+					+ "WHERE idx_user = ? "
+					+ "ORDER BY idx DESC";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxUser);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ReviewVO vo = new ReviewVO();
+				vo.setIdx(rs.getInt("br.idx"));
+				vo.setIdxProduct(rs.getInt("br.idx_product"));
+				vo.setIdxUser(rs.getInt("br.idx_user"));
+				vo.setTitleBook(rs.getString("b.title"));
+				vo.setContentReview(rs.getString("br.content_review"));
+				vo.setStarRating(rs.getInt("br.star_rating"));
+				vo.setDateCreated(rs.getString("br.date_created"));
+				vo.setBuyCheck(rs.getInt("br.buy_check"));
+				vo.setHidden(rs.getInt("br.hidden"));
+				vo.setSpoilerCheck(rs.getInt("br.spoiler_check"));
+				vo.setIsbn(rs.getString("b.isbn"));
+				vos.add(vo);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("getReviewContent"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
+		return vos;
+		
+	}
+
+	public boolean updateReview(int idxReview, String content, int spoilerCheck) {
+		boolean res = false;
+		try {
+			sql = "UPDATE j_book_review "
+					+ "SET content_review = ?, spoiler_check = ? "
+					+ "WHERE idx = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, content);
+			pstmt.setInt(2, spoilerCheck);
+			pstmt.setInt(3, idxReview);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setReviewLike"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+
+	public boolean checkReviewHasCmt(int idxReview) {
+		boolean res = false;
+		try {
+			sql = "SELECT idx "
+					+ "FROM j_book_review_cmt "
+					+ "WHERE idx_book_review = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = true;
+			}
+			else {
+				res = false;
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("getReviewContent"+sql);
+			System.out.println(e.getMessage());
+		}
+		finally {
+			getConn.rsClose();
+		}
 		return res;
 	}
 	

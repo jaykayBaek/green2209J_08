@@ -31,7 +31,6 @@
 					$(".star-comment").html("최고의 책!");
 				}
 			});
-
 			$('.review-input-btn').on('click', function(){
 				const content = $('.review-textarea').val();
 				const regContent = /^.{10,1000}$/;
@@ -54,8 +53,6 @@
 				$('.demo-hidden').append($("<input/>", { type: 'hidden', name: 'isbn', value: ${bookInfoVo.isbn}} ));
 				reviewForm.submit();
 			});
-
-
 		});
 		let getCmt = (idx) => {
 			const idxReview = idx;
@@ -67,29 +64,29 @@
 					idxReview : idxReview,
 				},
 				success : function(data){
- 	    			let dataParsed = JSON.parse(data);
- 	    			
- 	    			if(dataParsed == ""){
- 	    				$(reviewIdx).html('아직 댓글이 없습니다.');
- 	    				return false;;
- 	    			}
- 	    			
- 	    			let divRes = "";
-    				for(let i in dataParsed.cmt) {
-    					let idxCmt = dataParsed.cmt[i].idxCmt;
-    					let idxReview = dataParsed.cmt[i].idxReview;
-    					let idxUser = dataParsed.cmt[i].idxUser;
-    					let contentReply = dataParsed.cmt[i].contentReply;
-    					let dateCreated = dataParsed.cmt[i].dateCreated;
-    					let hidden = dataParsed.cmt[i].hidden;
-    					let email = dataParsed.cmt[i].email;
-    					if(hidden != 1){
+		    			let dataParsed = JSON.parse(data);
+		    			
+		    			if(dataParsed == ""){
+		    				$(reviewIdx).html('아직 댓글이 없습니다.');
+		    				return false;;
+		    			}
+		    			
+		    			let divRes = "";
+					for(let i in dataParsed.cmt) {
+						let idxCmt = dataParsed.cmt[i].idxCmt;
+						let idxReview = dataParsed.cmt[i].idxReview;
+						let idxUser = dataParsed.cmt[i].idxUser;
+						let contentReply = dataParsed.cmt[i].contentReply;
+						let dateCreated = dataParsed.cmt[i].dateCreated;
+						let hidden = dataParsed.cmt[i].hidden;
+						let email = dataParsed.cmt[i].email;
+						if(hidden != 1){
 	    					divRes += '<ul class="p-2"><li><p>'+contentReply+'</p><ul class="d-flex"><li>'+email+'&nbsp;</li><li>'+dateCreated.substring(0,16)+'</li></li><li class="ml-2"><a href="${ctp}/deleteReviewCmt.member?idxCmt='+idxCmt+'&idxUser='+idxUser+'&isbn='+isbn+'">삭제</a></li></ul></ul>';
 	    					
-    					}
+						}
 	    			 }
-    				let reviewIdx = "#review"+idxReview;
-    				$(reviewIdx).html(divRes);
+					let reviewIdx = "#review"+idxReview;
+					$(reviewIdx).html(divRes);
 				},
 				error: function(){
 					alert('서버의 상태가 좋지 못합니다. 다시 시도해주세요.');
@@ -106,7 +103,6 @@
 				data: { idx: idx },
 				success: function (data) {
 					let dataParsed = JSON.parse(data);
-
 					let infoAuthor = "";
 					for (let i in dataParsed.author) {
 						let nameAuthor = dataParsed.author[i].nameAuthor;
@@ -114,22 +110,17 @@
 						let birthday = dataParsed.author[i].birthday;
 						let education = dataParsed.author[i].education;
 						let awards = dataParsed.author[i].awards;
-
 						infoAuthor = '<li><h3 class="p-1 font-weight-bold">' + nameAuthor + '</h3></li><li><span class="p-1">국적</span><span class="p-1">' + nationality + '</span></li>';
-
 						if (birthday != '없음') {
 							infoAuthor += '<li><span class="p-1">출생</span><span class="p-1">' + birthday + '</span></li>';
 						}
-
 						education = education.substring(0, education.lastIndexOf("/"));
 						let educationSplited = education.split('/');
 						infoAuthor += '<li><span class="p-1">학력</span><span class="p-1">';
-
 						for (let j = 0; j < educationSplited.length; j++) {
 							infoAuthor += educationSplited[j] + '<br/>';
 						}
 						infoAuthor += '</span></li>';
-
 						if (awards != '없음') {
 							awards = awards.substring(0, awards.lastIndexOf("/"));
 							let awardsSplited = awards.split('/');
@@ -137,19 +128,14 @@
 							for (let j = 0; j < awardsSplited.length; j++) {
 								infoAuthor += awardsSplited[j] + '<br/>';
 							}
-
 							infoAuthor += '</span></li>';
 						}
-
 					}
-
 					$(".author-info-detail").html(infoAuthor);
-
 				},
 				error: function () {
 					alert("전송 오류!");
 				}
-
 			});
 		}
 		let deleteReviewBtn = (idx) => {
@@ -166,8 +152,14 @@
 					idxProduct : ${bookInfoVo.idxProduct}
 					},
 				success : function(res){
+					console.log(res)
 					if(res == 'fail'){
 						alert('비정상적인 접근이거나 서버의 상태가 좋지 못합니다. 다시 시도해주세요.')
+						return;
+					}
+					else if(res == 'hasCmt'){
+						alert('댓글이 달린 리뷰는 삭제할 수 없습니다');
+						return;
 					}
 					else{
 						alert('리뷰를 삭제했습니다');
@@ -213,7 +205,7 @@
 				type: "post",
 				url:"${ctp}/checkAndSetLike.member",
 				data: {
-					idxReview : idxReview.
+					idxReview : idxReview,
 					isbn : ${bookInfoVo.isbn}
 				},
 				success : function(res){
@@ -233,11 +225,41 @@
 				}
 			});
 		}
+		let hideReviewBtn = (idx) => {
+			let ans = confirm('해당 댓글을 숨김 처리 하시겠습니까?');
+			
+			if(ans == false){
+				return;
+			}
+			const idxReview = idx;
+			$.ajax({
+				type: "post",
+				url:"${ctp}/setHiddenReview.member",
+				data: {
+					idxReview : idx
+				},
+				success : function(res){
+					if(res == 'success'){
+						alert('숨김처리 되었습니다.');
+					}
+					else if(res == 'fail'){
+						alert('서버의 상태를 확인해주세요');
+					}
+					location.reload();
+				},
+				error: function(){
+					alert('서버의 상태가 좋지 못합니다. 다시 시도해주세요.');
+				}
+			});
+		}
 	</script>
     <style>
     body,h1,h2,h3,h4,h5,h6,span,div,strong, a {
         font-family: 'Helvetica', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif !important;
         text-decoration: none !important;
+    }
+    body{
+		background-color: #fff !important;
     }
     ul, li {
         list-style-type: none;
@@ -665,7 +687,9 @@
 					</div>
 				</div>
 			</form>
-
+			<div class="alert alert-warning mt-1" role="alert">
+				리뷰에 댓글이 달렸다면 삭제할 수 없습니다! 신중히 작성해주세요.
+			</div>
 			<div class="row d-flex justify-content-between mt-3 title-info">
 				<ul class="d-flex h5 font-weight-bold">
 					<li>구매자 &nbsp</li>
@@ -755,9 +779,14 @@
 											</button>
 										</c:if>
 										<input type="hidden" value ="${vo.idx}" id='cmt${vo.idx}'/>
-										<c:if test="${idxUser==vo.idxUser}">
+										<c:if test="${idxUser==vo.idxUser || grade==0}">
 											<button class="btn btn-outline-warning delete-btn" onclick="deleteReviewBtn(${vo.idx})">
 												삭제하기
+											</button>
+										</c:if>
+										<c:if test="${grade==0}">
+											<button class="btn btn-outline-danger delete-btn" onclick="hideReviewBtn(${vo.idx})">
+												숨김처리
 											</button>
 										</c:if>
 										

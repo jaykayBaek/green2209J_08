@@ -16,7 +16,7 @@ public class GetSearchResult implements BookInfoInterface {
 		BookInfoDAO dao = new BookInfoDAO();
 
 		int page = request.getParameter("page")==null?1:Integer.parseInt(request.getParameter("page"));
-		int pageList = 10;
+		int pageList = 5;
 		int totRecord = dao.getTotalRecordSearch(search);
 		int totPage = (totRecord % pageList)==0 ? totRecord/pageList : (totRecord/pageList)+1;
 		

@@ -132,9 +132,6 @@
                     <li class="nav_cont">도서수정/삭제</li>
                     <li class="nav_cont">상품수정/삭제</li>
                     <li class="nav_cont">작가수정/삭제</li>
-                    <li class="nav_cont">도서검색</li>
-                    <li class="nav_cont">상품검색</li>
-                    <li class="nav_cont">작가검색</li>
                 </ul>
             </div>
         </li>

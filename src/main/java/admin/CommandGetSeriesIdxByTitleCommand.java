@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 
 import book.ProductSeriesVO;
 
-public class GetSeriesIdxByTitleCommand implements AdminInterface {
+public class CommandGetSeriesIdxByTitleCommand implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

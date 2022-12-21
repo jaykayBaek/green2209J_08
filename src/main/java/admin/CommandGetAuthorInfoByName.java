@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 
-public class GetAuthorInfoByName implements AdminInterface {
+public class CommandGetAuthorInfoByName implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

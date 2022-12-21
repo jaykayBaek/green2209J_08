@@ -1123,7 +1123,7 @@ public class MemberDAO {
 	public ArrayList<ReviewVO> getReviewContent(int idxUser) {
 		ArrayList<ReviewVO> vos = new ArrayList<>();
 		try {
-			sql = "SELECT br.idx, br.idx_product, br.idx_user, b.title, br.content_review, br.star_rating, "
+			sql = "SELECT br.idx, br.idx_product, br.idx_user, u.email, b.title, br.content_review, br.star_rating, "
 					+ "br.date_created, br.buy_check, br.hidden, br.spoiler_check, b.isbn "
 					+ "FROM j_book_review br "
 					+ "JOIN j_product p ON p.idx = br.idx_product "

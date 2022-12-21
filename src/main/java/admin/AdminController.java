@@ -46,50 +46,62 @@ public class AdminController extends HttpServlet {
 		else if(com.equals("/adRegisterSeries")) {
 			viewPage += "/adRegisterSeries.jsp";
 		}
+		/*--- 리뷰 관리창 ---*/
+		else if(com.equals("/adManageReview")) {
+			command = new CommandManageReview();
+			command.execute(request, response);
+			viewPage += "/adManageReview.jsp";
+		}
+		/*--- 리뷰 관리창 ---*/
+		else if(com.equals("/adUpdateHidden")) {
+			command = new CommandUpdateHidden();
+			command.execute(request, response);
+			return;
+		}
 		
 		/* --- 커맨드 호출 등 작업 ---*/
 		else if(com.equals("/inputAuthorInfo")) {
-			command = new InputAuthorInfo();
+			command = new CommandInputAuthorInfo();
 			command.execute(request, response);
 			return;
 		}
 		else if(com.equals("/getAuthorInfoByName")) {
-			command = new GetAuthorInfoByName();
+			command = new CommandGetAuthorInfoByName();
 			command.execute(request, response);
 			return;
 		}
 		else if(com.equals("/getAuthorInfoByIdx")) {
-			command = new GetAuthorInfoByIdx();
+			command = new CommandGetAuthorInfoByIdx();
 			command.execute(request, response);
 			return;
 		}
 		else if(com.equals("/setBookInfo")) {
-			command = new SetBookInfoCommand();
+			command = new CommandSetBookInfo();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/setProductInfo")) {
-			command = new SetProductInfoCommand();
+			command = new CommandSetProductInfo();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/getBookInfoByIsbn")) {
-			command = new GetBookInfoByIsbnCommand();
+			command = new CommandGetBookInfoByIsbnCommand();
 			command.execute(request, response);
 			return;
 		}
 		else if(com.equals("/getBookInfoByIdx")) {
-			command = new GetBookInfoByIdxCommand();
+			command = new CommandGetBookInfoByIdx();
 			command.execute(request, response);
 			return;
 		}
 		else if(com.equals("/setSeriesInfo")) {
-			command = new SetSeriesInfoCommand();
+			command = new CommandSetSeriesInfo();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("/getSeriesIdxByTitle")) {
-			command = new GetSeriesIdxByTitleCommand();
+			command = new CommandGetSeriesIdxByTitleCommand();
 			command.execute(request, response);
 			return;
 		}

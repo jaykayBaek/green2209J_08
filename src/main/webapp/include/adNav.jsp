@@ -76,13 +76,16 @@
     .border-weight{
         border-left: 0.5rem solid transparent;
     }
+    .admin_nav{
+    	width:100%;
+    }
 </style>
 <nav class="col-2 admin_nav">
     <ul class="d-flex flex-column flex-wrap align-content-start justify-content-lg-around">
-        <li class="nav_title nav_main_title">관리자 메뉴</li>
-        <li class="nav_title">회원관리</li>
-        <li class="nav_title">내정보관리</li>
-        <li class="nav_title">리뷰관리</li>
+        <li class="nav_title nav_main_title">
+        	<a href="${ctp}/">홈으로</a></li>
+        <li class="nav_title"><a href="${ctp}/adManageReview.ad">리뷰관리</a>
+        </li>
         <li class="nav_title d-flex flex-column align-content-center">
             <div class="font-weight-bold">고객관리</div>
             <a href="#collapse_sales" data-toggle="collapse" aria-expanded="false"

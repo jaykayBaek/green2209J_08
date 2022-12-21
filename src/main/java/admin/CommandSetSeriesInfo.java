@@ -11,7 +11,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import book.ProductSeriesVO;
 
-public class SetSeriesInfoCommand implements AdminInterface {
+public class CommandSetSeriesInfo implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

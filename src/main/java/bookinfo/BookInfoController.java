@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import admin.GetAuthorInfoByIdx;
+import admin.CommandGetAuthorInfoByIdx;
 
 @WebServlet("*.bi")
 public class BookInfoController extends HttpServlet {
@@ -26,7 +26,7 @@ public class BookInfoController extends HttpServlet {
 			viewPage += "/bookinfo.jsp";
 		}
 		else if (com.equals("/getAuthorAndBookInfo")) {
-			command = new GetAuthorInfoByIdx();
+			command = new CommandGetAuthorInfoByIdx();
 			command.execute(request, response);
 			return;
 		}

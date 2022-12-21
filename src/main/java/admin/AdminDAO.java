@@ -15,6 +15,7 @@ import book.BookVO;
 import book.ProductSeriesVO;
 import book.ProductVO;
 import conn.GetConn;
+import member.ReviewVO;
 
 public class AdminDAO {
 	GetConn getConn = GetConn.getInstance();
@@ -362,6 +363,66 @@ public class AdminDAO {
 		try {
 			sql = "UPDATE j_book_review "
 					+ "SET hidden = 1 "
+					+ "WHERE idx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, idxReview);
+			pstmt.executeUpdate();
+			res = true;
+		} catch (SQLException e) {
+			System.out.println("setSeriesInfo"+sql);
+			System.out.println(e.getMessage());
+		} finally {
+			getConn.pstmtClose();
+		}
+		return res;
+	}
+
+	public ArrayList<ReviewVO> getManageReview() {
+		ArrayList<ReviewVO> vos = new ArrayList<>();
+		try {
+			sql = "SELECT br.idx, br.idx_product, u.email, br.idx_user, b.title, br.content_review, br.star_rating, "
+					+ "br.date_created, br.buy_check, br.hidden, br.spoiler_check, b.isbn "
+					+ "FROM j_book_review br "
+					+ "JOIN j_product p ON p.idx = br.idx_product "
+					+ "JOIN j_book b ON b.idx = p.idx_book "
+					+ "JOIN j_user u ON u.idx = br.idx_user "
+					+ "WHERE hidden = 1 "
+					+ "ORDER BY idx DESC ";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ReviewVO vo = new ReviewVO();
+				vo.setIdx(rs.getInt("br.idx"));
+				vo.setIdxProduct(rs.getInt("br.idx_product"));
+				vo.setIdxUser(rs.getInt("br.idx_user"));
+				vo.setTitleBook(rs.getString("b.title"));
+				vo.setContentReview(rs.getString("br.content_review"));
+				vo.setStarRating(rs.getInt("br.star_rating"));
+				vo.setDateCreated(rs.getString("br.date_created"));
+				vo.setBuyCheck(rs.getInt("br.buy_check"));
+				vo.setHidden(rs.getInt("br.hidden"));
+				vo.setSpoilerCheck(rs.getInt("br.spoiler_check"));
+				vo.setIsbn(rs.getString("b.isbn"));
+				vo.setEmail(rs.getString("u.email"));
+				vos.add(vo);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("setSeriesInfo"+sql);
+			System.out.println(e.getMessage());
+		} finally {
+			getConn.rsClose();
+		}
+		
+		return vos;
+	}
+
+	public boolean updateHidden(int idxReview) {
+		boolean res = false;
+		try {
+			sql = "UPDATE j_book_review "
+					+ "SET hidden = 0 "
 					+ "WHERE idx = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, idxReview);

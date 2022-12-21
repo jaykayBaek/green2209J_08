@@ -6,15 +6,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class InputAuthorInfo implements AdminInterface {
+public class CommandInputAuthorInfo implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nameAuthor = request.getParameter("nameAuthor") == null?"":request.getParameter("nameAuthor");
 		String role = request.getParameter("role");
-		String nationality = request.getParameter("nationality")==null?"":request.getParameter("nationality");
-		String birthday = request.getParameter("birthday")==null?"없음":request.getParameter("birthday");
-		
+		String nationality = request.getParameter("nationality")==null?"없음":request.getParameter("nationality")==""?"없음":request.getParameter("nationality");
+		String birthday = request.getParameter("birthday")==null?"없음":request.getParameter("birthday")==""?"없음":request.getParameter("birthday");
 		String awardYear[] = request.getParameterValues("awardYear");
 		String award[] = request.getParameterValues("award");
 		String awardHistory = "";

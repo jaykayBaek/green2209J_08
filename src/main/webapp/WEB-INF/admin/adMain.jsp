@@ -106,24 +106,13 @@
 </style>
 </head>
 <body>
-    <div class="container-fluid d-flex flex-row">
+    <div class="container-fluid d-flex flex-row mt-4">
     <jsp:include page="/include/adNav.jsp"/>
-    
         <!-- 관리자 메인뷰 -->
         <div class="col-10 d-flex flex-column mt-2">
             <!-- 관리자 메인뷰의 메뉴판(검색창, 메시지, 알림) -->
             <nav class="d-flex justify-content-center align-items-center" style="width:100%; height: 10ch;">
-                <div class="col-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색해보세요" aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
+                <div class="col">
                     <ul class="d-flex justify-content-end">
                         <li class="pr-3">
                             <a href="#">
@@ -280,6 +269,8 @@
             </div>
         </div>
     </div>
+    <jsp:include page="/include/footer.jsp"/>
+    
 </body>
 </html>
 </body>

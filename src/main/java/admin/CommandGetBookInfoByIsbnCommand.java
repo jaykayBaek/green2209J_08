@@ -11,16 +11,16 @@ import org.json.simple.JSONObject;
 
 import book.BookVO;
 
-public class GetBookInfoByIdxCommand implements AdminInterface {
+public class CommandGetBookInfoByIsbnCommand implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idxBook = request.getParameter("idxBook") == null ? "" : request.getParameter("idxBook");
+		String isbn = request.getParameter("isbn") == null ? "" : request.getParameter("isbn");
 		
 		BookVO vo = null;
 		AdminDAO dao = new AdminDAO();
 		
-		vo = dao.getBookInfoByIdx(idxBook);
+		vo = dao.getBookInfoByIsbn(isbn);
 		
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("idx", vo.getIdx());
@@ -29,7 +29,6 @@ public class GetBookInfoByIdxCommand implements AdminInterface {
 		map.put("datePublishing", vo.getDatePublishing());
 		map.put("isbn", vo.getIsbn());
 		map.put("imgSaved", vo.getImgSaved());
-		
 		JSONObject jsonObj = new JSONObject();
 		jsonObj.put("book", map);
 		
@@ -37,5 +36,4 @@ public class GetBookInfoByIdxCommand implements AdminInterface {
 		
 		response.getWriter().write(jsonObjParsed);
 	}
-
 }

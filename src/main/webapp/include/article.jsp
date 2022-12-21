@@ -18,7 +18,7 @@
     					let publisher = dataParsed.newBooksView[i].publisher;
     					let isbn = dataParsed.newBooksView[i].isbn;
     					let imgSaved = dataParsed.newBooksView[i].imgSaved;
-    					divRes += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지"></div><div><span>'+title+'</span></div></a></div>';
+    					divRes += '<div class="swiper-slide d-flex flex-column text-left"><a href="${ctp}/booksearch.bi?isbn='+isbn+'"><div><img src="${ctp}/data/books/'+imgSaved+'"alt="'+title+'의 표지" style="width:200px"></div><div><span>'+title+'</span></div></a></div>';
 	    			}
 	    			
      				$('.swiper-newbook').append(divRes);

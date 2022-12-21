@@ -11,7 +11,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import book.BookVO;
 
-public class SetBookInfoCommand implements AdminInterface {
+public class CommandSetBookInfo implements AdminInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -20,8 +20,7 @@ public class SetBookInfoCommand implements AdminInterface {
 		String encoding = "UTF-8";
 		MultipartRequest multipartRequest = new MultipartRequest(request, realPath, maxSize, encoding, new DefaultFileRenamePolicy());
 		
-		String imgSaved = multipartRequest.getFilesystemName("bookImg"); //서버에 저장된 파일명
-		
+		String imgSaved = multipartRequest.getFilesystemName("bookImg")==null?"noImg":multipartRequest.getFilesystemName("bookImg")==""?"noImg":multipartRequest.getFilesystemName("bookImg"); //서버에 저장된 파일명
 		String title = multipartRequest.getParameter("title")==null? "" : multipartRequest.getParameter("title");
 		String publisher = multipartRequest.getParameter("publisher")==null? "" : multipartRequest.getParameter("publisher");
 		String datePublishing = multipartRequest.getParameter("datePublishing")==null? "" : multipartRequest.getParameter("datePublishing");
@@ -29,7 +28,7 @@ public class SetBookInfoCommand implements AdminInterface {
 		String textContent = multipartRequest.getParameter("textContent")==null? "" : multipartRequest.getParameter("textContent");
 		
 		String categoryMain = multipartRequest.getParameter("main")==null?"":multipartRequest.getParameter("main");
-		String categoryNation = multipartRequest.getParameter("nation")==null?"":multipartRequest.getParameter("nation");
+		String categoryNation = multipartRequest.getParameter("nation")==null?"없음":multipartRequest.getParameter("nation")==""?"없음":multipartRequest.getParameter("nation");
 		String categorySub = multipartRequest.getParameter("sub")==null?"":multipartRequest.getParameter("sub");
 		String[] idxAuthorArr = multipartRequest.getParameterValues("idxAuthor");
 		

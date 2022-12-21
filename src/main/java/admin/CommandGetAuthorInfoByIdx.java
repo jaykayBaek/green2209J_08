@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 
 import bookinfo.BookInfoInterface;
 
-public class GetAuthorInfoByIdx implements BookInfoInterface {
+public class CommandGetAuthorInfoByIdx implements BookInfoInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -628,24 +628,28 @@
 										<span class="p-1">출생</span>
 										<span class="p-1">${vo.birthday}</span>
 									</li>
-									<li>
-										<span class="p-1">학력</span>
-										<span class="p-1">
-											<c:set var="educations" value="${fn:split(vo.education,'/')}" />
-											<c:forEach var="education" items="${educations}">
-												${education}<br />
-											</c:forEach>
-										</span>
-									</li>
-									<li>
-										<span class="p-1">수상</span>
-										<span class="p-1">
-											<c:set var="awards" value="${fn:split(vo.awards,'/')}" />
-											<c:forEach var="award" items="${awards}">
-												${award}<br />
-											</c:forEach>
-										</span>
-									</li>
+									<c:if test="${vo.education == ''}">
+										<li>
+											<span class="p-1">학력</span>
+											<span class="p-1">
+												<c:set var="educations" value="${fn:split(vo.education,'/')}" />
+												<c:forEach var="education" items="${educations}">
+													${education}<br />
+												</c:forEach>
+											</span>
+										</li>
+									</c:if>
+									<c:if test="${vo.awards == '년'}">
+										<li>
+											<span class="p-1">수상</span>
+											<span class="p-1">
+												<c:set var="awards" value="${fn:split(vo.awards,'/')}" />
+												<c:forEach var="award" items="${awards}">
+													${award}<br />
+												</c:forEach>
+											</span>
+										</li>
+									</c:if>
 								</c:if>
 							</c:forEach>
 						</ul>

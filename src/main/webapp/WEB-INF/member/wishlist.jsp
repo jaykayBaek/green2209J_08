@@ -215,9 +215,9 @@
 		                            		<input type="hidden" value="${vo.priceEbook}" name="priceEbook" id="price${vo.idxProduct}"/>
 		                            		<input type="hidden" value="${vo.rateDiscount}" name="rateDiscount" id="rate${vo.idxProduct}"/>
  		                            	</div>
-		                                <div class="col-2 d-flex mr-3 p-0">
+		                                <div class="col-2 d-flex mr-3 p-0" style="width:150px">
 		                                	<a href="${ctp}/booksearch.bi?isbn=${vo.isbn}">
-			                                    <img src="${ctp}/data/books/${vo.imgSaved}" alt="도서 ${vo.title}의 표지" width="100%" height="100%" class="img-thumbnail"/>
+			                                    <img src="${ctp}/data/books/${vo.imgSaved}" alt="도서 ${vo.title}의 표지" width="150px" height="150px" class="img-thumbnail"/>
 		                                	</a>
 		                                </div>
 		                                <div class="col">

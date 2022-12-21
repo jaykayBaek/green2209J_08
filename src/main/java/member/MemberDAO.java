@@ -22,7 +22,7 @@ public class MemberDAO {
 	
 	/*--- 탈퇴한 이력이 있는지 체킹 ---*/
 	public int checkHistoryWithrawal(String email) {
-		int res = 0;
+		int res = 32;
 		try {
 			sql = "SELECT "
 					+ "idx, email_user, date_deleted, TIMESTAMPDIFF(DAY, date_deleted, NOW()) date_deleted_diff "

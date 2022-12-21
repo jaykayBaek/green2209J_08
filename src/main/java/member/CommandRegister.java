@@ -46,6 +46,9 @@ public class CommandRegister implements MemberInterface {
 			request.setAttribute("url", request.getContextPath()+"/login.member");
 			return;
 		}
+		else {
+			
+		}
 		
 		/* --- 이메일 중복 검사 ---*/
 		boolean res = dao.checkValidEmail(email);

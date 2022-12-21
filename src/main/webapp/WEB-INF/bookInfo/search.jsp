@@ -132,14 +132,14 @@
 				</li>
 			</c:if>
 			
-			<c:if test="${page > 1}">
+			<c:if test="${blockNow > 0}">
 				<li class="page-item ">
-					<a class="page-link" href="${ctp}/search.bi?search=${search}&page=${(blockNow-1)*blockSize + 1}">이전 리뷰</a>
+					<a class="page-link" href="${ctp}/search.bi?search=${search}&page=${(blockNow-1)*blockSize + 1}">이전 검색</a>
 				</li>
 			</c:if>
-			<c:if test="${page <= 1}">
+			<c:if test="${blockNow <= 0}">
 				<li class="page-item disabled">
-					<a class="page-link">이전 리뷰</a>
+					<a class="page-link">이전 검색</a>
 				</li>
 			</c:if>
 			
@@ -161,12 +161,12 @@
 			
 			<c:if test="${blockNow < blockLast}">
 				<li class="page-item">
-					<a class="page-link" href="${ctp}/search.bi?search=${search}&page=${(blockNow+1)*blockSize + 1}">다음 리뷰</a>
+					<a class="page-link" href="${ctp}/search.bi?search=${search}&page=${(blockNow+1)*blockSize + 1}">다음 검색</a>
 				</li>
 			</c:if>
 			<c:if test="${blockNow >= blockLast}">
 				<li class="page-item disabled">
-					<a class="page-link">다음 리뷰</a>
+					<a class="page-link">다음 검색</a>
 				</li>
 			</c:if>
 			

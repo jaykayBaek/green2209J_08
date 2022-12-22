@@ -31,7 +31,7 @@ public class CommandSetBookInfo implements AdminInterface {
 		String categoryNation = multipartRequest.getParameter("nation")==null?"없음":multipartRequest.getParameter("nation")==""?"없음":multipartRequest.getParameter("nation");
 		String categorySub = multipartRequest.getParameter("sub")==null?"":multipartRequest.getParameter("sub");
 		String[] idxAuthorArr = multipartRequest.getParameterValues("idxAuthor");
-		
+
 		/*--- 책 등록하기 ---*/
 		AdminDAO dao = new AdminDAO();
 		BookVO bookVo = new BookVO();
@@ -56,7 +56,7 @@ public class CommandSetBookInfo implements AdminInterface {
 		String idxBook = dao.getIdxBook(isbn);
 		
 		dao.setBookAuthorInfo(idxBook,idxAuthorArr);
-		
+
 		if(res.equals("1")) {
 			request.setAttribute("msg", "successEnrollBook");
 			request.setAttribute("url", request.getContextPath()+"/adRegisterBook.ad");
